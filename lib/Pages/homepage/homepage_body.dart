@@ -22,7 +22,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   final ScrollController scrollController = ScrollController();
   double _currentPageValue = 0.0;
 
-  static const int _numberOfRestaurants = 3; // Static number of restaurants
+  static const int _numberOfVenues = 3; // Static number of Venues
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   @override
   void dispose() {
     pageController.dispose();
-    scrollController.dispose();
+    scrollController.dispose(); 
     super.dispose();
   }
 
@@ -52,20 +52,24 @@ class _HomePageBodyState extends State<HomePageBody> {
   }
 
   Widget _buildSectionHeader(String title) {
-    return Container(
-      margin: EdgeInsets.only(left: Dimensions.width20),
-      height: Dimensions.height40,
-      child: Row(
-        children: [BigText(text: title)],
-      ),
-    );
-  }
+  return Container(
+    height: Dimensions.height40,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+      children: [
+        BigText(text: title), // Left side text
+        SmallText(text: "View All ->", color: AppColors.mainBlackColor), 
+      ],
+    ),
+  );
+}
+
 
   Widget _buildVenueList() {
     List<Venue> venues = [
-      Venue(name: 'Fast Food Place', address: '123 Main St', imagePath: 'assets/images/restaurant1.png'),
-      Venue(name: 'Italian Bistro', address: '456 Elm St', imagePath: 'assets/images/restaurant2.png'),
-      Venue(name: 'Pasta House', address: '789 Oak St', imagePath: 'assets/images/restaurant3.png'),
+      Venue(name: 'Fast Food Place', address: '123 Main St', imagePath: 'assets/images/Venue1.png'),
+      Venue(name: 'Italian Bistro', address: '456 Elm St', imagePath: 'assets/images/Venue2.png'),
+      Venue(name: 'Pasta House', address: '789 Oak St', imagePath: 'assets/images/Venue3.png'),
     ];
 
     return Container(
@@ -76,19 +80,19 @@ class _HomePageBodyState extends State<HomePageBody> {
         padding: EdgeInsets.zero,
         physics: const AlwaysScrollableScrollPhysics(), // Enable scrolling
         scrollDirection: Axis.horizontal, // Set horizontal scrolling
-        itemCount: _numberOfRestaurants,
+        itemCount: _numberOfVenues,
         itemBuilder: (context, index) {
-          return _buildPopularRestaurant(index, venues[index]);
+          return _buildPopularVenue(index, venues[index]);
         },
       ),
     );
   }
 
-  Widget _buildPopularRestaurant(int index, Venue venue) {
+  Widget _buildPopularVenue(int index, Venue venue) {
     return GestureDetector(
       onTap: () {
         // Add tap action here
-        // Get.toNamed(RouteHelper.getRestaurantMenu());
+        // Get.toNamed(RouteHelper.getVenueMenu());
       },
       child: Container(
         margin: EdgeInsets.symmetric(
@@ -121,15 +125,15 @@ class _HomePageBodyState extends State<HomePageBody> {
         ),
         child: Column(
           children: [
-            _buildRestaurantImage(venue.imagePath),
-            _buildRestaurantInfo(venue),
+            _buildVenueImage(venue.imagePath),
+            _buildVenueInfo(venue),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRestaurantImage(String imagePath) {
+  Widget _buildVenueImage(String imagePath) {
     return Container(
       height: Dimensions.height10 * 15,
       width: double.infinity,
@@ -143,7 +147,7 @@ class _HomePageBodyState extends State<HomePageBody> {
     );
   }
 
-  Widget _buildRestaurantInfo(Venue restaurant) {
+  Widget _buildVenueInfo(Venue Venue) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height10),
@@ -151,26 +155,26 @@ class _HomePageBodyState extends State<HomePageBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BigText(
-              text: restaurant.name,
+              text: Venue.name,
               size: Dimensions.font10 * 1.5,
               textOverflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: Dimensions.height10),
             SmallText(
-              text: restaurant.address,
+              text: Venue.address,
               color: Colors.black,
               size: Dimensions.font10 * 1.3,
               textOverflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: Dimensions.height10),
-            _buildRestaurantStats(),
+            _buildVenueStats(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRestaurantStats() {
+  Widget _buildVenueStats() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

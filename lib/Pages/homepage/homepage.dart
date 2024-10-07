@@ -24,46 +24,49 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80), // Increased height for the app bar
+        preferredSize: Size.fromHeight(Dimensions.height20  * 3.5), 
         child: AppBar(
           elevation: 0, // No shadow
-          backgroundColor: Colors.white, // White background
-          title: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.themeColor, // Background color for the logo
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0), // Padding around logo
-                  // Uncomment and adjust the logo image path as needed
-                  // child: Image.asset(
-                  //   'assets/images/logo.png', // Adjust to your logo path
-                  //   width: 40, // Adjust as needed
-                  //   height: 40, // Adjust as needed
-                  // ),
-                ),
-              ),
-              SizedBox(width: 10), // Space between logo and text
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BigText(
-                    text: "BANDOBASTA",
-                    color: AppColors.themeColor, // Color for the title
-                    size: Dimensions.font20,
-                    fontWeight: FontWeight.w900, // Adjust the size
+          backgroundColor: Colors.white, 
+          title: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, 
+              crossAxisAlignment: CrossAxisAlignment.center, 
+              children: [
+                ClipOval(
+                  child: Container(
+                    height: Dimensions.height10 * 5, 
+                    width: Dimensions.height10 * 5, 
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/images/wedding.png"), 
+                      ),
+                    ),
                   ),
-                  SmallText(
-                    text: "Effortless booking",
-                    color: AppColors.themeColor, // Color for the subtitle
-                    size: Dimensions.font12, // Adjust the size
-                  ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(width: Dimensions.width5),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center, 
+                  crossAxisAlignment: CrossAxisAlignment.start, 
+                  children: [
+                    BigText(
+                      text: "BANDOBASTA",
+                      color: AppColors.themeColor, 
+                      size: Dimensions.font20,
+                      fontWeight: FontWeight.w900, 
+                    ),
+                    SmallText(
+                      text: "Effortless booking",
+                      color: AppColors.themeColor, 
+                      size: Dimensions.font12, 
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
+          centerTitle: true, 
         ),
       ),
       body: Padding(
@@ -75,15 +78,16 @@ class _HomepageState extends State<Homepage> {
               margin: EdgeInsets.only(top: Dimensions.height20),
               child: BigText(
                 text: "What are you thinking of booking today?",
-                size: Dimensions.font15, 
+                size: Dimensions.font15 + 2, 
                 color: AppColors.mainBlackColor, 
+                fontWeight: FontWeight.w800,
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: Dimensions.height20, top: Dimensions.height10),
               child: GestureDetector(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.width10), // Use symmetric padding
+                  padding: EdgeInsets.symmetric(horizontal: Dimensions.width10), 
                   child: Row(
                     children: [
                       Icon(
@@ -94,7 +98,7 @@ class _HomepageState extends State<Homepage> {
                         width: Dimensions.width5,
                       ),
                       SmallText(
-                        text: "Search for venues, photographers, DJs, more...",
+                        text: "Search for venues, photographers, DJs, more..",
                         size: Dimensions.font12,
                         color: AppColors.mainBlackColor,
                       ),
