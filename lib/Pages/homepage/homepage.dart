@@ -83,6 +83,7 @@ class _HomepageState extends State<Homepage> {
                 fontWeight: FontWeight.w800,
               ),
             ),
+            SizedBox(height: Dimensions.height20,),
             Container(
               margin: EdgeInsets.only(bottom: Dimensions.height20, top: Dimensions.height10),
               child: GestureDetector(
@@ -123,7 +124,7 @@ class _HomepageState extends State<Homepage> {
                 },
               ),
             ),
-            // New Services Section with 4x2 Grid
+            SizedBox(height: Dimensions.height20,),
             Container(
               height: 200, // Set a fixed height for the services section
               child: GridView.count(
@@ -145,6 +146,7 @@ class _HomepageState extends State<Homepage> {
                 ],
               ),
             ),
+            SizedBox(height: Dimensions.height20,),
             Expanded(
               child: SingleChildScrollView(
                 child: HomePageBody(),

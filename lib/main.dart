@@ -1,4 +1,5 @@
 import 'package:bandobasta/Pages/homepage/homepage.dart';
+import 'package:bandobasta/Pages/searchVenuePage/searchVenuePage.dart';
 import 'package:bandobasta/pages/homepage/navigation.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           )),
       debugShowCheckedModeBanner: false,
       getPages: RouteHelper.routes,
-      home: Navigation(),
+      home: SearchVenuePage(),
     );
   }
 }
