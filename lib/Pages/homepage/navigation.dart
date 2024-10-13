@@ -1,4 +1,5 @@
 
+import 'package:bandobasta/Pages/bookingPage/orders_page.dart';
 import 'package:bandobasta/Pages/homepage/homepage.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
@@ -15,7 +16,10 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
   List pages = [
-    Homepage()
+    const Homepage(),
+    const BookingsPage(),
+    // const PaymentDetailsPage(),
+    // const ProfilePage(),
   ];
 
   @override

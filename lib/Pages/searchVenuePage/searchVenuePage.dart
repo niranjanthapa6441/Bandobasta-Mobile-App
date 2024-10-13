@@ -9,6 +9,7 @@ import 'package:bandobasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchVenuePage extends StatefulWidget {
   @override
@@ -16,7 +17,30 @@ class SearchVenuePage extends StatefulWidget {
 }
 
 class _SearchVenuePageState extends State<SearchVenuePage> {
-  // Controller instance
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      Get.find<VenueController  >().loadMore();
+    }
+  }
 
   // Initial values for filters
   String selectedLocation = 'Kathmandu';
@@ -165,11 +189,6 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -252,24 +271,41 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
             // Venue cards section
             Expanded(
               child: GetBuilder<VenueController>(
-                builder: (controller) {
-                  return ListView.builder(
-                    itemCount: controller.venues.length,
-                    itemBuilder: (context, index) {
-                      Venue venue = controller.venues[index];
-                      return VenueCard(
-                        imageUrl: AppConstant.baseURL + AppConstant.apiVersion + getImagePath(venue.venueImagePaths)!,
-                        name: venue.name!,
-                        rating: "4.0",
-                        reviews: "Very good",
-                        location: venue.address!,
-                        price: "Starting from: NPR " + venue.startingPrice!,
-                        onCheckAvailability: () => _showAvailabilityDialog(venue.name!),
-                      );
-                    },
+  builder: (controller) {
+    return controller.isLoaded
+        ? GestureDetector(
+            child: Container(
+              height: Dimensions.height10 * 55,
+              padding: EdgeInsets.only(bottom: Dimensions.height20),
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: EdgeInsets.zero,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: controller.venues.length + 1,
+                itemBuilder: (context, index) {
+                  if (index != controller.totalElements && index == controller.venues.length) {
+                    return _buildSingleLoadingIndicator();
+                  } else if (index == controller.totalElements && index == controller.venues.length) {
+                    return Container();
+                  }
+                  Venue venue = controller.venues[index];
+                  return VenueCard(
+                    imageUrl: AppConstant.baseURL + AppConstant.apiVersion + getImagePath(venue.venueImagePaths)!,
+                    name: venue.name!,
+                    rating: "4.0",
+                    reviews: "Very good",
+                    location: venue.address!,
+                    price: "Starting from: NPR " + venue.startingPrice!,
+                    onCheckAvailability: () => _showAvailabilityDialog(venue.name!),
                   );
                 },
               ),
+            ),
+          )
+        : _buildLoadingIndicator();
+  },
+)
+
             ),
           ],
         ),
@@ -293,6 +329,182 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     }
     return null; // Return null if no images are available
   }
+  Widget _buildSingleLoadingIndicator() {
+    return Shimmer(
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFEBEBF4),
+          Color(0xFFF4F4F4),
+          Color(0xFFEBEBF4),
+        ],
+        stops: [
+          0.1,
+          0.3,
+          0.4,
+        ],
+        begin: Alignment(-1.0, -0.3),
+        end: Alignment(1.0, 0.3),
+        tileMode: TileMode.clamp,
+      ),
+      child: Container(
+        height: Dimensions.height10 * 13,
+        child: Container(
+          padding: EdgeInsets.only(
+              right: Dimensions.width10,
+              left: Dimensions.width10,
+              bottom: Dimensions.height20),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: Dimensions.height10 * 10,
+                width: Dimensions.width10 * 10,
+                color: Colors.white,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: Dimensions.height10 * 2.4,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: 40.0,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _buildLoadingIndicator() {
+    return Shimmer(
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFEBEBF4),
+          Color(0xFFF4F4F4),
+          Color(0xFFEBEBF4),
+        ],
+        stops: [
+          0.1,
+          0.3,
+          0.4,
+        ],
+        begin: Alignment(-1.0, -0.3),
+        end: Alignment(1.0, 0.3),
+        tileMode: TileMode.clamp,
+      ),
+      child: Container(
+        height: Dimensions.height10 * 62,
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+
+          itemCount: 5, // You can adjust the number of shimmering cells
+          itemBuilder: (_, __) => Container(
+            padding: EdgeInsets.only(
+                right: Dimensions.width10,
+                left: Dimensions.width10,
+                bottom: Dimensions.height20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: Dimensions.height10 * 10,
+                  width: Dimensions.width10 * 10,
+                  color: Colors.white,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: Dimensions.height10 * 2.4,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: 40.0,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 }
 
 // VenueCard Widget
@@ -381,5 +593,4 @@ Widget build(BuildContext context) {
     ),
   );
 }
-
 }
