@@ -1,6 +1,6 @@
 class AppConstant {
   static const String appName = "Bandobasta";
-  static const String baseURL = "http://127.0.0.1:8080/book_eat_nepal";
+  static const String baseURL = "http://127.0.0.1:8080/book-eat-nepal";
   static String apiVersion = "/api/v1";
 
   static bool toFood = false;
@@ -17,14 +17,15 @@ class AppConstant {
   static String category = "";
   static String meal = "";
   static double rating = 0.0;
-  static double restaurantRating = 0.0;
-  static String restaurantName = "";
+  static String venueName = "";
   static int page = 1;
   static int size = 5;
   static String period = "";
   static String startDate = "";
   static String endDate = "";
-  static String paymentStatus = "";
+  static String venueType = "";
+  static int minCapacity = 0;
+  static int maxCapacity = 10000;
 
   static String paymentStartDate = "";
   static String paymentEndDate = "";
@@ -38,7 +39,7 @@ class AppConstant {
   static String longitude = "";
   static String userURI = "/user";
   static String searchFoodsURI = "";
-  static String restaurantURI = "";
+  static String venueURI = "";
   static String restaurantMenuURI = "";
   static String paymentsURI = "";
   static String ordersURI = "";
@@ -51,12 +52,6 @@ class AppConstant {
   static String profileURI = "$apiVersion/user/$userId";
   static String saveOrderURI = "$apiVersion/order";
 
-  static String searchFoodsURi() {
-    searchFoodsURI =
-        "$apiVersion/menu?foodName=$foodName&sortBy=$sortBy&page=$page&size=$size&category=$category&meal=$meal&rating=$rating&restaurantName=$restaurantName";
-    ;
-    return searchFoodsURI;
-  }
 
   static String ordersURi() {
     ordersURI =
@@ -65,21 +60,15 @@ class AppConstant {
     return ordersURI;
   }
 
-  static String paymentsURi() {
-    paymentsURI =
-        "$apiVersion/payment?page=$page&startDate=$paymentStartDate&endDate=$paymentEndDate&username=$username&period=$period&paymentPartner=$paymentPartner&paymentMethod=$paymentMethod&size=$size&status=$paymentStatus";
-    return paymentsURI;
-  }
-
   static String restaurantMenuURi() {
     restaurantMenuURI =
         "$apiVersion/menu/restaurant?sortBy=$sortBy&size=$size&category=$category&page=$page&restaurantId=$restaurantId&foodName=$foodName&rating=$rating";
     return restaurantMenuURI;
   }
 
-  static String restaurantURi() {
-    restaurantURI =
-        "$apiVersion/restaurant?restaurantName=$restaurantName&page=$page&size=$size&latittude=$latitude&longitude=$longitude&rating=$restaurantRating";
-    return restaurantURI;
+  static String getVenueURI() {
+    venueURI =
+        "$apiVersion/venue?venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&veneuType=$venueType&rating=$rating";
+    return venueURI;
   }
 }

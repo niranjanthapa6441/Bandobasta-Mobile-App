@@ -1,5 +1,4 @@
-import 'package:bandobasta/Pages/homepage/homepage.dart';
-import 'package:bandobasta/Pages/searchVenuePage/searchVenuePage.dart';
+import 'package:bandobasta/Controller/venueController.dart';
 import 'package:bandobasta/pages/homepage/navigation.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +17,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.find<FoodController>().onClose();
-
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
     return GetMaterialApp(
-      title: 'Cloud Kitchen',
+      title: 'Bandobasta',
       theme: ThemeData(
           primaryColor: const Color.fromARGB(255, 176, 2, 2),
           appBarTheme: const AppBarTheme(
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
           )),
       debugShowCheckedModeBanner: false,
       getPages: RouteHelper.routes,
-      home: SearchVenuePage(),
+      home: Navigation(),
     );
   }
 }

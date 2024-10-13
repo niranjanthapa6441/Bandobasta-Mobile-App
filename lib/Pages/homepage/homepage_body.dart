@@ -1,11 +1,14 @@
 
-import 'package:bandobasta/Model/venue.dart';
+import 'package:bandobasta/Controller/venueController.dart';
+import 'package:bandobasta/Response/venueResponse.dart';
+import 'package:bandobasta/route_helper/route_helper.dart';
+import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:get/get.dart';
 
 import '../../utils/Color/colors.dart';
-import '../../utils/app_constants/app_constant.dart';
 import '../../utils/dimensions/dimension.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/icon_and_text_widget.dart';
@@ -58,35 +61,42 @@ class _HomePageBodyState extends State<HomePageBody> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween, 
       children: [
         BigText(text: title), // Left side text
-        SmallText(text: "View All ->", color: AppColors.mainBlackColor), 
+        GestureDetector(
+          onTap: () {
+                    Get.toNamed(RouteHelper.getSearchVenue());
+                  },
+          child: SmallText(text: "View All ->", color: AppColors.mainBlackColor)), 
       ],
     ),
   );
 }
 
-
-  Widget _buildVenueList() {
-    List<Venue> venues = [
-      Venue(name: 'Fast Food Place', address: '123 Main St', imagePath: 'assets/images/Venue1.png'),
-      Venue(name: 'Italian Bistro', address: '456 Elm St', imagePath: 'assets/images/Venue2.png'),
-      Venue(name: 'Pasta House', address: '789 Oak St', imagePath: 'assets/images/Venue3.png'),
-    ];
-
-    return Container(
-      height: Dimensions.height10 * 30, // Adjust the height as needed
-      child: ListView.builder(
-        controller: scrollController,
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        physics: const AlwaysScrollableScrollPhysics(), // Enable scrolling
-        scrollDirection: Axis.horizontal, // Set horizontal scrolling
-        itemCount: _numberOfVenues,
-        itemBuilder: (context, index) {
-          return _buildPopularVenue(index, venues[index]);
-        },
-      ),
-    );
-  }
+Widget _buildVenueList() {
+  return GetBuilder<VenueController>(
+    builder: (venues) {
+      if (!venues.isLoaded) {
+        return Center(child: CircularProgressIndicator());
+      } else if (venues.venues.isEmpty) {
+        return Center(child: Text('No venues available'));
+      } else {
+        return Container(
+          height: Dimensions.height10 * 30, // Adjust height as needed
+          child: ListView.builder(
+            controller: scrollController,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const AlwaysScrollableScrollPhysics(), // Enable scrolling
+            scrollDirection: Axis.horizontal, // Horizontal scrolling
+            itemCount: venues.venues.length, // Number of venues
+            itemBuilder: (context, index) {
+              return _buildPopularVenue(index, venues.venues[index]);
+            },
+          ),
+        );
+      }
+    },
+  );
+}
 
   Widget _buildPopularVenue(int index, Venue venue) {
     return GestureDetector(
@@ -125,7 +135,7 @@ class _HomePageBodyState extends State<HomePageBody> {
         ),
         child: Column(
           children: [
-            _buildVenueImage(venue.imagePath),
+            _buildVenueImage(venue.venueImagePaths),
             _buildVenueInfo(venue),
           ],
         ),
@@ -133,21 +143,30 @@ class _HomePageBodyState extends State<HomePageBody> {
     );
   }
 
-  Widget _buildVenueImage(String imagePath) {
-    return Container(
-      height: Dimensions.height10 * 15,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(AppConstant.baseURL + AppConstant.apiVersion + imagePath),
-        ),
-        borderRadius: BorderRadius.circular(Dimensions.radius10),
-      ),
-    );
-  }
+Widget _buildVenueImage(List<String>? imagePaths) {
+  String fallbackImageUrl = "https://via.placeholder.com/300"; 
 
-  Widget _buildVenueInfo(Venue Venue) {
+  // Select the first image if available, otherwise fallback to the placeholder
+  String imageUrl = (imagePaths != null && imagePaths.isNotEmpty) 
+      ? imagePaths[0] // Use the first image in the list
+      : fallbackImageUrl;
+
+  return Container(
+    height: Dimensions.height10 * 15, 
+    width: double.infinity, 
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(Dimensions.radius10), 
+      image: DecorationImage(
+        fit: BoxFit.cover,
+        image: NetworkImage(AppConstant.baseURL + AppConstant.apiVersion + imageUrl), 
+      ),
+    ),
+  );
+}
+
+
+
+  Widget _buildVenueInfo(Venue venue) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height10),
@@ -155,19 +174,18 @@ class _HomePageBodyState extends State<HomePageBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BigText(
-              text: Venue.name,
+              text: venue.name!,
               size: Dimensions.font10 * 1.5,
               textOverflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: Dimensions.height10),
             SmallText(
-              text: Venue.address,
+              text: venue.address!,
               color: Colors.black,
               size: Dimensions.font10 * 1.3,
               textOverflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: Dimensions.height10),
-            _buildVenueStats(),
           ],
         ),
       ),

@@ -1,3 +1,6 @@
+import 'package:bandobasta/Pages/homepage/homepage.dart';
+import 'package:bandobasta/Pages/homepage/navigation.dart';
+import 'package:bandobasta/Pages/searchVenuePage/searchVenuePage.dart';
 import 'package:get/get.dart';
 
 
@@ -24,7 +27,7 @@ class RouteHelper {
   static String getSignIn() => signIn;
   static String getSignUp() => signUp;
   static String getHomepage() => homepage;
-  static String getSearchFoods() => searchVenue;
+  static String getSearchVenue() => searchVenue;
   static String getOrders() => bookings;
   static String getViewProfile() => viewProfile;
   static String getViewNotiifcations() => viewNotifications;
@@ -37,13 +40,13 @@ class RouteHelper {
   static String getCart() => cart;
   static String getPayments() => payments;
   static List<GetPage> routes = [
-    // GetPage(name: homepage, page: () => const Homepage()),
-    // GetPage(
-    //   name: navigation,
-    //   page: () => const Navigation(),
-    //   transition: Transition.noTransition,
-    // ),
-    // GetPage(name: searchFoods, page: () => const SearchFoodPage()),
+    GetPage(name: homepage, page: () => const Homepage()),
+    GetPage(
+      name: navigation,
+      page: () => const Navigation(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(name: searchVenue, page: () =>  SearchVenuePage()),
     // GetPage(name: orders, page: () => const OrdersPage()),
     // GetPage(name: viewProfile, page: () => const ProfilePage()),
     // GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
