@@ -25,8 +25,6 @@ class _HomePageBodyState extends State<HomePageBody> {
   final ScrollController scrollController = ScrollController();
   double _currentPageValue = 0.0;
 
-  static const int _numberOfVenues = 3; // Static number of Venues
-
   @override
   void initState() {
     super.initState();
