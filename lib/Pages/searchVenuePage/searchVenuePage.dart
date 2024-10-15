@@ -64,6 +64,16 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Cancel Icon Button
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: Icon(Icons.cancel, color: AppColors.themeColor),
+                        onPressed: () {
+                          Navigator.pop(context); // Close the dialog
+                        },
+                      ),
+                    ),
                     Text('Filter',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
@@ -312,11 +322,11 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
             ),
             SizedBox(height: Dimensions.height20),
             // Venue cards section
-            Expanded(child: GetBuilder<VenueController>(
-              builder: (controller) {
-                return controller.isLoaded
-                    ? GestureDetector(
-                        child: Container(
+            Expanded(
+              child: GetBuilder<VenueController>(builder: (controller) {
+                return GestureDetector(
+                  child: controller.isLoaded
+                      ? Container(
                           height: Dimensions.height10 * 55,
                           padding: EdgeInsets.only(bottom: Dimensions.height20),
                           child: ListView.builder(
@@ -332,27 +342,14 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                                   index == controller.venues.length) {
                                 return Container();
                               }
-                              Venue venue = controller.venues[index];
-                              return VenueCard(
-                                imageUrl: AppConstant.baseURL +
-                                    AppConstant.apiVersion +
-                                    getImagePath(venue.venueImagePaths)!,
-                                name: venue.name!,
-                                rating: "4.0",
-                                reviews: "Very good",
-                                location: venue.address!,
-                                price: "Starting from: NPR " +
-                                    venue.startingPrice!,
-                                onCheckAvailability: () =>
-                                    _showAvailabilityDialog(venue.name!),
-                              );
+                              return _buildVenueCard(controller.venues[index]);
                             },
                           ),
-                        ),
-                      )
-                    : _buildLoadingIndicator();
-              },
-            )),
+                        )
+                      : _buildLoadingIndicator(),
+                );
+              }),
+            ),
           ],
         ),
       ),
@@ -371,9 +368,23 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
   String? getImagePath(List<String>? venueImagePaths) {
     if (venueImagePaths != null && venueImagePaths!.isNotEmpty) {
-      return venueImagePaths![0]; // Return the first image path
+      return venueImagePaths![0];
     }
-    return null; // Return null if no images are available
+    return null;
+  }
+
+  Widget _buildVenueCard(Venue venue) {
+    return VenueCard(
+      imageUrl: AppConstant.baseURL +
+          AppConstant.apiVersion +
+          getImagePath(venue.venueImagePaths)!,
+      name: venue.name!,
+      rating: "4.0",
+      reviews: "Very good",
+      location: venue.address!,
+      price: "Starting from: NPR " + venue.startingPrice!,
+      onCheckAvailability: () => _showAvailabilityDialog(venue.name!),
+    );
   }
 
   Widget _buildSingleLoadingIndicator() {
