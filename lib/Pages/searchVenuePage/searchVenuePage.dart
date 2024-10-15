@@ -4,11 +4,13 @@ import 'package:bandobasta/Response/venueResponse.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:bandobasta/widgets/app_button.dart';
 import 'package:bandobasta/widgets/big_text.dart';
 import 'package:bandobasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchVenuePage extends StatefulWidget {
   @override
@@ -16,7 +18,30 @@ class SearchVenuePage extends StatefulWidget {
 }
 
 class _SearchVenuePageState extends State<SearchVenuePage> {
-  // Controller instance
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      Get.find<VenueController>().loadMore();
+    }
+  }
 
   // Initial values for filters
   String selectedLocation = 'Kathmandu';
@@ -39,14 +64,27 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Filter', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    // Cancel Icon Button
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: Icon(Icons.cancel, color: AppColors.themeColor),
+                        onPressed: () {
+                          Navigator.pop(context); // Close the dialog
+                        },
+                      ),
+                    ),
+                    Text('Filter',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     SizedBox(height: 20),
                     // Location filter
                     Text('Location'),
                     DropdownButton<String>(
                       value: selectedLocation,
                       isExpanded: true,
-                      items: ['Kathmandu', 'Pokhara', 'Bhaktapur'].map((String value) {
+                      items: ['Kathmandu', 'Pokhara', 'Bhaktapur']
+                          .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -65,6 +103,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                       values: RangeValues(minPrice, maxPrice),
                       min: 1000,
                       max: 10000,
+                      activeColor: AppColors.themeColor,
                       divisions: 18,
                       onChanged: (RangeValues values) {
                         setState(() {
@@ -73,7 +112,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                         });
                       },
                     ),
-                    Text("Min: ${minPrice.toInt()} NPR - Max: ${maxPrice.toInt()} NPR"),
+                    Text(
+                        "Min: ${minPrice.toInt()} NPR - Max: ${maxPrice.toInt()} NPR"),
                     SizedBox(height: 20),
                     // Capacity filter
                     Text('Capacity'),
@@ -82,6 +122,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                         RadioListTile(
                           title: const Text('Up to 100'),
                           value: 0,
+                          activeColor: AppColors.themeColor,
                           groupValue: selectedCapacity,
                           onChanged: (int? value) {
                             setState(() {
@@ -92,6 +133,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                         RadioListTile(
                           title: const Text('100-300'),
                           value: 1,
+                          activeColor: AppColors.themeColor,
                           groupValue: selectedCapacity,
                           onChanged: (int? value) {
                             setState(() {
@@ -102,6 +144,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                         RadioListTile(
                           title: const Text('300-500'),
                           value: 2,
+                          activeColor: AppColors.themeColor,
                           groupValue: selectedCapacity,
                           onChanged: (int? value) {
                             setState(() {
@@ -112,6 +155,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                         RadioListTile(
                           title: const Text('500+'),
                           value: 3,
+                          activeColor: AppColors.themeColor,
                           groupValue: selectedCapacity,
                           onChanged: (int? value) {
                             setState(() {
@@ -122,16 +166,25 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    ElevatedButton(
-                      child: Text('Apply'),
-                      onPressed: () {
-                        // Print all selected filters
-                        print("Selected Location: $selectedLocation");
-                        print("Price Range: ${minPrice.toInt()} NPR - ${maxPrice.toInt()} NPR");
-                        print("Selected Capacity: $selectedCapacity");
+                    // Center the AppButton
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          // Print all selected filters
+                          print("Selected Location: $selectedLocation");
+                          print(
+                              "Price Range: ${minPrice.toInt()} NPR - ${maxPrice.toInt()} NPR");
+                          print("Selected Capacity: $selectedCapacity");
 
-                        Navigator.pop(context);
-                      },
+                          Navigator.pop(context);
+                        },
+                        child: AppButton(
+                          btn_txt: 'Apply',
+                          buttonHeight: Dimensions.height50,
+                          buttonWidth: Dimensions.width30 * 5,
+                          color: AppColors.themeColor,
+                        ),
+                      ),
                     ),
                     SizedBox(height: 20),
                   ],
@@ -148,25 +201,43 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Check Availability for $venueName'),
-          content: CheckAvailabilityPage(),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Container(
+            width:
+                MediaQuery.of(context).size.width * 0.8, // 80% of screen width
+            height: MediaQuery.of(context).size.height *
+                0.7, // 50% of screen height
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                BigText(text: venueName),
+                SizedBox(height: 20),
+                Expanded(
+                    child: CheckAvailabilityPage()), // To fill the content area
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      child: SmallText(
+                        text: 'Cancel',
+                        color: AppColors.themeColor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -243,7 +314,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: AppColors.themeColor, width: 2.0),
+                  borderSide:
+                      BorderSide(color: AppColors.themeColor, width: 2.0),
                 ),
               ),
               style: TextStyle(color: Colors.black),
@@ -251,25 +323,32 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
             SizedBox(height: Dimensions.height20),
             // Venue cards section
             Expanded(
-              child: GetBuilder<VenueController>(
-                builder: (controller) {
-                  return ListView.builder(
-                    itemCount: controller.venues.length,
-                    itemBuilder: (context, index) {
-                      Venue venue = controller.venues[index];
-                      return VenueCard(
-                        imageUrl: AppConstant.baseURL + AppConstant.apiVersion + getImagePath(venue.venueImagePaths)!,
-                        name: venue.name!,
-                        rating: "4.0",
-                        reviews: "Very good",
-                        location: venue.address!,
-                        price: "Starting from: NPR " + venue.startingPrice!,
-                        onCheckAvailability: () => _showAvailabilityDialog(venue.name!),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: GetBuilder<VenueController>(builder: (controller) {
+                return GestureDetector(
+                  child: controller.isLoaded
+                      ? Container(
+                          height: Dimensions.height10 * 55,
+                          padding: EdgeInsets.only(bottom: Dimensions.height20),
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: EdgeInsets.zero,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: controller.venues.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index != controller.totalElements &&
+                                  index == controller.venues.length) {
+                                return _buildSingleLoadingIndicator();
+                              } else if (index == controller.totalElements &&
+                                  index == controller.venues.length) {
+                                return Container();
+                              }
+                              return _buildVenueCard(controller.venues[index]);
+                            },
+                          ),
+                        )
+                      : _buildLoadingIndicator(),
+                );
+              }),
             ),
           ],
         ),
@@ -286,12 +365,202 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
-  
+
   String? getImagePath(List<String>? venueImagePaths) {
     if (venueImagePaths != null && venueImagePaths!.isNotEmpty) {
-      return venueImagePaths![0]; // Return the first image path
+      return venueImagePaths![0];
     }
-    return null; // Return null if no images are available
+    return null;
+  }
+
+  Widget _buildVenueCard(Venue venue) {
+    return VenueCard(
+      imageUrl: AppConstant.baseURL +
+          AppConstant.apiVersion +
+          getImagePath(venue.venueImagePaths)!,
+      name: venue.name!,
+      rating: "4.0",
+      reviews: "Very good",
+      location: venue.address!,
+      price: "Starting from: NPR " + venue.startingPrice!,
+      onCheckAvailability: () => _showAvailabilityDialog(venue.name!),
+    );
+  }
+
+  Widget _buildSingleLoadingIndicator() {
+    return Shimmer(
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFEBEBF4),
+          Color(0xFFF4F4F4),
+          Color(0xFFEBEBF4),
+        ],
+        stops: [
+          0.1,
+          0.3,
+          0.4,
+        ],
+        begin: Alignment(-1.0, -0.3),
+        end: Alignment(1.0, 0.3),
+        tileMode: TileMode.clamp,
+      ),
+      child: Container(
+        height: Dimensions.height10 * 13,
+        child: Container(
+          padding: EdgeInsets.only(
+              right: Dimensions.width10,
+              left: Dimensions.width10,
+              bottom: Dimensions.height20),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: Dimensions.height10 * 10,
+                width: Dimensions.width10 * 10,
+                color: Colors.white,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: Dimensions.height10 * 2.4,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: 40.0,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 8.0,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Shimmer(
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFEBEBF4),
+          Color(0xFFF4F4F4),
+          Color(0xFFEBEBF4),
+        ],
+        stops: [
+          0.1,
+          0.3,
+          0.4,
+        ],
+        begin: Alignment(-1.0, -0.3),
+        end: Alignment(1.0, 0.3),
+        tileMode: TileMode.clamp,
+      ),
+      child: Container(
+        height: Dimensions.height10 * 62,
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: 5,
+          itemBuilder: (_, __) => Container(
+            padding: EdgeInsets.only(
+                right: Dimensions.width10,
+                left: Dimensions.width10,
+                bottom: Dimensions.height20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: Dimensions.height10 * 10,
+                  width: Dimensions.width10 * 10,
+                  color: Colors.white,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: Dimensions.height10 * 2.4,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: 40.0,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -316,70 +585,77 @@ class VenueCard extends StatelessWidget {
   });
 
   @override
-Widget build(BuildContext context) {
-  return Card(
-    margin: EdgeInsets.symmetric(vertical: 8.0),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-    elevation: 4,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
-          child: Image.network( // Use Image.network instead of NetworkImage
-            imageUrl,
-            fit: BoxFit.cover,
-            height: 120,
-            width: double.infinity,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: Dimensions.height10 * 12,
-                width: double.infinity,
-                color: Colors.grey, // Placeholder color for loading
-                child: Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      elevation: 4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
+            child: Image.network(
+              // Use Image.network instead of NetworkImage
+              imageUrl,
+              fit: BoxFit.cover,
+              height: 120,
+              width: double.infinity,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: Dimensions.height10 * 12,
+                  width: double.infinity,
+                  color: Colors.grey, // Placeholder color for loading
+                  child: Center(
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name,
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Row(
+                  children: [
+                    Icon(Icons.star, color: Colors.amber, size: 16),
+                    SizedBox(width: 4),
+                    Text(rating,
+                        style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    SizedBox(width: 4),
+                    Text('($reviews reviews)',
+                        style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  ],
+                ),
+                SizedBox(height: 4),
+                Text(location, style: TextStyle(color: Colors.grey)),
+                SizedBox(height: 4),
+                Text(price,
+                    style: TextStyle(
+                        color: AppColors.themeColor,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: onCheckAvailability,
+                  child: Text('Check Availability'),
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.themeColor,
+                    textStyle: TextStyle(color: Colors.white),
                   ),
                 ),
-              );
-            },
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-              Row(
-                children: [
-                  Icon(Icons.star, color: Colors.amber, size: 16),
-                  SizedBox(width: 4),
-                  Text(rating, style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  SizedBox(width: 4),
-                  Text('($reviews reviews)', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                ],
-              ),
-              SizedBox(height: 4),
-              Text(location, style: TextStyle(color: Colors.grey)),
-              SizedBox(height: 4),
-              Text(price, style: TextStyle(color: AppColors.themeColor, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: onCheckAvailability,
-                child: Text('Check Availability'),
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.themeColor,
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 }

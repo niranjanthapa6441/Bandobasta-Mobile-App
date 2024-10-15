@@ -10,7 +10,7 @@ class AppConstant {
 
   static int foodId = 0;
   static String numberOfItems = "";
-  static String userId = "1";
+  static String userId = "2";
   static String orderId = "";
   static String orderStatus = "";
   static String menuFoodId = "";
@@ -42,7 +42,7 @@ class AppConstant {
   static String venueURI = "";
   static String restaurantMenuURI = "";
   static String paymentsURI = "";
-  static String ordersURI = "";
+  static String findHallBookingByUser = "";
   static String categoryURI = "$apiVersion/category";
   static String mealURI = "$apiVersion/meal";
   static String paypalPaymentURI = "$apiVersion/payment/paypal";
@@ -53,11 +53,10 @@ class AppConstant {
   static String saveOrderURI = "$apiVersion/order";
 
 
-  static String ordersURi() {
-    ordersURI =
-        "$apiVersion/order/customer/$userId?size=$size&page=$page&period=$period&startDate=$startDate&endDate=$endDate&sortBy=$sortBy&status=$orderStatus";
-    ;
-    return ordersURI;
+  static String getHallBookingURI() {
+    findHallBookingByUser =
+        "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size";
+    return findHallBookingByUser;
   }
 
   static String restaurantMenuURi() {
