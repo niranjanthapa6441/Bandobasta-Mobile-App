@@ -37,6 +37,9 @@ dependencies:
   get: ^4.6.6
   shared_preferences: ^2.2.3
   shimmer: ^3.0.0
+  font_awesome_flutter: ^10.7.0
+  intl: ^0.17.0
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +66,7 @@ flutter:
   assets:
     - assets/images/wedding.png
     - assets/images/henna.png
+    - assets/images/venue.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

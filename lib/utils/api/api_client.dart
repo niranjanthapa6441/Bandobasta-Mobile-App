@@ -11,8 +11,8 @@ class APIClient extends GetConnect implements GetxService {
     timeout = const Duration(seconds: 30);
     token = "";
     _mainHeaders = {
-      "content-type": "application/json; charset-UTF_8",
-      "Authorization": "Bearer $token"
+      "content-type": "application/json; charset-UTF_8"
+      // "Authorization": "Bearer $token"
     };
   }
   void updateHeader(String token) {
