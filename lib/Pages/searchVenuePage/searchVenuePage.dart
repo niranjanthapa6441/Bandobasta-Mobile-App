@@ -1,6 +1,6 @@
 import 'package:bandobasta/Controller/venueController.dart';
-import 'package:bandobasta/Pages/searchVenuePage/checkAvailabilityFormPage.dart';
 import 'package:bandobasta/Response/venueResponse.dart';
+import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
@@ -31,9 +31,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _clear();
     super.dispose();
-    Get.find<VenueController>().onClose();
-    Get.find<VenueController>().get();
   }
 
   void _onScroll() {
@@ -43,13 +42,16 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     }
   }
 
-  // Initial values for filters
-  String selectedLocation = 'Kathmandu';
-  double minPrice = 1000;
+  String selectedLocation = '--Select Location--';
+  double minPrice = 0;
   double maxPrice = 10000;
   int selectedCapacity = 0;
+  int minCapacity = 0;
+  int maxCapacity = 10000;
 
-  // Show the filter modal
+  var searchCriteria = TextEditingController();
+  bool isSearching = false;
+
   void _showFilterDialog() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -83,8 +85,16 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                     DropdownButton<String>(
                       value: selectedLocation,
                       isExpanded: true,
-                      items: ['Kathmandu', 'Pokhara', 'Bhaktapur']
-                          .map((String value) {
+                      items: [
+                        '--Select Location--',
+                        'Kathmandu',
+                        'Pokhara',
+                        'Bhaktapur',
+                        'Lalitpur',
+                        'Nepalgunj',
+                        'Biratnagar',
+                        'Janakpur'
+                      ].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -101,10 +111,10 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                     Text('Price Range'),
                     RangeSlider(
                       values: RangeValues(minPrice, maxPrice),
-                      min: 1000,
+                      min: 0,
                       max: 10000,
                       activeColor: AppColors.themeColor,
-                      divisions: 18,
+                      divisions: 20,
                       onChanged: (RangeValues values) {
                         setState(() {
                           minPrice = values.start;
@@ -127,6 +137,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                           onChanged: (int? value) {
                             setState(() {
                               selectedCapacity = value!;
+                              minCapacity = 0;
+                              maxCapacity = 100;
                             });
                           },
                         ),
@@ -138,6 +150,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                           onChanged: (int? value) {
                             setState(() {
                               selectedCapacity = value!;
+                              minCapacity = 101;
+                              maxCapacity = 300;
                             });
                           },
                         ),
@@ -149,6 +163,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                           onChanged: (int? value) {
                             setState(() {
                               selectedCapacity = value!;
+                              minCapacity = 301;
+                              maxCapacity = 500;
                             });
                           },
                         ),
@@ -160,6 +176,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                           onChanged: (int? value) {
                             setState(() {
                               selectedCapacity = value!;
+                              minCapacity = 501;
+                              maxCapacity = 10000;
                             });
                           },
                         ),
@@ -170,11 +188,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          // Print all selected filters
-                          print("Selected Location: $selectedLocation");
-                          print(
-                              "Price Range: ${minPrice.toInt()} NPR - ${maxPrice.toInt()} NPR");
-                          print("Selected Capacity: $selectedCapacity");
+                          _applyFilter();
 
                           Navigator.pop(context);
                         },
@@ -197,49 +211,6 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     );
   }
 
-  void _showAvailabilityDialog(String venueName) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Container(
-            width:
-                MediaQuery.of(context).size.width * 0.8, // 80% of screen width
-            height: MediaQuery.of(context).size.height *
-                0.7, // 50% of screen height
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BigText(text: venueName),
-                SizedBox(height: 20),
-                Expanded(
-                    child: CheckAvailabilityPage()), // To fill the content area
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      child: SmallText(
-                        text: 'Cancel',
-                        color: AppColors.themeColor,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -254,7 +225,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
               color: AppColors.themeColor,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              dispose();
+              Get.toNamed(RouteHelper.getNavigation());
             },
           ),
           title: Center(
@@ -303,22 +275,52 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         child: Column(
           children: [
             // Search bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                hintStyle: TextStyle(color: Colors.grey),
-                prefixIcon: Icon(Icons.search, color: AppColors.themeColor),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: AppColors.themeColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide:
-                      BorderSide(color: AppColors.themeColor, width: 2.0),
-                ),
+            Container(
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    blurRadius: 8,
+                    spreadRadius: 6,
+                    offset: const Offset(1, 8),
+                    color: Colors.grey.withOpacity(0.2))
+              ]),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        isSearching = true;
+                        _applyFilter();
+                      },
+                      readOnly: false,
+                      obscureText: false,
+                      controller: searchCriteria,
+                      decoration: InputDecoration(
+                        hintText: "Search For Venues",
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: AppColors.themeColor,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius30),
+                          borderSide:
+                              BorderSide(width: 1.0, color: Colors.white),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius30),
+                          borderSide:
+                              BorderSide(width: 1.0, color: Colors.white),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius30),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              style: TextStyle(color: Colors.black),
             ),
             SizedBox(height: Dimensions.height20),
             // Venue cards section
@@ -342,7 +344,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                                   index == controller.venues.length) {
                                 return Container();
                               }
-                              return _buildVenueCard(controller.venues[index]);
+                              return _buildVenueCard(
+                                  controller.venues[index], index);
                             },
                           ),
                         )
@@ -373,18 +376,19 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     return null;
   }
 
-  Widget _buildVenueCard(Venue venue) {
+  Widget _buildVenueCard(Venue venue, int index) {
     return VenueCard(
-      imageUrl: AppConstant.baseURL +
-          AppConstant.apiVersion +
-          getImagePath(venue.venueImagePaths)!,
-      name: venue.name!,
-      rating: "4.0",
-      reviews: "Very good",
-      location: venue.address!,
-      price: "Starting from: NPR " + venue.startingPrice!,
-      onCheckAvailability: () => _showAvailabilityDialog(venue.name!),
-    );
+        imageUrl: AppConstant.baseURL +
+            AppConstant.apiVersion +
+            getImagePath(venue.venueImagePaths)!,
+        name: venue.name!,
+        rating: "4.0",
+        reviews: "Very good",
+        location: venue.address!,
+        price: "NPR " + venue.startingPrice! + " onwards",
+        onCheckAvailability: () {
+          Get.toNamed(RouteHelper.getVenueInfo(index));
+        });
   }
 
   Widget _buildSingleLoadingIndicator() {
@@ -561,6 +565,39 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         ),
       ),
     );
+  }
+
+  void _applyFilter() {
+    AppConstant.venueName = searchCriteria.text.toString();
+    if (selectedLocation == '--Select Location--') {
+      AppConstant.address = '';
+    } else {
+      AppConstant.address = selectedLocation;
+    }
+    AppConstant.maxCapacity = maxCapacity;
+    AppConstant.minCapacity = minCapacity;
+    AppConstant.minPrice = minPrice;
+    AppConstant.maxPrice = maxPrice;
+
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
+  }
+
+  void _clear() {
+    AppConstant.venueName = '';
+    AppConstant.minCapacity = 0;
+
+    AppConstant.maxCapacity = 10000;
+
+    AppConstant.minPrice = 0.0;
+
+    AppConstant.maxPrice = 10000.0;
+    AppConstant.address = '';
+
+    AppConstant.page = 1;
+
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
   }
 }
 

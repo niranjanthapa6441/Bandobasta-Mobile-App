@@ -1,8 +1,8 @@
+import 'package:bandobasta/Pages/VenueInfoPage/venueInfoPage.dart';
 import 'package:bandobasta/Pages/homepage/homepage.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/Pages/searchVenuePage/searchVenuePage.dart';
 import 'package:get/get.dart';
-
 
 class RouteHelper {
   static const String initial = '/';
@@ -12,6 +12,7 @@ class RouteHelper {
   static const String homepage = '/homepage';
   static const String searchVenue = '/searchVenue';
   static const String bookings = '/bookings';
+  static const String venueInfo = '/viewVenueInfo';
   static const String viewProfile = '/viewProfile';
   static const String viewNotifications = '/viewNotifications';
   static const String menuDetail = '/menuDetail';
@@ -26,19 +27,22 @@ class RouteHelper {
   static String getNavigation() => navigation;
   static String getSignIn() => signIn;
   static String getSignUp() => signUp;
+  static String getVenueInfo(int pageId) => '$venueInfo?pageId=$pageId';
   static String getHomepage() => homepage;
   static String getSearchVenue() => searchVenue;
   static String getOrders() => bookings;
   static String getViewProfile() => viewProfile;
   static String getViewNotiifcations() => viewNotifications;
   static String getRestaurantMenu() => restaurantMenu;
-  static String getOrderDetail(int bookingId) => '$bookingDetail?bookingId=$bookingId';
+  static String getOrderDetail(int bookingId) =>
+      '$bookingDetail?bookingId=$bookingId';
   static String getConfirmOrder() => confirmBooking;
   static String getFoodDetail(int menuId) => '$menuDetail?menuId=$menuId';
   static String getRestaurantMenuFoodDetail(int foodId) =>
       '$venueMenuFood?foodId=$foodId';
   static String getCart() => cart;
   static String getPayments() => payments;
+  
   static List<GetPage> routes = [
     GetPage(name: homepage, page: () => const Homepage()),
     GetPage(
@@ -46,8 +50,15 @@ class RouteHelper {
       page: () => const Navigation(),
       transition: Transition.noTransition,
     ),
-    GetPage(name: searchVenue, page: () =>  SearchVenuePage()),
-    // GetPage(name: orders, page: () => const OrdersPage()),
+    GetPage(name: searchVenue, page: () => SearchVenuePage()),
+    GetPage(
+        name: venueInfo,
+        page: () {
+          var pageId = Get.parameters['pageId'];
+          return VenueInfoPage(
+            pageId: int.parse(pageId!),
+          );
+        }),
     // GetPage(name: viewProfile, page: () => const ProfilePage()),
     // GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
 

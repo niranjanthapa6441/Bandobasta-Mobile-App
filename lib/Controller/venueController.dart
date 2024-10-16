@@ -26,7 +26,6 @@ class VenueController extends GetxController {
   bool get isLoaded => _isLoaded;
   Future<void> get() async {
     Response response = await venueRepo.getVenues();
-    print(response);
     if (response.statusCode == 200) {
       VenueResponse venueResponse = VenueResponse.fromJson(response.body);
       if (venueResponse.data != null && venueResponse.data!.venues != null) {

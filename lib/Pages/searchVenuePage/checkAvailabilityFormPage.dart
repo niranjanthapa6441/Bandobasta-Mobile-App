@@ -28,121 +28,119 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        margin: EdgeInsets.only(
-            left: Dimensions.width10, right: Dimensions.width10),
-        child: ListView(
-          children: [
-            Column(children: [
-              Container(
-                height: Dimensions.height25,
-              ),
-              SizedBox(
-                height: Dimensions.height20,
-              ),
-              AppTextField(
-                textEditingController: numberOfGuestsController,
-                hintText: "Guests",
-                icon: Icons.people,
-                width: Dimensions.width10 * 15,
-              ),
-              SizedBox(
-                height: Dimensions.height20,
-              ),
-              AppTextField(
-                textEditingController: dateController,
-                hintText: _isDateSelected
-                    ? DateFormat.yMMMMd().format(_date)
-                    : "MM/DD/YYYY",
-                icon: Icons.calendar_today_outlined,
-                readOnly: true,
-                width: Dimensions.width10 * 15,
-                widget: IconButton(
-                  onPressed: () {
-                    _getDate();
-                    setState(() {
-                      _isDateSelected = true;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.calendar_today_outlined,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: Dimensions.height20,
-              ),
-              AppTextField(
-                textEditingController: startTimeController,
-                hintText: _isStartTimeSelected
-                    ? "${_startTime.hour}:${_startTime.minute}"
-                    : "Start Time",
-                icon: Icons.access_time,
-                readOnly: true,
-                width: Dimensions.width10 * 15,
-                widget: IconButton(
-                  onPressed: () {
-                    _selectStartTime();
-                  },
-                  icon: Icon(
-                    Icons.access_time,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: Dimensions.height20,
-              ),
-              AppTextField(
-                textEditingController: endTimeController,
-                hintText: _isEndTimeSelected
-                    ? "${_endTime.hour}:${_endTime.minute}"
-                    : "End Time",
-                icon: Icons.access_time,
-                readOnly: true,
-                width: Dimensions.width10 * 15,
-                widget: IconButton(
-                  onPressed: () {
-                    _selectEndTime();
-                  },
-                  icon: Icon(
-                    Icons.access_time,
-                  ),
-                ),
-              ),
-            ]),
-            SizedBox(
-              height: Dimensions.height30,
+    return Container(
+      margin:
+          EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+      child: ListView(
+        children: [
+          Column(children: [
+            Container(
+              height: Dimensions.height25,
             ),
-            GestureDetector(
-              onTap: () {
-                // Check availability logic here
-              },
-              child: Container(
-                margin: EdgeInsets.only(
-                    left: Dimensions.width30,
-                    right: Dimensions.width30,
-                    bottom: Dimensions.height50),
-                height: Dimensions.screenHeight / 14,
-                width: Dimensions.width20 * 3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius30),
-                  color: AppColors.themeColor,
-                ),
-                child: Center(
-                  child: BigText(
-                    text: "Check Availability",
-                    size: Dimensions.font15,
-                    color: Colors.white,
-                  ),
+            SizedBox(
+              height: Dimensions.height20,
+            ),
+            AppTextField(
+              textEditingController: numberOfGuestsController,
+              hintText: "Guests",
+              icon: Icons.people,
+              width: Dimensions.width10 * 15,
+            ),
+            SizedBox(
+              height: Dimensions.height20,
+            ),
+            AppTextField(
+              textEditingController: dateController,
+              hintText: _isDateSelected
+                  ? DateFormat.yMMMMd().format(_date)
+                  : "MM/DD/YYYY",
+              icon: Icons.calendar_today_outlined,
+              readOnly: true,
+              width: Dimensions.width10 * 15,
+              widget: IconButton(
+                onPressed: () {
+                  _getDate();
+                  setState(() {
+                    _isDateSelected = true;
+                  });
+                },
+                icon: Icon(
+                  Icons.calendar_today_outlined,
                 ),
               ),
             ),
             SizedBox(
-              height: Dimensions.height10,
+              height: Dimensions.height20,
             ),
-          ],
-        ),
+            AppTextField(
+              textEditingController: startTimeController,
+              hintText: _isStartTimeSelected
+                  ? "${_startTime.hour}:${_startTime.minute}"
+                  : "Start Time",
+              icon: Icons.access_time,
+              readOnly: true,
+              width: Dimensions.width10 * 15,
+              widget: IconButton(
+                onPressed: () {
+                  _selectStartTime();
+                },
+                icon: Icon(
+                  Icons.access_time,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: Dimensions.height20,
+            ),
+            AppTextField(
+              textEditingController: endTimeController,
+              hintText: _isEndTimeSelected
+                  ? "${_endTime.hour}:${_endTime.minute}"
+                  : "End Time",
+              icon: Icons.access_time,
+              readOnly: true,
+              width: Dimensions.width10 * 15,
+              widget: IconButton(
+                onPressed: () {
+                  _selectEndTime();
+                },
+                icon: Icon(
+                  Icons.access_time,
+                ),
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: Dimensions.height30,
+          ),
+          GestureDetector(
+            onTap: () {
+              // Check availability logic here
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                  left: Dimensions.width30,
+                  right: Dimensions.width30,
+                  bottom: Dimensions.height50),
+              height: Dimensions.screenHeight / 14,
+              width: Dimensions.width20 * 3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radius30),
+                color: AppColors.themeColor,
+              ),
+              child: Center(
+                child: BigText(
+                  text: "Check Availability",
+                  size: Dimensions.font15,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: Dimensions.height10,
+          ),
+        ],
       ),
     );
   }
@@ -168,7 +166,8 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
       setState(() {
         _isDateSelected = true;
         _date = _pickerDate;
-        dateController.text = DateFormat.yMMMMd().format(_pickerDate); // Update the date controller text
+        dateController.text = DateFormat.yMMMMd()
+            .format(_pickerDate); // Update the date controller text
       });
     }
   }
@@ -204,4 +203,5 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
       });
     }
   }
+
 }

@@ -7,10 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 
-import '../../utils/Color/colors.dart';
 import '../../utils/dimensions/dimension.dart';
 import '../../widgets/big_text.dart';
-import '../../widgets/icon_and_text_widget.dart';
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({Key? key}) : super(key: key);
@@ -83,7 +81,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   Widget _buildPopularVenue(int index, Venue venue) {
     return GestureDetector(
       onTap: () {
-        // Add tap action here
+        Get.toNamed(RouteHelper.getVenueInfo(index));
       },
       child: Container(
         margin: EdgeInsets.symmetric(
