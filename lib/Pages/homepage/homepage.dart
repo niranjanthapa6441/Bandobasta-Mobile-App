@@ -131,16 +131,14 @@ class _HomepageState extends State<Homepage> {
               height: Dimensions.height20,
             ),
             Container(
-              height: Dimensions.height20 *
-                  10, // Set a fixed height for the services section
+              height: Dimensions.height20 * 10,
               child: GridView.count(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: 4, // 4 columns
-                childAspectRatio: 1.0, // Adjust this value as needed
-                mainAxisSpacing: Dimensions.height20, // Increase vertical space
-                crossAxisSpacing:
-                    Dimensions.width20, // Increase horizontal space
+                crossAxisCount: 4,
+                childAspectRatio: 1.0,
+                mainAxisSpacing: Dimensions.height20,
+                crossAxisSpacing: Dimensions.width20,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -169,7 +167,8 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
-Widget _buildSectionHeader(String title) {
+
+  Widget _buildSectionHeader(String title) {
     return Container(
       height: Dimensions.height40,
       child: Row(
@@ -189,6 +188,7 @@ Widget _buildSectionHeader(String title) {
       ),
     );
   }
+
   Widget serviceItem(IconData icon, String title) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -199,7 +199,7 @@ Widget _buildSectionHeader(String title) {
           child: Icon(
             icon,
             color: Colors.white,
-            size: Dimensions.height20 + 4, // Larger icon size
+            size: Dimensions.height20 + 4,
           ),
         ),
         SizedBox(height: Dimensions.height5),
@@ -207,6 +207,7 @@ Widget _buildSectionHeader(String title) {
           text: title,
           color: AppColors.mainBlackColor,
           size: Dimensions.font10,
+          fontWeight: FontWeight.bold,
           maxLines: 2,
           textOverflow: TextOverflow.ellipsis, // Adjusted title size
         ),
