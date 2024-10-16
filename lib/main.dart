@@ -1,11 +1,11 @@
 import 'package:bandobasta/Controller/bookingController.dart';
 import 'package:bandobasta/Controller/venueController.dart';
-import 'package:bandobasta/pages/homepage/navigation.dart';
+import 'package:bandobasta/Controller/venueMenuController.dart';
+import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bandobasta/utils/helper/dependencies.dart' as dep;
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
     Get.find<VenueController>().get();
     Get.find<BookingController>().onClose();
     Get.find<BookingController>().get();
+    Get.find<VenueMenuController>().onClose();
+    Get.find<VenueMenuController>().get();
     return GetMaterialApp(
       title: 'Bandobasta',
       theme: ThemeData(

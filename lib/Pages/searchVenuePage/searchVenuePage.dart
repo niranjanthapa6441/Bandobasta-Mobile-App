@@ -200,7 +200,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: Dimensions.height10 * 2),
                   ],
                 ),
               );
@@ -388,6 +388,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         price: "NPR " + venue.startingPrice! + " onwards",
         onCheckAvailability: () {
           Get.toNamed(RouteHelper.getVenueInfo(index));
+          clearFilters();
         });
   }
 
@@ -598,6 +599,27 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
     Get.find<VenueController>().onClose();
     Get.find<VenueController>().get();
+  }
+
+  void clearFilters() {
+    selectedLocation = "--Select Location--";
+    minPrice = 0;
+    maxPrice = 10000;
+    selectedCapacity = 0;
+    minCapacity = 0;
+    maxCapacity = 10000;
+    AppConstant.venueName = '';
+    AppConstant.minCapacity = 0;
+
+    AppConstant.maxCapacity = 10000;
+
+    AppConstant.minPrice = 0.0;
+
+    AppConstant.maxPrice = 10000.0;
+    AppConstant.address = '';
+
+    AppConstant.page = 1;
+    searchCriteria.clear();
   }
 }
 

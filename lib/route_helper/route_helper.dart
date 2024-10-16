@@ -1,6 +1,8 @@
 import 'package:bandobasta/Pages/VenueInfoPage/venueInfoPage.dart';
 import 'package:bandobasta/Pages/homepage/homepage.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
+import 'package:bandobasta/Pages/menuPage/food_menu_page.dart';
+import 'package:bandobasta/Pages/menuPage/venueMenuPage.dart';
 import 'package:bandobasta/Pages/searchVenuePage/searchVenuePage.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +17,8 @@ class RouteHelper {
   static const String venueInfo = '/viewVenueInfo';
   static const String viewProfile = '/viewProfile';
   static const String viewNotifications = '/viewNotifications';
-  static const String menuDetail = '/menuDetail';
-  static const String payments = '/payments';
+  static const String venueMenus = '/venueMenus';
+  static const String menuDetail = '/menudetail';
   static const String restaurantMenu = '/menu';
   static const String bookingDetail = '/orderDetail';
   static const String cart = '/cart';
@@ -28,21 +30,23 @@ class RouteHelper {
   static String getSignIn() => signIn;
   static String getSignUp() => signUp;
   static String getVenueInfo(int pageId) => '$venueInfo?pageId=$pageId';
+  static String getMenuDetail(String menuId, String menuName, String price) =>
+      '$menuDetail?menuId=$menuId&menuName=$menuName&price=$price';
   static String getHomepage() => homepage;
   static String getSearchVenue() => searchVenue;
   static String getOrders() => bookings;
   static String getViewProfile() => viewProfile;
   static String getViewNotiifcations() => viewNotifications;
   static String getRestaurantMenu() => restaurantMenu;
+  static String getVenueMenus(String venueName, String imageURL) =>
+      '$venueMenus?venueName=$venueName&imageURL=$imageURL';
   static String getOrderDetail(int bookingId) =>
       '$bookingDetail?bookingId=$bookingId';
   static String getConfirmOrder() => confirmBooking;
-  static String getFoodDetail(int menuId) => '$menuDetail?menuId=$menuId';
   static String getRestaurantMenuFoodDetail(int foodId) =>
       '$venueMenuFood?foodId=$foodId';
   static String getCart() => cart;
-  static String getPayments() => payments;
-  
+
   static List<GetPage> routes = [
     GetPage(name: homepage, page: () => const Homepage()),
     GetPage(
@@ -52,12 +56,28 @@ class RouteHelper {
     ),
     GetPage(name: searchVenue, page: () => SearchVenuePage()),
     GetPage(
+        name: venueMenus,
+        page: () {
+          var name = Get.parameters['venueName'];
+          var imageURL = Get.parameters['imageURL'];
+          return VenueMenuPage(venueName: name!, imageURL: imageURL!);
+        }),
+    GetPage(
         name: venueInfo,
         page: () {
           var pageId = Get.parameters['pageId'];
           return VenueInfoPage(
             pageId: int.parse(pageId!),
           );
+        }),
+    GetPage(
+        name: menuDetail,
+        page: () {
+          var menuId = Get.parameters['menuId'];
+          var menuName = Get.parameters['menuName'];
+          var price = Get.parameters['price'];
+          return FoodMenuScreen(
+              targetMenuId: menuId!, menuName: menuName!, price: price!);
         }),
     // GetPage(name: viewProfile, page: () => const ProfilePage()),
     // GetPage(name: updateProfile, page: () => const UpdateProfilePage()),

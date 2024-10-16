@@ -2,6 +2,7 @@ import 'package:bandobasta/Controller/venueController.dart';
 import 'package:bandobasta/Pages/VenueInfoPage/photoSlider.dart';
 import 'package:bandobasta/Pages/searchVenuePage/checkAvailabilityFormPage.dart';
 import 'package:bandobasta/Response/venueResponse.dart';
+import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:bandobasta/utils/color/colors.dart';
@@ -33,27 +34,27 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
   IconData getAmenityIcon(String amenityName) {
     switch (amenityName) {
       case 'Free Wi-Fi':
-        return Icons.wifi; // Represents Wi-Fi
+        return Icons.wifi;
       case 'Projector':
-        return Icons.movie_creation; // Represents projector
+        return Icons.movie_creation;
       case 'Sound System':
-        return Icons.audiotrack; // Represents sound system
+        return Icons.audiotrack;
       case 'Catering Service':
-        return Icons.fastfood; // Represents food services
+        return Icons.fastfood;
       case 'Parking Space':
-        return Icons.local_parking; // Represents parking space
+        return Icons.local_parking;
       case 'Lighting Equipment':
-        return Icons.lightbulb; // Represents lighting equipment
+        return Icons.lightbulb;
       case 'Chairs & Tables':
-        return Icons.event_seat; // Represents chairs
+        return Icons.event_seat;
       case 'Whiteboard':
-        return Icons.menu_open; // Represents a whiteboard
+        return Icons.menu_open;
       case 'Stage Setup':
-        return Icons.stairs; // Represents stage setup
+        return Icons.stairs;
       case 'Photography':
-        return Icons.photo_camera; // Represents photography
+        return Icons.photo_camera;
       default:
-        return Icons.help_outline; // Default icon for unknown amenities
+        return Icons.help_outline;
     }
   }
 
@@ -77,6 +78,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
             ),
             onPressed: () {
               Navigator.pop(context);
+              clear();
             },
           ),
           title: Center(
@@ -173,7 +175,11 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            AppConstant.venueId = venue.id!;
+                            Get.toNamed(RouteHelper.getVenueMenus(
+                                venue.name!, photoUrls.first));
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.green,
                           ),
@@ -549,5 +555,10 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     return imageUrls.map((imageUrl) {
       return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
     }).toList();
+  }
+
+  void clear() {
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
   }
 }
