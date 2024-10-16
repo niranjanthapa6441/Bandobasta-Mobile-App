@@ -14,6 +14,7 @@ class AppConstant {
   static String orderId = "";
   static String orderStatus = "";
   static String menuFoodId = "";
+  static String menuType = "";
   static String category = "";
   static String meal = "";
   static double rating = 0.0;
@@ -40,7 +41,7 @@ class AppConstant {
   static String userURI = "/user";
   static String searchFoodsURI = "";
   static String venueURI = "";
-  static String restaurantMenuURI = "";
+  static String venueMenusURI = "";
   static String paymentsURI = "";
   static String findHallBookingByUser = "";
   static String categoryURI = "$apiVersion/category";
@@ -58,16 +59,20 @@ class AppConstant {
 
   static double maxPrice = 0.0;
 
+  static String venueId = "";
+
+  static String venueImageURL = "";
+
   static String getHallBookingURI() {
     findHallBookingByUser =
         "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size";
     return findHallBookingByUser;
   }
 
-  static String restaurantMenuURi() {
-    restaurantMenuURI =
-        "$apiVersion/menu/restaurant?sortBy=$sortBy&size=$size&category=$category&page=$page&restaurantId=$restaurantId&foodName=$foodName&rating=$rating";
-    return restaurantMenuURI;
+  static String getVenueMenusURI() {
+    venueMenusURI =
+        "$apiVersion/menu?venueId=$venueId&page=$page&size=$size&menuType=$menuType";
+    return venueMenusURI;
   }
 
   static String getVenueURI() {

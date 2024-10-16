@@ -1,6 +1,6 @@
 
-import 'package:bandobasta/Controller/bookingController.dart';
-import 'package:bandobasta/Response/hallBookingReponse.dart';
+import 'package:bandobasta/Controller/booking_controller.dart';
+import 'package:bandobasta/Response/hall_booking_response.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';

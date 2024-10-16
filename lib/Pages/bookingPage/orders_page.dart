@@ -1,5 +1,5 @@
 
-import 'package:bandobasta/Controller/bookingController.dart';
+import 'package:bandobasta/Controller/booking_controller.dart';
 import 'package:bandobasta/Pages/bookingPage/orders_page_body.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/widgets/small_text.dart';
