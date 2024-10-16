@@ -1,5 +1,5 @@
-import 'package:bandobasta/Repository/orderRepository.dart';
-import 'package:bandobasta/Response/hallBookingReponse.dart';
+import 'package:bandobasta/Repository/order_repository.dart';
+import 'package:bandobasta/Response/hall_booking_response.dart';
 import 'package:get/get.dart';
 
 import '../utils/app_constants/app_constant.dart';

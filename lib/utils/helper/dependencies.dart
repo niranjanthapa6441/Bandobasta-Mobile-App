@@ -1,9 +1,9 @@
-import 'package:bandobasta/Controller/bookingController.dart';
-import 'package:bandobasta/Controller/venueController.dart';
-import 'package:bandobasta/Controller/venueMenuController.dart';
-import 'package:bandobasta/Repository/orderRepository.dart';
-import 'package:bandobasta/Repository/venueMenuRepository.dart';
-import 'package:bandobasta/Repository/venueRepo.dart';
+import 'package:bandobasta/Controller/booking_controller.dart';
+import 'package:bandobasta/Controller/venue_controller.dart';
+import 'package:bandobasta/Controller/venue_menu_controller.dart';
+import 'package:bandobasta/Repository/order_repository.dart';
+import 'package:bandobasta/Repository/venue_menu_repository.dart';
+import 'package:bandobasta/Repository/venu_repo.dart';
 import 'package:bandobasta/utils/api/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';

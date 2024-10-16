@@ -1,9 +1,9 @@
-import 'package:bandobasta/Pages/VenueInfoPage/venueInfoPage.dart';
+import 'package:bandobasta/Pages/VenueInfoPage/venue_info_page.dart';
 import 'package:bandobasta/Pages/homepage/homepage.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/Pages/menuPage/food_menu_page.dart';
-import 'package:bandobasta/Pages/menuPage/venueMenuPage.dart';
-import 'package:bandobasta/Pages/searchVenuePage/searchVenuePage.dart';
+import 'package:bandobasta/Pages/menuPage/venu_menu_page.dart';
+import 'package:bandobasta/Pages/searchVenuePage/search_venue_page.dart';
 import 'package:get/get.dart';
 
 class RouteHelper {

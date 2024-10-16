@@ -1,4 +1,4 @@
-import 'package:bandobasta/Controller/venueMenuController.dart';
+import 'package:bandobasta/Controller/venue_menu_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

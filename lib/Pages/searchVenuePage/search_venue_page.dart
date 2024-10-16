@@ -1,5 +1,5 @@
-import 'package:bandobasta/Controller/venueController.dart';
-import 'package:bandobasta/Response/venueResponse.dart';
+import 'package:bandobasta/Controller/venue_controller.dart';
+import 'package:bandobasta/Response/venue_response.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';

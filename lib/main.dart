@@ -1,6 +1,6 @@
-import 'package:bandobasta/Controller/bookingController.dart';
-import 'package:bandobasta/Controller/venueController.dart';
-import 'package:bandobasta/Controller/venueMenuController.dart';
+import 'package:bandobasta/Controller/booking_controller.dart';
+import 'package:bandobasta/Controller/venue_controller.dart';
+import 'package:bandobasta/Controller/venue_menu_controller.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';

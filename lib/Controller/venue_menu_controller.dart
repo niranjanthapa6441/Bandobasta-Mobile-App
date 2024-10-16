@@ -1,5 +1,5 @@
-import 'package:bandobasta/Repository/venueMenuRepository.dart';
-import 'package:bandobasta/Response/venueMenuResponse.dart';
+import 'package:bandobasta/Repository/venue_menu_repository.dart';
+import 'package:bandobasta/Response/venue_menu_response.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';

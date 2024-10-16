@@ -1,6 +1,6 @@
 import 'dart:ui';
-import 'package:bandobasta/Controller/venueMenuController.dart';
-import 'package:bandobasta/Response/venueMenuResponse.dart';
+import 'package:bandobasta/Controller/venue_menu_controller.dart';
+import 'package:bandobasta/Response/venue_menu_response.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
