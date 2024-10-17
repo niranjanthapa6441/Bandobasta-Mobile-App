@@ -52,16 +52,12 @@ class AppConstant {
   static String stripePaymentURI = "$apiVersion/payment/stripe";
   static String profileURI = "$apiVersion/user/$userId";
   static String saveOrderURI = "$apiVersion/order";
-
   static String address = "";
-
   static double minPrice = 0.0;
-
   static double maxPrice = 0.0;
-
   static String venueId = "";
-
   static String venueImageURL = "";
+  static String venueHallURI = "";
 
   static String getHallBookingURI() {
     findHallBookingByUser =
@@ -79,5 +75,11 @@ class AppConstant {
     venueURI =
         "$apiVersion/venue?venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
     return venueURI;
+  }
+
+  static String getVenueHallsURI() {
+    venueHallURI =
+        "$apiVersion/hall?venueId=$venueId&page=$page&size=$size";
+    return venueHallURI;
   }
 }

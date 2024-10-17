@@ -1,8 +1,7 @@
-import 'package:bandobasta/Controller/venue_controller.dart';
+import 'package:bandobasta/Controller/venue_hall_controller.dart';
 import 'package:bandobasta/Pages/VenueInfoPage/photo_slider.dart';
 import 'package:bandobasta/Pages/searchVenuePage/check_availability_form_page.dart';
-import 'package:bandobasta/Response/venue_response.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
+import 'package:bandobasta/Response/venue_hall_response.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:bandobasta/utils/color/colors.dart';
@@ -11,23 +10,23 @@ import 'package:bandobasta/widgets/big_text.dart';
 import 'package:bandobasta/widgets/small_text.dart';
 import 'package:get/get.dart';
 
-class VenueInfoPage extends StatefulWidget {
+class HallInfoPage extends StatefulWidget {
   final int pageId;
 
-  const VenueInfoPage({super.key, required this.pageId});
+  const HallInfoPage({super.key, required this.pageId});
 
   @override
-  State<VenueInfoPage> createState() => _VenueInfoPageState();
+  State<HallInfoPage> createState() => _HallInfoPageState();
 }
 
-class _VenueInfoPageState extends State<VenueInfoPage> {
-  late int venueId;
+class _HallInfoPageState extends State<HallInfoPage> {
+  late int hallId;
   bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
-    venueId = widget.pageId;
+    hallId = widget.pageId;
   }
 
   List<String> photoUrls = [];
@@ -60,66 +59,21 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    int id = venueId;
-    Venue venue = Get.find<VenueController>().venues[id];
-    photoUrls = getVenueImageURLs(venue.venueImagePaths!);
-    List<String> amenities = venue.amenities!.take(10).toList();
+    int id = hallId;
+    HallDetail hallDetail = Get.find<VenueHallController>().venueHalls[id];
+    photoUrls = getHallImageURLs(hallDetail.hallImagePaths!);
+    // List<String> amenities = venue.amenities!.take(10).toList();
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(Dimensions.height20 * 3.5),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColors.themeColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              clear();
-            },
-          ),
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipOval(
-                  child: Container(
-                    height: Dimensions.height10 * 5,
-                    width: Dimensions.height10 * 5,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/images/wedding.png"),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: Dimensions.width5),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(
-                      text: "BANDOBASTA",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font20,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    SmallText(
-                      text: "Effortless booking",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font12,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        title: Text("Hall Info"),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            clear();
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -133,20 +87,20 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.network(
-                      getVenueImageURLs(venue.venueImagePaths!).first,
+                      getHallImageURLs(hallDetail.hallImagePaths!).first,
                       height: Dimensions.height10 * 20,
                       width: double.infinity,
                       fit: BoxFit.cover,
                       loadingBuilder: (BuildContext context, Widget child,
                           ImageChunkEvent? loadingProgress) {
                         if (loadingProgress == null) {
-                          return child; // Image loaded successfully
+                          return child; 
                         } else {
                           return Container(
                             height: Dimensions.height10 * 20,
                             width: double.infinity,
                             color: Colors.grey[
-                                300], // Placeholder background color while loading
+                                300], 
                             child: Center(
                               child: CircularProgressIndicator(
                                 value: loadingProgress.expectedTotalBytes !=
@@ -166,11 +120,11 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                           height: Dimensions.height10 * 20,
                           width: double.infinity,
                           color: Colors
-                              .grey, // Placeholder when image fails to load
+                              .grey, 
                           child: Icon(
                             Icons
-                                .broken_image, // Placeholder icon for broken image
-                            size: 50,
+                                .broken_image,
+                            size: Dimensions.height10 * 5,
                             color: Colors.white,
                           ),
                         );
@@ -197,6 +151,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ),
                 ],
               ),
+
               SizedBox(height: Dimensions.height10),
               Align(
                 alignment: Alignment.centerLeft,
@@ -204,86 +159,16 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      venue.name!,
+                      hallDetail.name!,
                       style: TextStyle(
                         fontSize: Dimensions.font12 * 2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            AppConstant.venueId = venue.id!;
-                            Get.toNamed(RouteHelper.getVenueMenus(
-                                venue.name!, photoUrls.first));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.restaurant_menu),
-                              SizedBox(width: 8),
-                              Text('Our Food Menu'),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: Dimensions.width10),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.card_giftcard),
-                              SizedBox(width: 8),
-                              Text('Create a Package'),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            AppConstant.venueId = venue.id!;
-                            Get.toNamed(RouteHelper.getVenueHalls(venue.name!));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.meeting_room),
-                              SizedBox(width: 8),
-                              Text('View Halls'),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.local_offer),
-                              SizedBox(width: 8),
-                              Text('View Packages'),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
-              // Star Ratings and Reviews
+              SizedBox(height: Dimensions.height10 * 1.6),
               Row(
                 children: [
                   Icon(Icons.star, color: Colors.amber),
@@ -299,47 +184,18 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: Dimensions.height10 * 1.6),
               // Location and Capacity
               Row(
                 children: [
-                  Icon(Icons.location_on, color: Colors.grey),
-                  SizedBox(width: Dimensions.width10 * 0.4),
-                  Expanded(
-                    child: Text(
-                      venue.address!,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: Dimensions.font10 * 1.4),
-                    ),
-                  ),
                   SizedBox(width: Dimensions.width10 * 0.6),
                   Icon(Icons.meeting_room, color: Colors.grey),
                   SizedBox(width: Dimensions.width10 * 0.4),
                   Text(
-                    'Up to ' + venue.maxCapacity!,
+                    'Up to ' + hallDetail.capacity!.toString(),
                     style: TextStyle(fontSize: Dimensions.font10 * 1.4),
                   ),
                 ],
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  _showAvailabilityDialog(venue.name!);
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.themeColor,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.width20,
-                    vertical: Dimensions.height10 * 1.6,
-                  ),
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                child: Center(
-                  child: BigText(
-                    text: 'Book Now',
-                    color: Colors.white,
-                  ),
-                ),
               ),
               SizedBox(height: Dimensions.height10 * 1.6),
               Text(
@@ -354,7 +210,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    venue.description!,
+                    hallDetail.description!,
                     style: TextStyle(fontSize: Dimensions.font10 * 1.6),
                     maxLines: _isExpanded ? null : 3,
                     overflow: _isExpanded
@@ -380,20 +236,20 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 size: Dimensions.font20 - 2,
               ),
               SizedBox(height: Dimensions.height10),
-              Container(
-                height: Dimensions.height20 * 10,
-                child: GridView.count(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 5,
-                  childAspectRatio: 1.0,
-                  mainAxisSpacing: Dimensions.height20,
-                  crossAxisSpacing: Dimensions.width20,
-                  children: amenities.map((amenity) {
-                    return buildAmenity(amenity, getAmenityIcon(amenity));
-                  }).toList(),
-                ),
-              ),
+              // Container(
+              //   height: Dimensions.height20 * 10,
+              //   child: GridView.count(
+              //     shrinkWrap: true,
+              //     physics: NeverScrollableScrollPhysics(),
+              //     crossAxisCount: 5,
+              //     childAspectRatio: 1.0,
+              //     mainAxisSpacing: Dimensions.height20,
+              //     crossAxisSpacing: Dimensions.width20,
+              //     children: amenities.map((amenity) {
+              //       return buildAmenity(amenity, getAmenityIcon(amenity));
+              //     }).toList(),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -411,9 +267,9 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
           ),
           child: Container(
             width:
-                MediaQuery.of(context).size.width * 0.8, // 80% of screen width
+                MediaQuery.of(context).size.width * 0.8, 
             height: MediaQuery.of(context).size.height *
-                0.7, // 50% of screen height
+                0.7, 
             padding: EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -421,7 +277,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 BigText(text: venueName),
                 SizedBox(height: 20),
                 Expanded(
-                    child: CheckAvailabilityPage()), // To fill the content area
+                    child: CheckAvailabilityPage()), 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -479,10 +335,9 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
           ),
           child: Container(
             height: MediaQuery.of(context).size.height *
-                0.6, // Set height of dialog
+                0.6, 
             width:
-                MediaQuery.of(context).size.width * 0.8, // Set width of dialog
-            padding: EdgeInsets.all(10),
+                MediaQuery.of(context).size.width * 0.8, 
             child: Column(
               children: [
                 Text(
@@ -504,7 +359,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                       return GestureDetector(
                         onTap: () {
                           _showPhotoDetailDialog(
-                              context, index); // Show the selected photo
+                              context, index); 
                         },
                         child: ClipRRect(
                           borderRadius:
@@ -540,10 +395,10 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 StackTrace? stackTrace) {
                               return Container(
                                 color: Colors
-                                    .grey, // Placeholder when image fails to load
+                                    .grey, 
                                 child: Icon(
                                   Icons
-                                      .broken_image, // Placeholder icon for broken image
+                                      .broken_image, 
                                   size: 50,
                                   color: Colors.white,
                                 ),
@@ -665,14 +520,14 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     );
   }
 
-  List<String> getVenueImageURLs(List<String> imageUrls) {
+  List<String> getHallImageURLs(List<String> imageUrls) {
     return imageUrls.map((imageUrl) {
       return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
     }).toList();
   }
 
   void clear() {
-    Get.find<VenueController>().onClose();
-    Get.find<VenueController>().get();
+    Get.find<VenueHallController>().onClose();
+    Get.find<VenueHallController>().get();
   }
 }

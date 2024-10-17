@@ -4,6 +4,8 @@ import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/Pages/menuPage/food_menu_page.dart';
 import 'package:bandobasta/Pages/menuPage/venu_menu_page.dart';
 import 'package:bandobasta/Pages/searchVenuePage/search_venue_page.dart';
+import 'package:bandobasta/Pages/venueHallPage/hall_info.dart';
+import 'package:bandobasta/Pages/venueHallPage/venue_halls.dart';
 import 'package:get/get.dart';
 
 class RouteHelper {
@@ -19,7 +21,8 @@ class RouteHelper {
   static const String viewNotifications = '/viewNotifications';
   static const String venueMenus = '/venueMenus';
   static const String menuDetail = '/menudetail';
-  static const String restaurantMenu = '/menu';
+  static const String venueHalls = '/venueHalls';
+  static const String venueHallInfo = '/venueHallInfo';
   static const String bookingDetail = '/orderDetail';
   static const String cart = '/cart';
   static const String confirmBooking = '/confirmBooking';
@@ -30,6 +33,7 @@ class RouteHelper {
   static String getSignIn() => signIn;
   static String getSignUp() => signUp;
   static String getVenueInfo(int pageId) => '$venueInfo?pageId=$pageId';
+  static String getHallInfo(int pageId) => '$venueHallInfo?pageId=$pageId';
   static String getMenuDetail(String menuId, String menuName, String price) =>
       '$menuDetail?menuId=$menuId&menuName=$menuName&price=$price';
   static String getHomepage() => homepage;
@@ -37,7 +41,8 @@ class RouteHelper {
   static String getOrders() => bookings;
   static String getViewProfile() => viewProfile;
   static String getViewNotiifcations() => viewNotifications;
-  static String getRestaurantMenu() => restaurantMenu;
+  static String getVenueHalls(String venueName) =>
+      '$venueHalls?venueName=$venueName';
   static String getVenueMenus(String venueName, String imageURL) =>
       '$venueMenus?venueName=$venueName&imageURL=$imageURL';
   static String getOrderDetail(int bookingId) =>
@@ -63,10 +68,24 @@ class RouteHelper {
           return VenueMenuPage(venueName: name!, imageURL: imageURL!);
         }),
     GetPage(
+        name: venueHalls,
+        page: () {
+          var name = Get.parameters['venueName'];
+          return VenueHallPage(venueName: name!);
+        }),
+    GetPage(
         name: venueInfo,
         page: () {
           var pageId = Get.parameters['pageId'];
           return VenueInfoPage(
+            pageId: int.parse(pageId!),
+          );
+        }),
+    GetPage(
+        name: venueHallInfo,
+        page: () {
+          var pageId = Get.parameters['pageId'];
+          return HallInfoPage(
             pageId: int.parse(pageId!),
           );
         }),
