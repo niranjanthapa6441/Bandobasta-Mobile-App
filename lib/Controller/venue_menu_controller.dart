@@ -40,7 +40,6 @@ class VenueMenuController extends GetxController {
           venueMenuReponse.data!.menuDetails != null) {
         _venueMenus.addAll(venueMenuReponse.data!.menuDetails!);
         countFoodItemsByCategoryPerMenu(venueMenuReponse.data!.menuDetails!);
-        getCategorizedMenu(venueMenuReponse.data!.menuDetails!);
         _currentPage = venueMenuReponse.data!.currentPage ?? 0;
         _totalElements = venueMenuReponse.data!.totalElements ?? 0;
         _totalPages = venueMenuReponse.data!.totalPages ?? 0;
@@ -109,35 +108,4 @@ class VenueMenuController extends GetxController {
     'BEVERAGE_NON_ALCOHOLIC': 'Beverages',
   };
 
-  List<Map<String, dynamic>> getCategorizedMenu(List<MenuDetail> menuDetails) {
-    List<Map<String, dynamic>> categorizedMenus = [];
-
-    for (var menu in menuDetails) {
-      Map<String, List<Map<String, dynamic>>> menuMap = {};
-
-      for (var food in menu.foodDetails!) {
-        String category = food.foodCategory!;
-        String categoryName = categoryMapping[category] ?? category;
-
-        if (!menuMap.containsKey(categoryName)) {
-          menuMap[categoryName] = [];
-        }
-
-        menuMap[categoryName]!.add({
-          'name': food.name!,
-        });
-      }
-
-      categorizedMenus.add({
-        'menuId': menu.id,
-        'categories': menuMap.entries.map((entry) {
-          return {
-            'category': entry.key,
-            'items': entry.value,
-          };
-        }).toList(),
-      });
-    }
-    return categorizedMenus;
-  }
 }

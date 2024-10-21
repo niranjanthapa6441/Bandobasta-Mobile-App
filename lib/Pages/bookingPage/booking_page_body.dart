@@ -1,4 +1,3 @@
-
 import 'package:bandobasta/Controller/booking_controller.dart';
 import 'package:bandobasta/Response/hall_booking_response.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
@@ -120,7 +119,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
     );
   }
 
-  Widget _buildCustomerBookingDetailItemPage(int index, Bookings orders) {
+  Widget _buildCustomerBookingDetailItemPage(int index, Booking orders) {
     String orderDate = orders.bookedForDate.toString();
     DateTime dateTime = DateTime.parse(orderDate);
     int year = dateTime.year;
@@ -198,25 +197,25 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SmallText(
-                            text: "Order Time: ",
+                            text: "Venue Name: ",
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height15,
                           ),
                           SmallText(
-                            text: "Total Items: ",
+                            text: "Hall: ",
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height15,
                           ),
                           SmallText(
-                            text: "Paid Amount: ",
+                            text: "Menu: ",
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height15,
@@ -224,7 +223,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           SmallText(
                             text: "Status: ",
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height20 * 0.92,
@@ -242,25 +241,25 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SmallText(
-                            text: orders.requestedDate.toString(),
+                            text: orders.venueName!,
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height15,
                           ),
                           SmallText(
-                            text: orders.requestedTime.toString(),
+                            text: orders.hallDetail!.name!,
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height15,
                           ),
                           SmallText(
-                            text: orders.price.toString(),
+                            text: orders.menuDetail!.menuType!,
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height15,
@@ -268,7 +267,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           SmallText(
                             text: orders.status.toString(),
                             color: AppColors.mainBlackColor,
-                            size: 18,
+                            size: Dimensions.font10 * 1.6,
                           ),
                           SizedBox(
                             height: Dimensions.height20 * 0.92,

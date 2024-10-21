@@ -1,5 +1,6 @@
 import 'package:bandobasta/Controller/venue_controller.dart';
 import 'package:bandobasta/Response/venue_response.dart';
+import 'package:bandobasta/card/venue_card.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
@@ -370,7 +371,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
   }
 
   String? getImagePath(List<String>? venueImagePaths) {
-    if (venueImagePaths != null && venueImagePaths!.isNotEmpty) {
+    if (venueImagePaths != null && venueImagePaths.isNotEmpty) {
       return venueImagePaths![0];
     }
     return null;
@@ -386,9 +387,11 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         reviews: "Very good",
         location: venue.address!,
         price: "NPR " + venue.startingPrice! + " onwards",
-        onCheckAvailability: () {
+        onViewInfo: () {
           Get.toNamed(RouteHelper.getVenueInfo(index));
           clearFilters();
+          AppConstant.venueName = venue.name!;
+          AppConstant.venueImageURL = getImagePath(venue.venueImagePaths!)!;
         });
   }
 
@@ -620,101 +623,5 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
     AppConstant.page = 1;
     searchCriteria.clear();
-  }
-}
-
-// VenueCard Widget
-class VenueCard extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String rating;
-  final String reviews;
-  final String location;
-  final String price;
-  final VoidCallback onCheckAvailability;
-
-  VenueCard({
-    required this.imageUrl,
-    required this.name,
-    required this.rating,
-    required this.reviews,
-    required this.location,
-    required this.price,
-    required this.onCheckAvailability,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 4,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
-            child: Image.network(
-              // Use Image.network instead of NetworkImage
-              imageUrl,
-              fit: BoxFit.cover,
-              height: 120,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: Dimensions.height10 * 12,
-                  width: double.infinity,
-                  color: Colors.grey, // Placeholder color for loading
-                  child: Center(
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name,
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
-                    SizedBox(width: 4),
-                    Text(rating,
-                        style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    SizedBox(width: 4),
-                    Text('($reviews reviews)',
-                        style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  ],
-                ),
-                SizedBox(height: 4),
-                Text(location, style: TextStyle(color: Colors.grey)),
-                SizedBox(height: 4),
-                Text(price,
-                    style: TextStyle(
-                        color: AppColors.themeColor,
-                        fontWeight: FontWeight.bold)),
-                SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: onCheckAvailability,
-                  child: Text('Check Availability'),
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColors.themeColor,
-                    textStyle: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

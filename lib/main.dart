@@ -1,7 +1,9 @@
 import 'package:bandobasta/Controller/booking_controller.dart';
+import 'package:bandobasta/Controller/check_hall_availability_controller.dart';
 import 'package:bandobasta/Controller/venue_controller.dart';
 import 'package:bandobasta/Controller/venue_hall_controller.dart';
 import 'package:bandobasta/Controller/venue_menu_controller.dart';
+import 'package:bandobasta/Controller/venue_package_controller.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,10 @@ class MyApp extends StatelessWidget {
     Get.find<VenueMenuController>().get();
     Get.find<VenueHallController>().onClose();
     Get.find<VenueHallController>().get();
+    Get.find<VenuePackageController>().onClose();
+    Get.find<VenuePackageController>().get();
+    Get.find<HallAvailabilityController>().onClose();
+    Get.find<HallAvailabilityController>().get();
     return GetMaterialApp(
       title: 'Bandobasta',
       theme: ThemeData(

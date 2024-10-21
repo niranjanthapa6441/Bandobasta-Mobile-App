@@ -1,4 +1,6 @@
-import 'package:bandobasta/Repository/order_repository.dart';
+import 'package:bandobasta/Model/response_mode.dart';
+import 'package:bandobasta/Repository/booking_repository.dart';
+import 'package:bandobasta/Request/hall_booking_request.dart';
 import 'package:bandobasta/Response/hall_booking_response.dart';
 import 'package:get/get.dart';
 
@@ -25,13 +27,15 @@ class BookingController extends GetxController {
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
   Future<void> get() async {
-    Response response = await bookingRepository.getCustomerHallOrderDetails();
+    Response response = await bookingRepository.getCustomerHallBookingDetails();
 
     if (response.statusCode == 200) {
-      HallBookingResponse bookingResponse = HallBookingResponse.fromJson(response.body);
+      HallBookingResponse bookingResponse =
+          HallBookingResponse.fromJson(response.body);
 
-      if (bookingResponse.data != null && bookingResponse.data!.bookings != null) {
-        _customerOrderDetails.addAll(bookingResponse.data!.bookings!);  
+      if (bookingResponse.data != null &&
+          bookingResponse.data!.bookings != null) {
+        _customerOrderDetails.addAll(bookingResponse.data!.bookings!);
         _currentPage = bookingResponse.data!.currentPage ?? 0;
         _totalElements = bookingResponse.data!.totalElements ?? 0;
         _totalPages = bookingResponse.data!.totalPages ?? 0;
@@ -39,23 +43,25 @@ class BookingController extends GetxController {
       _isLoaded = true;
       update();
     } else {
-      Response response = await bookingRepository.getCustomerHallOrderDetails();
+      Response response =
+          await bookingRepository.getCustomerHallBookingDetails();
       // ErrorResponse error = ErrorResponse.fromJson(response.body);
       // showCustomSnackBar(error.message, title: "orders");
     }
   }
 
-  // Future<ResponseModel> save(BookingRequest request) async {
-  //   Response response = await orderRepository.orderFoods(request);
-  //   late ResponseModel responseModel;
-  //   if (response.statusCode == 200) {
-  //     responseModel = ResponseModel(true, response.body["message"]);
-  //   } else {
-  //     responseModel = ResponseModel(false, response.body["message"]);
-  //   }
-  //   update();
-  //   return responseModel;
-  // }
+  Future<ResponseModel> saveHallBooking(HallBookingRequest request) async {
+    Response response = await bookingRepository.saveHallBooking(request);
+    late ResponseModel responseModel;
+    if (response.statusCode == 200) {
+      print("I'm here");
+      responseModel = ResponseModel(true, response.body["message"]);
+    } else {
+      responseModel = ResponseModel(false, response.body["message"]);
+    }
+    update();
+    return responseModel;
+  }
 
   Future<void> loadMore() async {
     if (_currentPage < _totalPages) {

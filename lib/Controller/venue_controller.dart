@@ -1,4 +1,4 @@
-import 'package:bandobasta/Repository/venu_repo.dart';
+import 'package:bandobasta/Repository/venue_repo.dart';
 import 'package:bandobasta/Response/venue_response.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';

@@ -23,6 +23,7 @@ class APIClient extends GetConnect implements GetxService {
   }
 
   Future<Response> getData(String uri, Map<String, String> mainHeaders) async {
+    print(uri);
     try {
       Response response = await get(uri, headers: mainHeaders);
       return response;
@@ -32,6 +33,7 @@ class APIClient extends GetConnect implements GetxService {
   }
 
   Future<Response> postData(String uri, dynamic body) async {
+    print(uri);
     try {
       Response response = await post(uri, body, headers: _mainHeaders);
       return response;

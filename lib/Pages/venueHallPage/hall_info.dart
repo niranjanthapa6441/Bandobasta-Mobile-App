@@ -1,7 +1,7 @@
 import 'package:bandobasta/Controller/venue_hall_controller.dart';
 import 'package:bandobasta/Pages/VenueInfoPage/photo_slider.dart';
-import 'package:bandobasta/Pages/searchVenuePage/check_availability_form_page.dart';
 import 'package:bandobasta/Response/venue_hall_response.dart';
+import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:bandobasta/utils/color/colors.dart';
@@ -12,8 +12,13 @@ import 'package:get/get.dart';
 
 class HallInfoPage extends StatefulWidget {
   final int pageId;
-
-  const HallInfoPage({super.key, required this.pageId});
+  final String venueName;
+  final String imageURL;
+  const HallInfoPage(
+      {super.key,
+      required this.pageId,
+      required this.venueName,
+      required this.imageURL});
 
   @override
   State<HallInfoPage> createState() => _HallInfoPageState();
@@ -62,7 +67,6 @@ class _HallInfoPageState extends State<HallInfoPage> {
     int id = hallId;
     HallDetail hallDetail = Get.find<VenueHallController>().venueHalls[id];
     photoUrls = getHallImageURLs(hallDetail.hallImagePaths!);
-    // List<String> amenities = venue.amenities!.take(10).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -75,6 +79,16 @@ class _HallInfoPageState extends State<HallInfoPage> {
             clear();
           },
         ),
+        actions: [
+          if (AppConstant.isSelectHallPackageSelected)
+            IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                // Navigate to the cart page or show a toast
+                _showCartPage();
+              },
+            ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -94,13 +108,12 @@ class _HallInfoPageState extends State<HallInfoPage> {
                       loadingBuilder: (BuildContext context, Widget child,
                           ImageChunkEvent? loadingProgress) {
                         if (loadingProgress == null) {
-                          return child; 
+                          return child;
                         } else {
                           return Container(
                             height: Dimensions.height10 * 20,
                             width: double.infinity,
-                            color: Colors.grey[
-                                300], 
+                            color: Colors.grey[300],
                             child: Center(
                               child: CircularProgressIndicator(
                                 value: loadingProgress.expectedTotalBytes !=
@@ -119,11 +132,9 @@ class _HallInfoPageState extends State<HallInfoPage> {
                         return Container(
                           height: Dimensions.height10 * 20,
                           width: double.infinity,
-                          color: Colors
-                              .grey, 
+                          color: Colors.grey,
                           child: Icon(
-                            Icons
-                                .broken_image,
+                            Icons.broken_image,
                             size: Dimensions.height10 * 5,
                             color: Colors.white,
                           ),
@@ -197,6 +208,27 @@ class _HallInfoPageState extends State<HallInfoPage> {
                   ),
                 ],
               ),
+              SizedBox(height: Dimensions.height10),
+              if (AppConstant.isSelectHallPackageSelected)
+                ElevatedButton(
+                  onPressed: () {
+                    _showAddToCartDialog(context, hallDetail);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.themeColor,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.width20,
+                      vertical: Dimensions.height10 * 1.6,
+                    ),
+                    minimumSize: Size(double.infinity, 50),
+                  ),
+                  child: Center(
+                    child: BigText(
+                      text: 'Select Hall',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               SizedBox(height: Dimensions.height10 * 1.6),
               Text(
                 'About this space',
@@ -236,20 +268,6 @@ class _HallInfoPageState extends State<HallInfoPage> {
                 size: Dimensions.font20 - 2,
               ),
               SizedBox(height: Dimensions.height10),
-              // Container(
-              //   height: Dimensions.height20 * 10,
-              //   child: GridView.count(
-              //     shrinkWrap: true,
-              //     physics: NeverScrollableScrollPhysics(),
-              //     crossAxisCount: 5,
-              //     childAspectRatio: 1.0,
-              //     mainAxisSpacing: Dimensions.height20,
-              //     crossAxisSpacing: Dimensions.width20,
-              //     children: amenities.map((amenity) {
-              //       return buildAmenity(amenity, getAmenityIcon(amenity));
-              //     }).toList(),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -257,47 +275,60 @@ class _HallInfoPageState extends State<HallInfoPage> {
     );
   }
 
-  void _showAvailabilityDialog(String venueName) {
-    showDialog(
+  void _showAddToCartDialog(BuildContext context, HallDetail hallDetail) {
+    showModalBottomSheet(
       context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.vertical(top: Radius.circular(Dimensions.radius20)),
+      ),
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Container(
-            width:
-                MediaQuery.of(context).size.width * 0.8, 
-            height: MediaQuery.of(context).size.height *
-                0.7, 
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BigText(text: venueName),
-                SizedBox(height: 20),
-                Expanded(
-                    child: CheckAvailabilityPage()), 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      child: SmallText(
-                        text: 'Cancel',
-                        color: AppColors.themeColor,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+        return Padding(
+          padding: EdgeInsets.all(Dimensions.height20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BigText(
+                text: hallDetail.name!,
+                size: Dimensions.font10 * 2,
+              ),
+              SizedBox(height: Dimensions.height10),
+              SmallText(
+                text: 'Capacity: ${hallDetail.capacity!}',
+                size: Dimensions.font10 * 1.6,
+                color: Colors.black,
+              ),
+              SizedBox(height: Dimensions.height10),
+              ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(RouteHelper.getVenueMenus(
+                      widget.venueName, widget.imageURL));
+                  AppConstant.isHallBooking = true;
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: AppColors.themeColor,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.width20,
+                    vertical: Dimensions.height10 * 1.6,
+                  ),
+                  minimumSize: Size(double.infinity, 50),
                 ),
-              ],
-            ),
+                child: Center(
+                  child: BigText(
+                    text: 'Add to cart',
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
     );
+  }
+
+  void _showCartPage() {
+    // Implement the cart navigation or display logic here
   }
 
   Widget buildAmenity(String label, IconData icon) {
@@ -334,10 +365,8 @@ class _HallInfoPageState extends State<HallInfoPage> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height *
-                0.6, 
-            width:
-                MediaQuery.of(context).size.width * 0.8, 
+            height: MediaQuery.of(context).size.height * 0.6,
+            width: MediaQuery.of(context).size.width * 0.8,
             child: Column(
               children: [
                 Text(
@@ -358,8 +387,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          _showPhotoDetailDialog(
-                              context, index); 
+                          _showPhotoDetailDialog(context, index);
                         },
                         child: ClipRRect(
                           borderRadius:
@@ -394,11 +422,9 @@ class _HallInfoPageState extends State<HallInfoPage> {
                             errorBuilder: (BuildContext context, Object error,
                                 StackTrace? stackTrace) {
                               return Container(
-                                color: Colors
-                                    .grey, 
+                                color: Colors.grey,
                                 child: Icon(
-                                  Icons
-                                      .broken_image, 
+                                  Icons.broken_image,
                                   size: 50,
                                   color: Colors.white,
                                 ),

@@ -165,12 +165,10 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         return Container(
                           height: Dimensions.height10 * 20,
                           width: double.infinity,
-                          color: Colors
-                              .grey, // Placeholder when image fails to load
+                          color: Colors.grey,
                           child: Icon(
-                            Icons
-                                .broken_image, // Placeholder icon for broken image
-                            size: 50,
+                            Icons.broken_image,
+                            size: Dimensions.height10 * 5,
                             color: Colors.white,
                           ),
                         );
@@ -250,7 +248,8 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         ElevatedButton(
                           onPressed: () {
                             AppConstant.venueId = venue.id!;
-                            Get.toNamed(RouteHelper.getVenueHalls(venue.name!));
+                            Get.toNamed(RouteHelper.getVenueHalls(venue.name!,
+                                getVenueImageURLs(venue.venueImagePaths!)[0]));
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.green,
@@ -265,7 +264,11 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         ),
                         SizedBox(width: 10),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            AppConstant.venueId = venue.id!;
+                            Get.toNamed(
+                                RouteHelper.getVenuePackages(venue.name!));
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red,
                           ),
@@ -282,7 +285,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: Dimensions.height10 * 1.6),
               // Star Ratings and Reviews
               Row(
                 children: [
@@ -299,7 +302,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: Dimensions.height10 * 1.6),
               // Location and Capacity
               Row(
                 children: [
@@ -321,10 +324,13 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: Dimensions.height10 * 1.6),
               ElevatedButton(
                 onPressed: () {
-                  _showAvailabilityDialog(venue.name!);
+                  AppConstant.venueId = venue.id!;
+                  AppConstant.isSelectHallPackageSelected = true;
+                  Get.toNamed(RouteHelper.getSelectHallPackagePage(venue.name!,
+                      getVenueImageURLs(venue.venueImagePaths!)[0]));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: AppColors.themeColor,
@@ -672,6 +678,8 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
   }
 
   void clear() {
+    AppConstant.venueName = '';
+    AppConstant.venueImageURL = '';
     Get.find<VenueController>().onClose();
     Get.find<VenueController>().get();
   }

@@ -1,18 +1,19 @@
 import 'package:bandobasta/Controller/venue_hall_controller.dart';
 import 'package:bandobasta/Response/venue_hall_response.dart';
+import 'package:bandobasta/card/hall_card.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
-import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class VenueHallPage extends StatefulWidget {
   final String venueName;
+  final String imageURL;
 
-  const VenueHallPage({super.key, required this.venueName});
+  const VenueHallPage(
+      {super.key, required this.venueName, required this.imageURL});
 
   @override
   _VenueHallPageState createState() => _VenueHallPageState();
@@ -94,9 +95,9 @@ class _VenueHallPageState extends State<VenueHallPage> {
     );
   }
 
-  String? getImagePath(List<String>? venueImagePaths) {
-    if (venueImagePaths != null && venueImagePaths!.isNotEmpty) {
-      return venueImagePaths![0];
+  String? getImagePath(List<String>? hallImagePaths) {
+    if (hallImagePaths != null && hallImagePaths.isNotEmpty) {
+      return hallImagePaths[0];
     }
     return null;
   }
@@ -111,7 +112,8 @@ class _VenueHallPageState extends State<VenueHallPage> {
         capacity: detail.capacity.toString(),
         description: detail.description!,
         onViewHallInfo: () {
-          Get.toNamed(RouteHelper.getHallInfo(index));
+          Get.toNamed(RouteHelper.getHallInfo(
+              index, widget.venueName, widget.imageURL));
         });
   }
 
@@ -293,119 +295,3 @@ class _VenueHallPageState extends State<VenueHallPage> {
 }
 
 // VenueCard Widget
-class HallCard extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final int floorNumber;
-  final String capacity;
-  final String description;
-  final VoidCallback onViewHallInfo;
-
-  HallCard({
-    required this.imageUrl,
-    required this.name,
-    required this.floorNumber,
-    required this.capacity,
-    required this.description,
-    required this.onViewHallInfo,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 4,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              height: Dimensions.height10 * 12,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: Dimensions.height10 * 12,
-                  width: double.infinity,
-                  color: Colors.grey, // Placeholder color for loading
-                  child: Center(
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BigText(
-                  text: name,
-                  size: Dimensions.font10 * 1.6,
-                ),
-                SizedBox(height: Dimensions.height10 * 0.4),
-                Text(
-                  'Up to ' + capacity + " people",
-                  style: TextStyle(fontSize: Dimensions.font10 * 1.6),
-                ),
-                SizedBox(height: Dimensions.height10 * 0.4),
-                Text('Floor: ' + getFloor(floorNumber),
-                    style: TextStyle(
-                        color: AppColors.themeColor,
-                        fontWeight: FontWeight.bold)),
-                SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: onViewHallInfo,
-                  child: BigText(
-                    text: 'View Info',
-                    color: Colors.white,
-                    size: Dimensions.font10 * 1.4,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColors.themeColor,
-                    textStyle: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String getFloor(int floor) {
-    String floorName;
-    switch (floor) {
-      case 0:
-        floorName = "Ground Floor";
-        break;
-      case 1:
-        floorName = "First Floor";
-        break;
-      case 2:
-        floorName = "Second Floor";
-        break;
-      case 3:
-        floorName = "Third Floor";
-        break;
-      case 4:
-        floorName = "Fourth Floor";
-        break;
-      case 5:
-        floorName = "Fifth Floor";
-        break;
-      default:
-        floorName = "Sixth Floor";
-        break;
-    }
-    return floorName;
-  }
-}

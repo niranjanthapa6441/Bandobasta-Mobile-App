@@ -140,33 +140,56 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                 ],
               ),
             ),
-
-            Padding(
-              padding: EdgeInsets.symmetric(
+            if (AppConstant.isSelectHallPackageSelected)
+              Padding(
+                padding: EdgeInsets.symmetric(
                   horizontal: Dimensions.width10 * 1.6,
-                  vertical: Dimensions.height10 * 0.8),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Action to select venue hall
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.themeColor,
-                    padding: EdgeInsets.symmetric(
-                        vertical: Dimensions.height10 * 1.5),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius10 * 1.5)),
+                  vertical: Dimensions.height10 * 0.8,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: Dimensions.height10 * 1.5,
                   ),
-                  child: BigText(
-                    text: 'Available Menus',
-                    size: Dimensions.font10 * 1.9,
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: AppColors.themeColor, // Background color
+                    borderRadius: BorderRadius.circular(
+                        Dimensions.radius10 * 1.5), // Rounded corners
+                  ),
+                  child: Center(
+                    child: BigText(
+                      text: 'Select From Menus',
+                      size: Dimensions.font10 * 1.9,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            else
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimensions.width10 * 1.6,
+                  vertical: Dimensions.height10 * 0.8,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: Dimensions.height10 * 1.5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.themeColor, // Background color
+                    borderRadius: BorderRadius.circular(
+                        Dimensions.radius10 * 1.5), // Rounded corners
+                  ),
+                  child: Center(
+                    child: BigText(
+                      text: 'Available Menus',
+                      size: Dimensions.font10 * 1.9,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
             SizedBox(height: Dimensions.height20),
 
             // Venue cards section
@@ -234,10 +257,11 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.toNamed(RouteHelper.getMenuDetail(
-                        menuDetail.id!,
-                        menuDetail.menuType! + " Menu",
-                        menuDetail.price.toString()));
+                    AppConstant.menuIndex = index;
+                    Get.toNamed(
+                        RouteHelper.getMenuDetail("${menuDetail.menuType} Menu",
+                            menuDetail.price.toString()),
+                        arguments: menuDetail);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.themeColor,
