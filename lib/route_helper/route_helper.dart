@@ -8,6 +8,8 @@ import 'package:bandobasta/Pages/menuPage/food_menu_page.dart';
 import 'package:bandobasta/Pages/menuPage/venue_menu_page.dart';
 import 'package:bandobasta/Pages/searchVenuePage/check_availability_form_page.dart';
 import 'package:bandobasta/Pages/searchVenuePage/search_venue_page.dart';
+import 'package:bandobasta/Pages/sign_in_page/sign_in.dart';
+import 'package:bandobasta/Pages/sign_up_page/sign_up.dart';
 import 'package:bandobasta/Pages/venueHallPage/hall_info.dart';
 import 'package:bandobasta/Pages/venueHallPage/venue_halls.dart';
 import 'package:bandobasta/Pages/venuePackage/package_info.dart';
@@ -77,16 +79,18 @@ class RouteHelper {
 
   static List<GetPage> routes = [
     GetPage(name: homepage, page: () => const Homepage()),
+    GetPage(name: signUp, page: () => const SignUpPage()),
+    GetPage(name: signIn, page: () => const SignInPage()),
     GetPage(
       name: navigation,
       page: () => const Navigation(),
       transition: Transition.noTransition,
     ),
     GetPage(name: searchVenue, page: () => SearchVenuePage()),
-    GetPage(name: bookingConfirmationPage, page: () => CheckoutPage()),
-    GetPage(name: availableDateTime, page: () => AvailabilityPage()),
-    GetPage(name: checkAvailabilityForm, page: () => CheckAvailabilityPage()),
-
+    GetPage(name: bookingConfirmationPage, page: () => const CheckoutPage()),
+    GetPage(name: availableDateTime, page: () => const AvailabilityPage()),
+    GetPage(
+        name: checkAvailabilityForm, page: () => const CheckAvailabilityPage()),
     GetPage(
         name: selectHallVenuePackage,
         page: () {
@@ -157,36 +161,5 @@ class RouteHelper {
           return FoodMenuScreen(
               menuDetail: menuDetail, menuName: menuName!, price: price!);
         }),
-
-    // GetPage(name: viewProfile, page: () => const ProfilePage()),
-    // GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
-
-    // GetPage(name: payments, page: () => const PaymentDetailsPage()),
-    // GetPage(name: cart, page: () => const CartPage()),
-    // GetPage(name: restaurantMenu, page: () => const RestaurantMenu()),
-    // GetPage(
-    //     name: orderDetail,
-    //     page: () {
-    //       var orderId = Get.parameters['orderId'];
-    //       return OrderPage(
-    //         orderId: int.parse(orderId!),
-    //       );
-    //     }),
-    // GetPage(
-    //     name: foodDetail,
-    //     page: () {
-    //       var foodId = Get.parameters['foodId'];
-    //       return FoodPage(
-    //         foodId: int.parse(foodId!),
-    //       );
-    //     }),
-    // GetPage(
-    //     name: restaurantMenuFood,
-    //     page: () {
-    //       var foodId = Get.parameters['foodId'];
-    //       return RestaurantMenuFoodPage(
-    //         foodId: int.parse(foodId!),
-    //       );
-    // }),
   ];
 }

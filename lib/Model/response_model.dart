@@ -3,7 +3,7 @@ class ResponseModel {
   final String _message;
   ResponseModel(this._isSuccess, this._message);
   String get message => _message;
-  bool get isSucces => _isSuccess;
+  bool get isSuccess => _isSuccess;
 }
 
 class ErrorData {

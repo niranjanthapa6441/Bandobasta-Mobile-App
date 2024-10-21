@@ -77,11 +77,8 @@ class AppConstant {
   static String categoryURI = "$apiVersion/category";
   static String mealURI = "$apiVersion/meal";
   static String paypalPaymentURI = "$apiVersion/payment/paypal";
-  static String loginURI = "$apiVersion/user/login";
-  static String registrationURI = "$apiVersion/user/registration";
-  static String stripePaymentURI = "$apiVersion/payment/stripe";
-  static String profileURI = "$apiVersion/user/$userId";
-  static String saveOrderURI = "$apiVersion/order";
+  static String signInURL = "";
+  static String signUpURL = "";
   static String address = "";
   static double minPrice = 0.0;
   static double maxPrice = 0.0;
@@ -101,24 +98,24 @@ class AppConstant {
 
   static String getVenueMenusURI() {
     venueMenusURI =
-        "$apiVersion/menu?venueId=$venueId&page=$page&size=$size&menuType=$menuType";
+        "$apiVersion/menu/findAll?venueId=$venueId&page=$page&size=$size&menuType=$menuType";
     return venueMenusURI;
   }
 
   static String getVenueURI() {
     venueURI =
-        "$apiVersion/venue?venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
+        "$apiVersion/venue/findAll?venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
     return venueURI;
   }
 
   static String getVenueHallsURI() {
-    venueHallURI = "$apiVersion/hall?venueId=$venueId&page=$page&size=$size";
+    venueHallURI = "$apiVersion/hall/findAll?venueId=$venueId&page=$page&size=$size";
     return venueHallURI;
   }
 
   static String getVenuePackagesURI() {
     venuePackageURI =
-        "$apiVersion/package?venueId=$venueId&page=$page&size=$size";
+        "$apiVersion/package/findAll?venueId=$venueId&page=$page&size=$size";
     return venuePackageURI;
   }
 
@@ -131,5 +128,13 @@ class AppConstant {
     saveHallBookingURL =
         "$apiVersion/booking/hall";
     return saveHallBookingURL;
+  }
+  static String getSignInURL() {
+    signInURL = "$apiVersion/user/authenticate/login";
+    return signInURL;
+  }
+  static String getSignUpURL() {
+    signUpURL = "$apiVersion/user/authenticate/register";
+    return signUpURL;
   }
 }

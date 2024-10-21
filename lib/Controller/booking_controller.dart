@@ -1,4 +1,4 @@
-import 'package:bandobasta/Model/response_mode.dart';
+import 'package:bandobasta/Model/response_model.dart';
 import 'package:bandobasta/Repository/booking_repository.dart';
 import 'package:bandobasta/Request/hall_booking_request.dart';
 import 'package:bandobasta/Response/hall_booking_response.dart';
@@ -54,8 +54,8 @@ class BookingController extends GetxController {
     Response response = await bookingRepository.saveHallBooking(request);
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
-      print("I'm here");
       responseModel = ResponseModel(true, response.body["message"]);
+      print("I'm here");
     } else {
       responseModel = ResponseModel(false, response.body["message"]);
     }

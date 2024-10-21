@@ -5,6 +5,8 @@ import 'package:bandobasta/Controller/venue_hall_controller.dart';
 import 'package:bandobasta/Controller/venue_menu_controller.dart';
 import 'package:bandobasta/Controller/venue_package_controller.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
+import 'package:bandobasta/Pages/sign_in_page/sign_in.dart';
+import 'package:bandobasta/Pages/sign_up_page/sign_up.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
           )),
       debugShowCheckedModeBanner: false,
       getPages: RouteHelper.routes,
-      home: Navigation(),
+      home: SignInPage(),
     );
   }
 }
