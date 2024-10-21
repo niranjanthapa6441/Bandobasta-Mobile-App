@@ -1,8 +1,11 @@
+import 'package:bandobasta/route_helper/route_helper.dart';
+import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
 import 'package:bandobasta/widgets/app_text_field.dart';
 import 'package:bandobasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CheckAvailabilityPage extends StatefulWidget {
@@ -13,134 +16,92 @@ class CheckAvailabilityPage extends StatefulWidget {
 }
 
 class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
-  var dateController = TextEditingController();
-  var startTimeController = TextEditingController();
-  var endTimeController = TextEditingController();
-  var numberOfGuestsController = TextEditingController();
-
+  final dateController = TextEditingController();
   bool _isDateSelected = false;
-  bool _isStartTimeSelected = false;
-  bool _isEndTimeSelected = false;
-
   DateTime _date = DateTime.now();
-  TimeOfDay _startTime = TimeOfDay.now();
-  TimeOfDay _endTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin:
-          EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-      child: ListView(
-        children: [
-          Column(children: [
-            Container(
-              height: Dimensions.height25,
-            ),
-            SizedBox(
-              height: Dimensions.height20,
-            ),
-            AppTextField(
-              textEditingController: numberOfGuestsController,
-              hintText: "Guests",
-              icon: Icons.people,
-              width: Dimensions.width10 * 15,
-            ),
-            SizedBox(
-              height: Dimensions.height20,
-            ),
-            AppTextField(
-              textEditingController: dateController,
-              hintText: _isDateSelected
-                  ? DateFormat.yMMMMd().format(_date)
-                  : "MM/DD/YYYY",
-              icon: Icons.calendar_today_outlined,
-              readOnly: true,
-              width: Dimensions.width10 * 15,
-              widget: IconButton(
-                onPressed: () {
-                  _getDate();
-                  setState(() {
-                    _isDateSelected = true;
-                  });
-                },
-                icon: Icon(
-                  Icons.calendar_today_outlined,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Select Date'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Container(
+        margin: EdgeInsets.only(
+          left: Dimensions.width10,
+          right: Dimensions.width10,
+        ),
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: Dimensions.height25),
+                SizedBox(height: Dimensions.height20),
+                SizedBox(height: Dimensions.height20),
+                AppTextField(
+                  textEditingController: dateController,
+                  hintText: _isDateSelected
+                      ? DateFormat.yMMMMd().format(_date)
+                      : "MM/DD/YYYY",
+                  icon: Icons.calendar_today_outlined,
+                  readOnly: true,
+                  width: Dimensions.width10 * 20,
+                  widget: IconButton(
+                    onPressed: () {
+                      _getDate();
+                    },
+                    icon: Icon(Icons.calendar_today_outlined),
+                  ),
                 ),
-              ),
+              ],
             ),
-            SizedBox(
-              height: Dimensions.height20,
-            ),
-            AppTextField(
-              textEditingController: startTimeController,
-              hintText: _isStartTimeSelected
-                  ? "${_startTime.hour}:${_startTime.minute}"
-                  : "Start Time",
-              icon: Icons.access_time,
-              readOnly: true,
-              width: Dimensions.width10 * 15,
-              widget: IconButton(
-                onPressed: () {
-                  _selectStartTime();
-                },
-                icon: Icon(
-                  Icons.access_time,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: Dimensions.height20,
-            ),
-            AppTextField(
-              textEditingController: endTimeController,
-              hintText: _isEndTimeSelected
-                  ? "${_endTime.hour}:${_endTime.minute}"
-                  : "End Time",
-              icon: Icons.access_time,
-              readOnly: true,
-              width: Dimensions.width10 * 15,
-              widget: IconButton(
-                onPressed: () {
-                  _selectEndTime();
-                },
-                icon: Icon(
-                  Icons.access_time,
-                ),
-              ),
-            ),
-          ]),
-          SizedBox(
-            height: Dimensions.height30,
-          ),
-          GestureDetector(
-            onTap: () {
-              // Check availability logic here
-            },
-            child: Container(
-              margin: EdgeInsets.only(
+            SizedBox(height: Dimensions.height30),
+            GestureDetector(
+              onTap: () {
+                if (_isDateSelected) {
+                  AppConstant.selectedDate =
+                      DateFormat('yyyy-MM-dd').format(_date);
+                  print(AppConstant.selectedDate);
+                  Get.toNamed(RouteHelper.getAvailableDateTime());
+                } else {
+                  // Show a message if selection is incomplete
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text("Please select an event type and date")),
+                  );
+                }
+              },
+              child: Container(
+                margin: EdgeInsets.only(
                   left: Dimensions.width30,
                   right: Dimensions.width30,
-                  bottom: Dimensions.height50),
-              height: Dimensions.screenHeight / 14,
-              width: Dimensions.width20 * 3,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                color: AppColors.themeColor,
-              ),
-              child: Center(
-                child: BigText(
-                  text: "Check Availability",
-                  size: Dimensions.font15,
-                  color: Colors.white,
+                  bottom: Dimensions.height50,
+                ),
+                height: Dimensions.screenHeight / 14,
+                width: Dimensions.width20 * 3,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30),
+                  color: AppColors.themeColor,
+                ),
+                child: Center(
+                  child: BigText(
+                    text: "Check Availability",
+                    size: Dimensions.font15,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: Dimensions.height10,
-          ),
-        ],
+            SizedBox(height: Dimensions.height10),
+          ],
+        ),
       ),
     );
   }
@@ -166,42 +127,8 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
       setState(() {
         _isDateSelected = true;
         _date = _pickerDate;
-        dateController.text = DateFormat.yMMMMd()
-            .format(_pickerDate); // Update the date controller text
+        dateController.text = DateFormat.yMMMMd().format(_pickerDate);
       });
     }
   }
-
-  _selectStartTime() async {
-    TimeOfDay? pickedStartTime = await showTimePicker(
-      context: context,
-      initialTime: _startTime,
-    );
-
-    if (pickedStartTime != null) {
-      setState(() {
-        _isStartTimeSelected = true;
-        _startTime = pickedStartTime;
-        startTimeController.text =
-            "${pickedStartTime.hour}:${pickedStartTime.minute}"; // Update the start time controller text
-      });
-    }
-  }
-
-  _selectEndTime() async {
-    TimeOfDay? pickedEndTime = await showTimePicker(
-      context: context,
-      initialTime: _endTime,
-    );
-
-    if (pickedEndTime != null) {
-      setState(() {
-        _isEndTimeSelected = true;
-        _endTime = pickedEndTime;
-        endTimeController.text =
-            "${pickedEndTime.hour}:${pickedEndTime.minute}"; // Update the end time controller text
-      });
-    }
-  }
-
 }

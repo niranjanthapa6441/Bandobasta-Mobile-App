@@ -1,16 +1,17 @@
-import 'package:bandobasta/Repository/venue_repo.dart';
-import 'package:bandobasta/Response/venue_response.dart';
+import 'package:bandobasta/Repository/venue_hall_repo.dart';
+import 'package:bandobasta/Response/venue_hall_response.dart';
 import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-class VenueController extends GetxController {
-  final VenueRepo venueRepo;
+class VenueHallController extends GetxController {
+  final VenueHallRepo venueHallRepo;
 
-  VenueController({required this.venueRepo});
+  VenueHallController({required this.venueHallRepo});
 
-  List<dynamic> _venues = [];
-  List<dynamic> get venues => _venues;
+  List<HallDetail> _venueHalls = [];
+  List<HallDetail> get venueHalls => _venueHalls;
+
   int _currentPage = 0;
   int _totalPages = 0;
   int _totalElements = 0;
@@ -18,23 +19,26 @@ class VenueController extends GetxController {
   int get currentPage => _currentPage;
   int get totalPages => _totalPages;
   int get totalElements => _totalElements;
+
   void setVenues() {
-    _venues = [];
+    _venueHalls = [];
   }
 
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
   Future<void> get() async {
-    Response response = await venueRepo.getVenues();
+    Response response = await venueHallRepo.getVenueHalls();
     if (response.statusCode == 200) {
-      VenueResponse venueResponse = VenueResponse.fromJson(response.body);
-      if (venueResponse.data != null && venueResponse.data!.venues != null) {
-        _venues.addAll(venueResponse.data!.venues!);  
-        _currentPage = venueResponse.data!.currentPage ?? 0;
-        _totalElements = venueResponse.data!.totalElements ?? 0;
-        _totalPages = venueResponse.data!.totalPages ?? 0;
+      VenueHallResponse venueHallResponse =
+          VenueHallResponse.fromJson(response.body);
+      if (venueHallResponse.data != null &&
+          venueHallResponse.data!.hallDetails != null) {
+        _venueHalls.addAll(venueHallResponse.data!.hallDetails!);
+        _currentPage = venueHallResponse.data!.currentPage ?? 0;
+        _totalElements = venueHallResponse.data!.totalElements ?? 0;
+        _totalPages = venueHallResponse.data!.totalPages ?? 0;
       }
-      
+
       _isLoaded = true;
       update();
     } else {
@@ -58,7 +62,7 @@ class VenueController extends GetxController {
   }
 
   void clear() {
-    _venues.clear();
+    _venueHalls.clear();
     AppConstant.page = 1;
     AppConstant.getVenueURI();
   }

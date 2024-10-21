@@ -1,5 +1,5 @@
 
-import 'package:bandobasta/Pages/bookingPage/orders_page.dart';
+import 'package:bandobasta/Pages/bookingPage/view_bookings_page.dart';
 import 'package:bandobasta/Pages/homepage/homepage.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
