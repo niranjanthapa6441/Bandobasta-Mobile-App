@@ -1,10 +1,10 @@
-import 'package:bandobasta/Request/sign_up_request.dart';
-import 'package:bandobasta/controller/auth_controller.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/app_text_field.dart';
-import 'package:bandobasta/widgets/big_text.dart';
+import 'package:BandoBasta/Request/sign_up_request.dart';
+import 'package:BandoBasta/controller/auth_controller.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/app_text_field.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -273,9 +273,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         authController.registration(newUser).then((status) {
           if (status.isSuccess) {
             Get.toNamed(RouteHelper.getSignIn());
-            customSnackBar(
-                "Registration Successful!",
-                title: "Registration");
+            customSnackBar("Registration Successful!", title: "Registration");
           } else {
             // Handle registration error
             showCustomSnackBar("Registration Failed: ${status.message}",

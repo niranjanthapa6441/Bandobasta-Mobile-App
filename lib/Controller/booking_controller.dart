@@ -1,7 +1,7 @@
-import 'package:bandobasta/Model/response_model.dart';
-import 'package:bandobasta/Repository/booking_repository.dart';
-import 'package:bandobasta/Request/hall_booking_request.dart';
-import 'package:bandobasta/Response/hall_booking_response.dart';
+import 'package:BandoBasta/Model/response_model.dart';
+import 'package:BandoBasta/Repository/booking_repository.dart';
+import 'package:BandoBasta/Request/hall_booking_request.dart';
+import 'package:BandoBasta/Response/hall_booking_response.dart';
 import 'package:get/get.dart';
 
 import '../utils/app_constants/app_constant.dart';
@@ -53,7 +53,6 @@ class BookingController extends GetxController {
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
-      print("I'm here");
     } else {
       responseModel = ResponseModel(false, response.body["message"]);
     }

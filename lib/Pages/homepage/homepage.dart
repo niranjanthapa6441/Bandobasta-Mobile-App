@@ -1,9 +1,9 @@
-import 'package:bandobasta/Pages/homepage/homepage_body.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/big_text.dart';
-import 'package:bandobasta/widgets/small_text.dart';
+import 'package:BandoBasta/Pages/homepage/homepage_body.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +52,7 @@ class _HomepageState extends State<Homepage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BigText(
-                      text: "BANDOBASTA",
+                      text: "BandoBasta",
                       color: AppColors.themeColor,
                       size: Dimensions.font20,
                       fontWeight: FontWeight.w900,

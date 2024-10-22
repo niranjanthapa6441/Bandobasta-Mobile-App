@@ -1,4 +1,4 @@
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 
 class BigText extends StatelessWidget {
@@ -23,7 +23,7 @@ class BigText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      maxLines: maxLines ?? 1, 
+      maxLines: maxLines ?? 1,
       overflow: textOverflow,
       style: TextStyle(
         color: color,

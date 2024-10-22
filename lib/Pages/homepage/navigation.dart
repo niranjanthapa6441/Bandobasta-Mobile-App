@@ -1,9 +1,9 @@
-import 'package:bandobasta/Pages/bookingPage/view_bookings_page.dart';
-import 'package:bandobasta/Pages/favouritePage/favourite_page.dart';
-import 'package:bandobasta/Pages/homepage/homepage.dart';
-import 'package:bandobasta/Pages/profilepage/main_profile_page.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/Pages/bookingPage/view_bookings_page.dart';
+import 'package:BandoBasta/Pages/favouritePage/favourite_page.dart';
+import 'package:BandoBasta/Pages/homepage/homepage.dart';
+import 'package:BandoBasta/Pages/profilepage/main_profile_page.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {

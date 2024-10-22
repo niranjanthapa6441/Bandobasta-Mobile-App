@@ -1,4 +1,4 @@
-import 'package:bandobasta/Response/venue_menu_response.dart';
+import 'package:BandoBasta/Response/venue_menu_response.dart';
 
 class VenuePackageResponse {
   String? code;
@@ -165,6 +165,7 @@ class HallDetail {
     return data;
   }
 }
+
 class FoodDetails {
   String? id;
   String? venueId;

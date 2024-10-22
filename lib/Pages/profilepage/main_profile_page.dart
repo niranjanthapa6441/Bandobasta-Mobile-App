@@ -1,5 +1,5 @@
-import 'package:bandobasta/Pages/profilepage/profile_page_body.dart';
-import 'package:bandobasta/widgets/big_text.dart';
+import 'package:BandoBasta/Pages/profilepage/profile_page_body.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {

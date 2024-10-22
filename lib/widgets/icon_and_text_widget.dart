@@ -1,4 +1,4 @@
-import 'package:bandobasta/widgets/big_text.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/dimensions/dimension.dart';

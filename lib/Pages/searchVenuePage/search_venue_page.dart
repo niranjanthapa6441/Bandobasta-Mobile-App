@@ -1,13 +1,13 @@
-import 'package:bandobasta/Controller/venue_controller.dart';
-import 'package:bandobasta/Response/venue_response.dart';
-import 'package:bandobasta/card/venue_card.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/app_button.dart';
-import 'package:bandobasta/widgets/big_text.dart';
-import 'package:bandobasta/widgets/small_text.dart';
+import 'package:BandoBasta/Controller/venue_controller.dart';
+import 'package:BandoBasta/Response/venue_response.dart';
+import 'package:BandoBasta/card/venue_card.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/app_button.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -253,7 +253,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BigText(
-                      text: "BANDOBASTA",
+                      text: "BandoBasta",
                       color: AppColors.themeColor,
                       size: Dimensions.font20,
                       fontWeight: FontWeight.w900,

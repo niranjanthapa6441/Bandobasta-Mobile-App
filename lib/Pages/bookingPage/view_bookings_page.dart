@@ -1,7 +1,7 @@
-import 'package:bandobasta/Controller/booking_controller.dart';
-import 'package:bandobasta/Pages/bookingPage/booking_page_body.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/widgets/small_text.dart';
+import 'package:BandoBasta/Controller/booking_controller.dart';
+import 'package:BandoBasta/Pages/bookingPage/booking_page_body.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -72,7 +72,7 @@ class _OrdersState extends State<BookingsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BigText(
-                        text: "BANDOBASTA",
+                        text: "BandoBasta",
                         color: AppColors.themeColor,
                         size: Dimensions.font20,
                         fontWeight: FontWeight.w900,

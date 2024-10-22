@@ -1,6 +1,6 @@
-import 'package:bandobasta/Controller/user_controller.dart';
-import 'package:bandobasta/Request/update_profile_request.dart';
-import 'package:bandobasta/utils/color/colors.dart';
+import 'package:BandoBasta/Controller/user_controller.dart';
+import 'package:BandoBasta/Request/update_profile_request.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

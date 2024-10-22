@@ -1,7 +1,7 @@
-import 'package:bandobasta/Model/response_model.dart';
-import 'package:bandobasta/Request/update_profile_request.dart';
-import 'package:bandobasta/Response/user_profile_response.dart';
-import 'package:bandobasta/repository/customer_repo.dart';
+import 'package:BandoBasta/Model/response_model.dart';
+import 'package:BandoBasta/Request/update_profile_request.dart';
+import 'package:BandoBasta/Response/user_profile_response.dart';
+import 'package:BandoBasta/repository/customer_repo.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
@@ -14,13 +14,11 @@ class UserController extends GetxController {
   bool get isLoaded => _isLoaded;
   Future<void> getCustomerDetails() async {
     Response response = await userRepo.getUserDetails();
-    print(response.body);
     if (response.statusCode == 200) {
       _isLoaded = true;
       user = UserProfileResponse.fromJson(response.body).data;
       update();
     } else {
-      print(response.body["message"]);
     }
   }
 

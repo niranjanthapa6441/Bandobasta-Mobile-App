@@ -1,6 +1,6 @@
-import 'package:bandobasta/Request/hall_booking_request.dart';
-import 'package:bandobasta/utils/api/api_client.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/Request/hall_booking_request.dart';
+import 'package:BandoBasta/utils/api/api_client.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:get/get.dart';
 
 class BookingRepository extends GetxService {
@@ -13,6 +13,7 @@ class BookingRepository extends GetxService {
   }
 
   Future<Response> saveHallBooking(HallBookingRequest request) async {
-    return await apiClient.postData(AppConstant.getSaveHallBookingURL(), request.toJson());
+    return await apiClient.postData(
+        AppConstant.getSaveHallBookingURL(), request.toJson());
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bandobasta/Request/update_profile_request.dart';
+import 'package:BandoBasta/Request/update_profile_request.dart';
 import 'package:get/get.dart';
 import '../utils/api/api_client.dart';
 import '../utils/app_constants/app_constant.dart';

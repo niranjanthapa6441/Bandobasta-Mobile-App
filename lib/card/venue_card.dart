@@ -1,5 +1,5 @@
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 
 class VenueCard extends StatelessWidget {
@@ -59,17 +59,23 @@ class VenueCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name,
-                    style:
-                        TextStyle(fontSize: Dimensions.font10 * 1.4, fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        fontSize: Dimensions.font10 * 1.4,
+                        fontWeight: FontWeight.bold)),
                 Row(
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: Dimensions.height10),
+                    Icon(Icons.star,
+                        color: Colors.amber, size: Dimensions.height10),
                     SizedBox(width: Dimensions.width10 * 0.4),
                     Text(rating,
-                        style: TextStyle(color: Colors.grey, fontSize: Dimensions.font10 * 1.2)),
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: Dimensions.font10 * 1.2)),
                     SizedBox(width: Dimensions.width10 * 0.4),
                     Text('($reviews reviews)',
-                        style: TextStyle(color: Colors.grey, fontSize: Dimensions.font10 * 1.2)),
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: Dimensions.font10 * 1.2)),
                   ],
                 ),
                 SizedBox(height: Dimensions.height10 * 0.4),

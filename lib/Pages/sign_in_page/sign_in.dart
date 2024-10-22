@@ -1,4 +1,4 @@
-import 'package:bandobasta/Pages/sign_in_page/sign_in_page_body.dart';
+import 'package:BandoBasta/Pages/sign_in_page/sign_in_page_body.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatefulWidget {

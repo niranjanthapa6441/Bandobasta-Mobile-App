@@ -1,8 +1,8 @@
-import 'package:bandobasta/Response/venue_menu_response.dart';
-import 'package:bandobasta/Response/venue_hall_response.dart';
+import 'package:BandoBasta/Response/venue_menu_response.dart';
+import 'package:BandoBasta/Response/venue_hall_response.dart';
 
 class AppConstant {
-  static const String appName = "Bandobasta";
+  static const String appName = "BandoBasta";
   static const String baseURL = "http://192.168.1.66:8080/book-eat-nepal";
   static String apiVersion = "/api/v1";
 
