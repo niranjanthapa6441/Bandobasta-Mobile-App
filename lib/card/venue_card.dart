@@ -84,7 +84,7 @@ class VenueCard extends StatelessWidget {
                   onPressed: onViewInfo,
                   child: Text('View Info'),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.themeColor,
+                    backgroundColor: AppColors.themeColor,
                     textStyle: TextStyle(color: Colors.white),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:bandobasta/Controller/booking_controller.dart';
 import 'package:bandobasta/Response/hall_booking_response.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
+import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
 import 'package:bandobasta/widgets/big_text.dart';
@@ -79,42 +80,43 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
         //     ),
         //   ),
         // ),
-
-        Container(
-          margin: EdgeInsets.only(
-              top: Dimensions.height10, left: Dimensions.width10),
-          child: BigText(
-            text: "Booking History",
-            size: Dimensions.font20,
-            color: Colors.black,
+        if (AppConstant.isUserLoggedIn)
+          Container(
+            margin: EdgeInsets.only(
+                top: Dimensions.height10, left: Dimensions.width10),
+            child: BigText(
+              text: "Booking History",
+              size: Dimensions.font20,
+              color: Colors.black,
+            ),
           ),
-        ),
-        GetBuilder<BookingController>(builder: (orders) {
-          return GestureDetector(
-            child: orders.isLoaded
-                ? Container(
-                    height: Dimensions.height10 * 55,
-                    padding: EdgeInsets.only(bottom: Dimensions.height20),
-                    child: ListView.builder(
-                        controller: _scrollController,
-                        padding: EdgeInsets.zero,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: orders.customerOrderDetails.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index != orders.totalElements &&
-                              index == orders.customerOrderDetails.length) {
-                            return _buildSingleLoadingIndicator();
-                          } else if (index == orders.totalElements &&
-                              index == orders.customerOrderDetails.length) {
-                            return Container();
-                          }
-                          return _buildCustomerBookingDetailItemPage(
-                              index, orders.customerOrderDetails[index]);
-                        }),
-                  )
-                : _buildLoadingIndicator(),
-          );
-        }),
+        if (AppConstant.isUserLoggedIn)
+          GetBuilder<BookingController>(builder: (orders) {
+            return GestureDetector(
+              child: orders.isLoaded
+                  ? Container(
+                      height: Dimensions.height10 * 55,
+                      padding: EdgeInsets.only(bottom: Dimensions.height20),
+                      child: ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.zero,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: orders.customerOrderDetails.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index != orders.totalElements &&
+                                index == orders.customerOrderDetails.length) {
+                              return _buildSingleLoadingIndicator();
+                            } else if (index == orders.totalElements &&
+                                index == orders.customerOrderDetails.length) {
+                              return Container();
+                            }
+                            return _buildCustomerBookingDetailItemPage(
+                                index, orders.customerOrderDetails[index]);
+                          }),
+                    )
+                  : _buildLoadingIndicator(),
+            );
+          }),
       ],
     );
   }

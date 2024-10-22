@@ -215,7 +215,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
                     _showAddToCartDialog(context, hallDetail);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.themeColor,
+                    backgroundColor: AppColors.themeColor,
                     padding: EdgeInsets.symmetric(
                       horizontal: Dimensions.width20,
                       vertical: Dimensions.height10 * 1.6,
@@ -306,7 +306,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
                   AppConstant.isHallBooking = true;
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: AppColors.themeColor,
+                  backgroundColor: AppColors.themeColor,
                   padding: EdgeInsets.symmetric(
                     horizontal: Dimensions.width20,
                     vertical: Dimensions.height10 * 1.6,

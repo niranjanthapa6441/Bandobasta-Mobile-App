@@ -1,6 +1,7 @@
 import 'package:bandobasta/Request/log_in_request.dart';
 import 'package:bandobasta/controller/auth_controller.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
+import 'package:bandobasta/utils/app_constants/app_constant.dart';
 import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
 import 'package:bandobasta/widgets/app_text_field.dart';
@@ -23,6 +24,8 @@ class _SignInPageBodyState extends State<SignInPageBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin:
+          EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
       child: ListView(
         children: [
           Column(children: [
@@ -105,7 +108,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               textEditingController: usernameController,
               hintText: "Username",
               icon: Icons.person,
-              width: Dimensions.width10 * 40,
+              width: Dimensions.width10 * 37,
             ),
             SizedBox(
               height: Dimensions.height20,
@@ -115,7 +118,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               hintText: "Password",
               icon: Icons.password,
               isObscure: true,
-              width: Dimensions.width10 * 40,
+              width: Dimensions.width10 * 37,
             ),
             SizedBox(
               height: Dimensions.height20,
@@ -200,16 +203,31 @@ class _SignInPageBodyState extends State<SignInPageBody> {
           LogInRequest(username: username, password: password);
       var authController = Get.find<AuthController>();
       authController.login(userCredentials).then((status) {
-        print(status.isSuccess);
         if (status.isSuccess) {
           Get.toNamed(RouteHelper.getNavigation());
+          AppConstant.isUserLoggedIn = true;
         } else {
-          showCustomSnackBar("Username/password don't match",
-              title: "Invalied Login details");
+          showCustomSnackBar(status.message, title: "Invalied Login details");
         }
       });
     }
   }
 
-  void showCustomSnackBar(String s, {required String title}) {}
+  void showCustomSnackBar(String message,
+      {bool isError = true, String title = "Error", Color color = Colors.red}) {
+    Get.snackbar(title, message,
+        titleText: BigText(
+          text: title,
+          color: Colors.white,
+        ),
+        messageText: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: color);
+  }
 }

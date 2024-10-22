@@ -1,4 +1,3 @@
-
 import 'package:bandobasta/Controller/booking_controller.dart';
 import 'package:bandobasta/Pages/bookingPage/booking_page_body.dart';
 import 'package:bandobasta/utils/color/colors.dart';
@@ -47,49 +46,52 @@ class _OrdersState extends State<BookingsPage> {
       body: Column(
         children: [
           AppBar(
-        elevation: 0, // No shadow
-        backgroundColor: Colors.white, 
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center, 
-            crossAxisAlignment: CrossAxisAlignment.center, 
-            children: [
-              ClipOval(
-                child: Container(
-                  height: Dimensions.height10 * 5, 
-                  width: Dimensions.height10 * 5, 
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("assets/images/wedding.png"), 
+            automaticallyImplyLeading: false,
+            elevation: 0, // No shadow
+            backgroundColor: Colors.white,
+            title: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipOval(
+                    child: Container(
+                      height: Dimensions.height10 * 5,
+                      width: Dimensions.height10 * 5,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/wedding.png"),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(width: Dimensions.width5),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center, 
-                crossAxisAlignment: CrossAxisAlignment.start, 
-                children: [
-                  BigText(
-                    text: "BANDOBASTA",
-                    color: AppColors.themeColor, 
-                    size: Dimensions.font20,
-                    fontWeight: FontWeight.w900, 
-                  ),
-                  SmallText(
-                    text: "Effortless booking",
-                    color: AppColors.themeColor, 
-                    size: Dimensions.font12, 
+                  SizedBox(width: Dimensions.width5),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BigText(
+                        text: "BANDOBASTA",
+                        color: AppColors.themeColor,
+                        size: Dimensions.font20,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      SmallText(
+                        text: "Effortless booking",
+                        color: AppColors.themeColor,
+                        size: Dimensions.font12,
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
+            centerTitle: true,
           ),
-        ),
-        centerTitle: true, 
-      ),
-      SizedBox(height: Dimensions.height20,),
+          SizedBox(
+            height: Dimensions.height20,
+          ),
           Container(
             height: Dimensions.height10 * 5,
             width: Dimensions.screenWidth,
@@ -111,7 +113,7 @@ class _OrdersState extends State<BookingsPage> {
                     : "MM/DD/YYYY",
                 icon: Icons.calendar_today_outlined,
                 readOnly: true,
-                width: Dimensions.width10 * 15,
+                width: Dimensions.width10 * 14,
                 widget: IconButton(
                   onPressed: () {
                     _getStartDate();
@@ -136,7 +138,7 @@ class _OrdersState extends State<BookingsPage> {
                     : "MM/DD/YYYY",
                 icon: Icons.calendar_today_outlined,
                 readOnly: true,
-                width: Dimensions.width10 * 15,
+                width: Dimensions.width10 * 14,
                 widget: IconButton(
                   onPressed: () {
                     _getEndDate();
@@ -149,7 +151,8 @@ class _OrdersState extends State<BookingsPage> {
               ),
             ],
           ),
-          const Expanded(child: SingleChildScrollView(child: BookingsPageBody())),
+          const Expanded(
+              child: SingleChildScrollView(child: BookingsPageBody())),
         ],
       ),
     );
@@ -238,10 +241,9 @@ class _OrdersState extends State<BookingsPage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            colorScheme: ColorScheme.light(
-              primary: AppColors.themeColor
-                  // Change the primary color here
-            ),
+            colorScheme: ColorScheme.light(primary: AppColors.themeColor
+                // Change the primary color here
+                ),
           ),
           child: child!,
         );
@@ -265,9 +267,7 @@ class _OrdersState extends State<BookingsPage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            colorScheme: ColorScheme.light(
-              primary: AppColors.themeColor
-            ),
+            colorScheme: ColorScheme.light(primary: AppColors.themeColor),
           ),
           child: child!,
         );

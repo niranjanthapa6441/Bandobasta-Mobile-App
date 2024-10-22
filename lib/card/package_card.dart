@@ -83,7 +83,7 @@ class PackageCard extends StatelessWidget {
                     size: Dimensions.font10 * 1.4,
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.themeColor,
+                    backgroundColor: AppColors.themeColor,
                     textStyle: TextStyle(color: Colors.white),
                   ),
                 ),

@@ -5,8 +5,6 @@ import 'package:bandobasta/Controller/venue_hall_controller.dart';
 import 'package:bandobasta/Controller/venue_menu_controller.dart';
 import 'package:bandobasta/Controller/venue_package_controller.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
-import 'package:bandobasta/Pages/sign_in_page/sign_in.dart';
-import 'package:bandobasta/Pages/sign_up_page/sign_up.dart';
 import 'package:bandobasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,13 +36,14 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Bandobasta',
       theme: ThemeData(
-          primaryColor: const Color.fromARGB(255, 176, 2, 2),
+          useMaterial3: false,
+          scaffoldBackgroundColor: Colors.white,
           appBarTheme: const AppBarTheme(
-            color: const Color.fromARGB(255, 176, 2, 2),
+            color:Color.fromARGB(255, 176, 2, 2),
           )),
       debugShowCheckedModeBanner: false,
       getPages: RouteHelper.routes,
-      home: SignInPage(),
+      home: Navigation(),
     );
   }
 }

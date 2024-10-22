@@ -6,6 +6,7 @@ import 'package:bandobasta/Pages/homepage/homepage.dart';
 import 'package:bandobasta/Pages/homepage/navigation.dart';
 import 'package:bandobasta/Pages/menuPage/food_menu_page.dart';
 import 'package:bandobasta/Pages/menuPage/venue_menu_page.dart';
+import 'package:bandobasta/Pages/profilepage/updateProfilePage.dart';
 import 'package:bandobasta/Pages/searchVenuePage/check_availability_form_page.dart';
 import 'package:bandobasta/Pages/searchVenuePage/search_venue_page.dart';
 import 'package:bandobasta/Pages/sign_in_page/sign_in.dart';
@@ -27,6 +28,7 @@ class RouteHelper {
   static const String bookings = '/bookings';
   static const String venueInfo = '/viewVenueInfo';
   static const String viewProfile = '/viewProfile';
+  static const String updateProfile = '/updateProfile';
   static const String viewNotifications = '/viewNotifications';
   static const String venueMenus = '/venueMenus';
   static const String menuDetail = '/menudetail';
@@ -58,6 +60,7 @@ class RouteHelper {
   static String getHomepage() => homepage;
   static String getSearchVenue() => searchVenue;
   static String getOrders() => bookings;
+  static String getUpdateProfile() => updateProfile;
   static String getViewProfile() => viewProfile;
   static String getViewNotiifcations() => viewNotifications;
   static String getVenueHalls(String venueName, String imageURL) =>
@@ -87,6 +90,7 @@ class RouteHelper {
       transition: Transition.noTransition,
     ),
     GetPage(name: searchVenue, page: () => SearchVenuePage()),
+    GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
     GetPage(name: bookingConfirmationPage, page: () => const CheckoutPage()),
     GetPage(name: availableDateTime, page: () => const AvailabilityPage()),
     GetPage(

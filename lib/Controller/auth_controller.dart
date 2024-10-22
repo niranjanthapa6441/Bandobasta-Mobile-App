@@ -35,7 +35,8 @@ class AuthController extends GetxController implements GetxService {
       details = LogInResponse.fromJson(response.body);
       responseModel = ResponseModel(true, response.body["message"]);
       authRepo.saveUserToken(details.data!.accessToken.toString());
-      AppConstant.userId = details.data!.customerId.toString();
+      print("access token:"+ details.data!.accessToken.toString());
+      AppConstant.userId = details.data!.id.toString();
     } else {
       responseModel = ResponseModel(false, response.body["message"]);
     }

@@ -372,7 +372,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
   String? getImagePath(List<String>? venueImagePaths) {
     if (venueImagePaths != null && venueImagePaths.isNotEmpty) {
-      return venueImagePaths![0];
+      return venueImagePaths[0];
     }
     return null;
   }

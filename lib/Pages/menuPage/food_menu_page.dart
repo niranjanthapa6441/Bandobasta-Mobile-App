@@ -104,7 +104,7 @@ class FoodMenuScreen extends StatelessWidget {
                           Get.toNamed(RouteHelper.getCheckAvailabilityForm());
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: AppColors.themeColor,
+                          backgroundColor: AppColors.themeColor,
                         ),
                         child: Center(
                           child: BigText(

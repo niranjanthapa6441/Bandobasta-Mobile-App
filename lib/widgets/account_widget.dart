@@ -1,13 +1,13 @@
-
 import 'package:bandobasta/utils/dimensions/dimension.dart';
 import 'package:bandobasta/widgets/app_icon.dart';
 import 'package:bandobasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
 class AccountWidget extends StatelessWidget {
-  AppIcon appIcon;
-  BigText bigText;
-  AccountWidget({super.key, required this.appIcon, required this.bigText});
+  final AppIcon appIcon;
+  final BigText bigText;
+  const AccountWidget(
+      {super.key, required this.appIcon, required this.bigText});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AccountWidget extends StatelessWidget {
       child: Row(
         children: [
           appIcon,
-          SizedBox(width: Dimensions.width30 * 2),
+          SizedBox(width: Dimensions.width30),
           bigText,
         ],
       ),

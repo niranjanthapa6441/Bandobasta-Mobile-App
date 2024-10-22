@@ -253,7 +253,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  primary: AppColors.themeColor,
+                  backgroundColor: AppColors.themeColor,
                   padding: EdgeInsets.symmetric(
                     horizontal: Dimensions.width20,
                     vertical: Dimensions.height10 * 1.6,

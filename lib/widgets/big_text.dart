@@ -23,7 +23,7 @@ class BigText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      maxLines: maxLines ?? 1, // Use maxLines parameter, default to 1 if null
+      maxLines: maxLines ?? 1, 
       overflow: textOverflow,
       style: TextStyle(
         color: color,

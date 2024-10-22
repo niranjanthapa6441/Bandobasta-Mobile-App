@@ -43,8 +43,6 @@ class BookingController extends GetxController {
       _isLoaded = true;
       update();
     } else {
-      Response response =
-          await bookingRepository.getCustomerHallBookingDetails();
       // ErrorResponse error = ErrorResponse.fromJson(response.body);
       // showCustomSnackBar(error.message, title: "orders");
     }

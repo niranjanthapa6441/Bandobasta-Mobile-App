@@ -1,15 +1,14 @@
 class LogInResponse {
   String? code;
   String? message;
-  LoginResponse? data;
+  Data? data;
 
   LogInResponse({this.code, this.message, this.data});
 
   LogInResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data =
-        json['data'] != null ? new LoginResponse.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -23,17 +22,17 @@ class LogInResponse {
   }
 }
 
-class LoginResponse {
+class Data {
   String? username;
-  String? customerId;
+  String? id;
   String? type;
   String? accessToken;
 
-  LoginResponse({this.username, this.customerId, this.type, this.accessToken});
+  Data({this.username, this.id, this.type, this.accessToken});
 
-  LoginResponse.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     username = json['username'];
-    customerId = json['customerId'];
+    id = json['id'];
     type = json['type'];
     accessToken = json['accessToken'];
   }
@@ -41,7 +40,7 @@ class LoginResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['username'] = this.username;
-    data['customerId'] = this.customerId;
+    data['id'] = this.id;
     data['type'] = this.type;
     data['accessToken'] = this.accessToken;
     return data;

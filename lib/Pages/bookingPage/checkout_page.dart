@@ -63,7 +63,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                 _makeBooking();
               },
               style: ElevatedButton.styleFrom(
-                primary: AppColors.themeColor,
+                backgroundColor: AppColors.themeColor,
                 padding: EdgeInsets.symmetric(
                   horizontal: Dimensions.width20,
                   vertical: Dimensions.height10 * 1.6,

@@ -26,6 +26,7 @@ class _HomepageState extends State<Homepage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(Dimensions.height20 * 3.5),
         child: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0, // No shadow
           backgroundColor: Colors.white,
           title: Center(

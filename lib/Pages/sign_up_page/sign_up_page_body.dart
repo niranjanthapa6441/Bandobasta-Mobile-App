@@ -5,7 +5,6 @@ import 'package:bandobasta/utils/color/colors.dart';
 import 'package:bandobasta/utils/dimensions/dimension.dart';
 import 'package:bandobasta/widgets/app_text_field.dart';
 import 'package:bandobasta/widgets/big_text.dart';
-import 'package:bandobasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +37,8 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin:
+          EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
       child: Column(
         children: [
           Container(
@@ -51,7 +52,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 textEditingController: firstNameController,
                 hintText:
                     firstNameError.isEmpty ? "First Name" : firstNameError,
-                width: Dimensions.width10 * 40,
+                width: Dimensions.width10 * 37,
                 color: firstNameError.isEmpty ? null : AppColors.themeColor,
                 icon: Icons.person),
             SizedBox(
@@ -61,7 +62,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 textEditingController: middleNameController,
                 hintText: "Middle Name",
                 icon: Icons.person,
-                width: Dimensions.width10 * 40),
+                width: Dimensions.width10 * 37),
             SizedBox(
               height: Dimensions.height20,
             ),
@@ -70,7 +71,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 hintText: lastNameError.isEmpty ? "Last Name" : lastNameError,
                 color: lastNameError.isEmpty ? null : AppColors.themeColor,
                 icon: Icons.person,
-                width: Dimensions.width10 * 40),
+                width: Dimensions.width10 * 37),
             SizedBox(
               height: Dimensions.height20,
             ),
@@ -79,7 +80,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 hintText: usernameError.isEmpty ? "Username" : usernameError,
                 color: usernameError.isEmpty ? null : AppColors.themeColor,
                 icon: Icons.person,
-                width: Dimensions.width10 * 40),
+                width: Dimensions.width10 * 37),
             SizedBox(
               height: Dimensions.height20,
             ),
@@ -88,7 +89,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
               hintText: passwordError.isEmpty ? "Password" : passwordError,
               color: passwordError.isEmpty ? null : AppColors.themeColor,
               icon: Icons.password,
-              width: Dimensions.width10 * 40,
+              width: Dimensions.width10 * 37,
               isObscure: true,
             ),
             SizedBox(
@@ -101,7 +102,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                   : confirmPasswordError,
               icon: Icons.password,
               color: confirmPasswordError.isEmpty ? null : AppColors.themeColor,
-              width: Dimensions.width10 * 40,
+              width: Dimensions.width10 * 37,
               isObscure: true,
             ),
             SizedBox(
@@ -110,7 +111,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             AppTextField(
               textEditingController: emailController,
               hintText: emailError.isEmpty ? "Email" : emailError,
-              width: Dimensions.width10 * 40,
+              width: Dimensions.width10 * 37,
               icon: Icons.email,
               color: emailError.isEmpty ? null : AppColors.themeColor,
             ),
@@ -122,7 +123,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 hintText: phoneNumberError.isEmpty
                     ? "Phone Number"
                     : phoneNumberError,
-                width: Dimensions.width10 * 40,
+                width: Dimensions.width10 * 37,
                 color: phoneNumberError.isEmpty ? null : AppColors.themeColor,
                 icon: Icons.phone),
           ]),
@@ -144,7 +145,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                     Dimensions.width30 +
                     Dimensions.width30,
               ),
-              height: Dimensions.height10 * 5,
+              height: Dimensions.screenHeight / 13,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius30),
                 color: AppColors.themeColor,
@@ -273,7 +274,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
           if (status.isSuccess) {
             Get.toNamed(RouteHelper.getSignIn());
             customSnackBar(
-                "Registration Successful! Please Verify Your Email Before logging In",
+                "Registration Successful!",
                 title: "Registration");
           } else {
             // Handle registration error
@@ -305,5 +306,21 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         backgroundColor: color);
   }
 
-  void showCustomSnackBar(String s, {required String title}) {}
+  void showCustomSnackBar(String message,
+      {bool isError = true, String title = "Error", Color color = Colors.red}) {
+    Get.snackbar(title, message,
+        titleText: BigText(
+          text: title,
+          color: Colors.white,
+        ),
+        messageText: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: color);
+  }
 }

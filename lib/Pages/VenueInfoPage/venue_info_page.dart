@@ -217,7 +217,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 venue.name!, photoUrls.first));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
+                            backgroundColor: Colors.green,
                           ),
                           child: Row(
                             children: [
@@ -231,7 +231,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
+                            backgroundColor: Colors.red,
                           ),
                           child: Row(
                             children: [
@@ -252,7 +252,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 getVenueImageURLs(venue.venueImagePaths!)[0]));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
+                            backgroundColor: Colors.green,
                           ),
                           child: Row(
                             children: [
@@ -270,7 +270,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 RouteHelper.getVenuePackages(venue.name!));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
+                            backgroundColor: Colors.red,
                           ),
                           child: Row(
                             children: [
@@ -327,13 +327,19 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
               SizedBox(height: Dimensions.height10 * 1.6),
               ElevatedButton(
                 onPressed: () {
-                  AppConstant.venueId = venue.id!;
-                  AppConstant.isSelectHallPackageSelected = true;
-                  Get.toNamed(RouteHelper.getSelectHallPackagePage(venue.name!,
-                      getVenueImageURLs(venue.venueImagePaths!)[0]));
+                  if (AppConstant.isUserLoggedIn) {
+                    AppConstant.venueId = venue.id!;
+                    AppConstant.isSelectHallPackageSelected = true;
+                    Get.toNamed(RouteHelper.getSelectHallPackagePage(
+                        venue.name!,
+                        getVenueImageURLs(venue.venueImagePaths!)[0]));
+                  } else {
+                    clear();
+                    Get.toNamed(RouteHelper.getSignIn());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: AppColors.themeColor,
+                  backgroundColor: AppColors.themeColor,
                   padding: EdgeInsets.symmetric(
                     horizontal: Dimensions.width20,
                     vertical: Dimensions.height10 * 1.6,

@@ -19,14 +19,14 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
   final PageController pageController = PageController(viewportFraction: 0.9);
-  double _currentPageValue = 0.0;
+  double currentPageValue = 0.0;
 
   @override
   void initState() {
     super.initState();
     pageController.addListener(() {
       setState(() {
-        _currentPageValue = pageController.page!;
+        currentPageValue = pageController.page!;
       });
     });
   }
