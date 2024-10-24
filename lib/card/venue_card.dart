@@ -1,5 +1,5 @@
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 
 class VenueCard extends StatelessWidget {
@@ -33,7 +33,6 @@ class VenueCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
             child: Image.network(
-              // Use Image.network instead of NetworkImage
               imageUrl,
               fit: BoxFit.cover,
               height: Dimensions.height10 * 12,
@@ -59,17 +58,23 @@ class VenueCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name,
-                    style:
-                        TextStyle(fontSize: Dimensions.font10 * 1.4, fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        fontSize: Dimensions.font10 * 1.4,
+                        fontWeight: FontWeight.bold)),
                 Row(
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: Dimensions.height10),
+                    Icon(Icons.star,
+                        color: Colors.amber, size: Dimensions.height10),
                     SizedBox(width: Dimensions.width10 * 0.4),
                     Text(rating,
-                        style: TextStyle(color: Colors.grey, fontSize: Dimensions.font10 * 1.2)),
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: Dimensions.font10 * 1.2)),
                     SizedBox(width: Dimensions.width10 * 0.4),
                     Text('($reviews reviews)',
-                        style: TextStyle(color: Colors.grey, fontSize: Dimensions.font10 * 1.2)),
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: Dimensions.font10 * 1.2)),
                   ],
                 ),
                 SizedBox(height: Dimensions.height10 * 0.4),
@@ -84,7 +89,7 @@ class VenueCard extends StatelessWidget {
                   onPressed: onViewInfo,
                   child: Text('View Info'),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.themeColor,
+                    backgroundColor: AppColors.themeColor,
                     textStyle: TextStyle(color: Colors.white),
                   ),
                 ),

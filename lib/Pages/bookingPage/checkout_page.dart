@@ -1,13 +1,14 @@
-import 'package:bandobasta/Controller/booking_controller.dart';
-import 'package:bandobasta/Pages/VenueInfoPage/photo_slider.dart';
-import 'package:bandobasta/Request/hall_booking_request.dart';
-import 'package:bandobasta/Response/venue_menu_response.dart';
-import 'package:bandobasta/Response/venue_hall_response.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/big_text.dart';
+import 'package:BandoBasta/Controller/booking_controller.dart';
+import 'package:BandoBasta/Controller/venue_controller.dart';
+import 'package:BandoBasta/Pages/VenueInfoPage/photo_slider.dart';
+import 'package:BandoBasta/Request/hall_booking_request.dart';
+import 'package:BandoBasta/Response/venue_menu_response.dart';
+import 'package:BandoBasta/Response/venue_hall_response.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,7 +64,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                 _makeBooking();
               },
               style: ElevatedButton.styleFrom(
-                primary: AppColors.themeColor,
+                backgroundColor: AppColors.themeColor,
                 padding: EdgeInsets.symmetric(
                   horizontal: Dimensions.width20,
                   vertical: Dimensions.height10 * 1.6,
@@ -574,9 +575,42 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         menuId: menuId,
         hallAvailabilityId: hallAvailabilityId,
         eventType: eventType);
-    print(hallBookingRequest);
-    var orderController = Get.find<BookingController>();
-    orderController.saveHallBooking(hallBookingRequest);
-    Get.toNamed(RouteHelper.getNavigation());
+    var bookingController = Get.find<BookingController>();
+    bookingController.saveHallBooking(hallBookingRequest).then((status) {
+      if (status.isSuccess) {
+        AppConstant.address = "";
+        AppConstant.maxCapacity = 10000;
+        AppConstant.minCapacity = 0;
+        AppConstant.minPrice = 0;
+        AppConstant.maxPrice = 100000;
+        AppConstant.venueName = "";
+        Get.find<VenueController>().onClose();
+        Get.find<VenueController>().get();
+        Get.toNamed(RouteHelper.getNavigation());
+        showCustomSnackBar("Booking Successful!!",
+            title: "Booking", color: Colors.green);
+      } else {
+        showCustomSnackBar(status.message,
+            title: "Booking Failed !!", color: Colors.red);
+      }
+    });
+  }
+
+  void showCustomSnackBar(String message,
+      {required String title, MaterialColor? color}) {
+    Get.snackbar(title, message,
+        titleText: BigText(
+          text: title,
+          color: Colors.white,
+        ),
+        messageText: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: color);
   }
 }

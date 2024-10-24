@@ -1,15 +1,16 @@
-import 'package:bandobasta/Response/venue_menu_response.dart';
-import 'package:bandobasta/Response/venue_hall_response.dart';
+import 'package:BandoBasta/Response/venue_menu_response.dart';
+import 'package:BandoBasta/Response/venue_hall_response.dart';
 
 class AppConstant {
-  static const String appName = "Bandobasta";
-  static const String baseURL = "http://127.0.0.1:8080/book-eat-nepal";
+  static const String appName = "BandoBasta";
+  static const String baseURL = "http://192.168.1.66:8080/book-eat-nepal";
   static String apiVersion = "/api/v1";
 
   static bool toFood = false;
   static bool hasValue = false;
   static bool toCart = false;
   static bool isSelectHallPackageSelected = false;
+  static bool isUserLoggedIn = false;
   static bool isHallBooking = false;
   static MenuDetail menuDetail = MenuDetail(
     id: '',
@@ -35,7 +36,7 @@ class AppConstant {
 
   static int foodId = 0;
   static String numberOfItems = "";
-  static String userId = "2";
+  static String userId = "";
   static String orderId = "";
   static String orderStatus = "";
   static String menuFoodId = "";
@@ -53,23 +54,12 @@ class AppConstant {
   static String selectedTime = "";
   static String menuId = "";
   static String eventType = "WEDDING";
-
   static String venueType = "";
   static int minCapacity = 0;
   static int maxCapacity = 10000;
 
-  static String paymentStartDate = "";
-  static String paymentEndDate = "";
-  static String paymentMethod = "";
-  static String paymentPartner = "";
   static String sortBy = "";
-  static String foodName = "";
-  static String restaurantId = "";
-  static String username = "niranjan";
-  static String latitude = "";
-  static String longitude = "";
-  static String userURI = "/user";
-  static String searchFoodsURI = "";
+  static String username = "";
   static String venueURI = "";
   static String venueMenusURI = "";
   static String paymentsURI = "";
@@ -77,11 +67,8 @@ class AppConstant {
   static String categoryURI = "$apiVersion/category";
   static String mealURI = "$apiVersion/meal";
   static String paypalPaymentURI = "$apiVersion/payment/paypal";
-  static String loginURI = "$apiVersion/user/login";
-  static String registrationURI = "$apiVersion/user/registration";
-  static String stripePaymentURI = "$apiVersion/payment/stripe";
-  static String profileURI = "$apiVersion/user/$userId";
-  static String saveOrderURI = "$apiVersion/order";
+  static String signInURL = "";
+  static String signUpURL = "";
   static String address = "";
   static double minPrice = 0.0;
   static double maxPrice = 0.0;
@@ -92,6 +79,8 @@ class AppConstant {
   static String hallAvailabilitiesURL = "";
   static String hallAvailabilityId = "";
   static String saveHallBookingURL = "";
+  static String updateProfileURL = "";
+  static String userProfileURL = "";
 
   static String getHallBookingURI() {
     findHallBookingByUser =
@@ -101,24 +90,25 @@ class AppConstant {
 
   static String getVenueMenusURI() {
     venueMenusURI =
-        "$apiVersion/menu?venueId=$venueId&page=$page&size=$size&menuType=$menuType";
+        "$apiVersion/menu/findAll?venueId=$venueId&page=$page&size=$size&menuType=$menuType";
     return venueMenusURI;
   }
 
   static String getVenueURI() {
     venueURI =
-        "$apiVersion/venue?venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
+        "$apiVersion/venue/findAll?venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
     return venueURI;
   }
 
   static String getVenueHallsURI() {
-    venueHallURI = "$apiVersion/hall?venueId=$venueId&page=$page&size=$size";
+    venueHallURI =
+        "$apiVersion/hall/findAll?venueId=$venueId&page=$page&size=$size";
     return venueHallURI;
   }
 
   static String getVenuePackagesURI() {
     venuePackageURI =
-        "$apiVersion/package?venueId=$venueId&page=$page&size=$size";
+        "$apiVersion/package/findAll?venueId=$venueId&page=$page&size=$size";
     return venuePackageURI;
   }
 
@@ -127,9 +117,29 @@ class AppConstant {
         "$apiVersion/hall/availability?venueId=$venueId&date=$selectedDate&page=$page&size=$size";
     return hallAvailabilitiesURL;
   }
+
   static String getSaveHallBookingURL() {
-    saveHallBookingURL =
-        "$apiVersion/booking/hall";
+    saveHallBookingURL = "$apiVersion/booking/hall";
     return saveHallBookingURL;
+  }
+
+  static String getSignInURL() {
+    signInURL = "$apiVersion/user/authenticate/login";
+    return signInURL;
+  }
+
+  static String getSignUpURL() {
+    signUpURL = "$apiVersion/user/authenticate/register";
+    return signUpURL;
+  }
+
+  static String getUpdateProfileURL() {
+    updateProfileURL = "$apiVersion/user/$userId";
+    return updateProfileURL;
+  }
+
+  static String getProfileURL() {
+    userProfileURL = "$apiVersion/user/$userId";
+    return userProfileURL;
   }
 }

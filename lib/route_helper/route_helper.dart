@@ -1,18 +1,22 @@
-import 'package:bandobasta/Pages/VenueInfoPage/venue_info_page.dart';
-import 'package:bandobasta/Pages/bookingPage/availability_page.dart';
-import 'package:bandobasta/Pages/bookingPage/checkout_page.dart';
-import 'package:bandobasta/Pages/bookingPage/select_hall_package_page.dart';
-import 'package:bandobasta/Pages/homepage/homepage.dart';
-import 'package:bandobasta/Pages/homepage/navigation.dart';
-import 'package:bandobasta/Pages/menuPage/food_menu_page.dart';
-import 'package:bandobasta/Pages/menuPage/venue_menu_page.dart';
-import 'package:bandobasta/Pages/searchVenuePage/check_availability_form_page.dart';
-import 'package:bandobasta/Pages/searchVenuePage/search_venue_page.dart';
-import 'package:bandobasta/Pages/venueHallPage/hall_info.dart';
-import 'package:bandobasta/Pages/venueHallPage/venue_halls.dart';
-import 'package:bandobasta/Pages/venuePackage/package_info.dart';
-import 'package:bandobasta/Pages/venuePackage/venue_packages.dart';
-import 'package:bandobasta/Response/venue_menu_response.dart';
+import 'package:BandoBasta/Pages/AccountAndSettings/main_profile_page.dart';
+import 'package:BandoBasta/Pages/VenueInfoPage/venue_info_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/availability_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/checkout_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/select_hall_package_page.dart';
+import 'package:BandoBasta/Pages/homepage/homepage.dart';
+import 'package:BandoBasta/Pages/homepage/navigation.dart';
+import 'package:BandoBasta/Pages/menuPage/food_menu_page.dart';
+import 'package:BandoBasta/Pages/menuPage/venue_menu_page.dart';
+import 'package:BandoBasta/Pages/AccountAndSettings/updateProfilePage.dart';
+import 'package:BandoBasta/Pages/searchVenuePage/check_availability_form_page.dart';
+import 'package:BandoBasta/Pages/searchVenuePage/search_venue_page.dart';
+import 'package:BandoBasta/Pages/sign_in_page/sign_in.dart';
+import 'package:BandoBasta/Pages/sign_up_page/sign_up.dart';
+import 'package:BandoBasta/Pages/venueHallPage/hall_info.dart';
+import 'package:BandoBasta/Pages/venueHallPage/venue_halls.dart';
+import 'package:BandoBasta/Pages/venuePackage/package_info.dart';
+import 'package:BandoBasta/Pages/venuePackage/venue_packages.dart';
+import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:get/get.dart';
 
 class RouteHelper {
@@ -25,6 +29,7 @@ class RouteHelper {
   static const String bookings = '/bookings';
   static const String venueInfo = '/viewVenueInfo';
   static const String viewProfile = '/viewProfile';
+  static const String updateProfile = '/updateProfile';
   static const String viewNotifications = '/viewNotifications';
   static const String venueMenus = '/venueMenus';
   static const String menuDetail = '/menudetail';
@@ -56,6 +61,7 @@ class RouteHelper {
   static String getHomepage() => homepage;
   static String getSearchVenue() => searchVenue;
   static String getOrders() => bookings;
+  static String getUpdateProfile() => updateProfile;
   static String getViewProfile() => viewProfile;
   static String getViewNotiifcations() => viewNotifications;
   static String getVenueHalls(String venueName, String imageURL) =>
@@ -77,16 +83,20 @@ class RouteHelper {
 
   static List<GetPage> routes = [
     GetPage(name: homepage, page: () => const Homepage()),
+    GetPage(name: signUp, page: () => const SignUpPage()),
+    GetPage(name: signIn, page: () => const SignInPage()),
     GetPage(
       name: navigation,
       page: () => const Navigation(),
       transition: Transition.noTransition,
     ),
     GetPage(name: searchVenue, page: () => SearchVenuePage()),
-    GetPage(name: bookingConfirmationPage, page: () => CheckoutPage()),
-    GetPage(name: availableDateTime, page: () => AvailabilityPage()),
-    GetPage(name: checkAvailabilityForm, page: () => CheckAvailabilityPage()),
-
+    GetPage(name: viewProfile, page: () => ProfilePage()),
+    GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
+    GetPage(name: bookingConfirmationPage, page: () => const CheckoutPage()),
+    GetPage(name: availableDateTime, page: () => const AvailabilityPage()),
+    GetPage(
+        name: checkAvailabilityForm, page: () => const CheckAvailabilityPage()),
     GetPage(
         name: selectHallVenuePackage,
         page: () {
@@ -157,36 +167,5 @@ class RouteHelper {
           return FoodMenuScreen(
               menuDetail: menuDetail, menuName: menuName!, price: price!);
         }),
-
-    // GetPage(name: viewProfile, page: () => const ProfilePage()),
-    // GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
-
-    // GetPage(name: payments, page: () => const PaymentDetailsPage()),
-    // GetPage(name: cart, page: () => const CartPage()),
-    // GetPage(name: restaurantMenu, page: () => const RestaurantMenu()),
-    // GetPage(
-    //     name: orderDetail,
-    //     page: () {
-    //       var orderId = Get.parameters['orderId'];
-    //       return OrderPage(
-    //         orderId: int.parse(orderId!),
-    //       );
-    //     }),
-    // GetPage(
-    //     name: foodDetail,
-    //     page: () {
-    //       var foodId = Get.parameters['foodId'];
-    //       return FoodPage(
-    //         foodId: int.parse(foodId!),
-    //       );
-    //     }),
-    // GetPage(
-    //     name: restaurantMenuFood,
-    //     page: () {
-    //       var foodId = Get.parameters['foodId'];
-    //       return RestaurantMenuFoodPage(
-    //         foodId: int.parse(foodId!),
-    //       );
-    // }),
   ];
 }

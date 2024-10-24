@@ -1,14 +1,14 @@
-import 'package:bandobasta/Controller/venue_controller.dart';
-import 'package:bandobasta/Pages/VenueInfoPage/photo_slider.dart';
-import 'package:bandobasta/Pages/searchVenuePage/check_availability_form_page.dart';
-import 'package:bandobasta/Response/venue_response.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/Controller/venue_controller.dart';
+import 'package:BandoBasta/Pages/VenueInfoPage/photo_slider.dart';
+import 'package:BandoBasta/Pages/searchVenuePage/check_availability_form_page.dart';
+import 'package:BandoBasta/Response/venue_response.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/big_text.dart';
-import 'package:bandobasta/widgets/small_text.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:get/get.dart';
 
 class VenueInfoPage extends StatefulWidget {
@@ -66,61 +66,34 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     List<String> amenities = venue.amenities!.take(10).toList();
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(Dimensions.height20 * 3.5),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColors.themeColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              clear();
-            },
+      appBar: AppBar(
+        toolbarHeight: Dimensions.height10 * 8,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: AppColors.themeColor,
           ),
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipOval(
-                  child: Container(
-                    height: Dimensions.height10 * 5,
-                    width: Dimensions.height10 * 5,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/images/wedding.png"),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: Dimensions.width5),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(
-                      text: "BANDOBASTA",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font20,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    SmallText(
-                      text: "Effortless booking",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font12,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          centerTitle: true,
+          onPressed: () {
+            Navigator.pop(context);
+            clear();
+          },
         ),
+        elevation: 0, // No shadow
+        backgroundColor: Colors.white,
+        title: Center(
+          child: Container(
+            height: Dimensions.height10 * 9,
+            width: Dimensions.height10 * 20, // Adjust the width if needed
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain, // Use contain to fit the whole image
+                image: AssetImage("assets/images/logo.png"), // Your logo image
+              ),
+            ),
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -217,7 +190,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 venue.name!, photoUrls.first));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
+                            backgroundColor: Colors.green,
                           ),
                           child: Row(
                             children: [
@@ -231,7 +204,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
+                            backgroundColor: Colors.red,
                           ),
                           child: Row(
                             children: [
@@ -252,7 +225,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 getVenueImageURLs(venue.venueImagePaths!)[0]));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
+                            backgroundColor: Colors.green,
                           ),
                           child: Row(
                             children: [
@@ -270,7 +243,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                                 RouteHelper.getVenuePackages(venue.name!));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
+                            backgroundColor: Colors.red,
                           ),
                           child: Row(
                             children: [
@@ -327,13 +300,19 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
               SizedBox(height: Dimensions.height10 * 1.6),
               ElevatedButton(
                 onPressed: () {
-                  AppConstant.venueId = venue.id!;
-                  AppConstant.isSelectHallPackageSelected = true;
-                  Get.toNamed(RouteHelper.getSelectHallPackagePage(venue.name!,
-                      getVenueImageURLs(venue.venueImagePaths!)[0]));
+                  if (AppConstant.isUserLoggedIn) {
+                    AppConstant.venueId = venue.id!;
+                    AppConstant.isSelectHallPackageSelected = true;
+                    Get.toNamed(RouteHelper.getSelectHallPackagePage(
+                        venue.name!,
+                        getVenueImageURLs(venue.venueImagePaths!)[0]));
+                  } else {
+                    clear();
+                    Get.toNamed(RouteHelper.getSignIn());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: AppColors.themeColor,
+                  backgroundColor: AppColors.themeColor,
                   padding: EdgeInsets.symmetric(
                     horizontal: Dimensions.width20,
                     vertical: Dimensions.height10 * 1.6,

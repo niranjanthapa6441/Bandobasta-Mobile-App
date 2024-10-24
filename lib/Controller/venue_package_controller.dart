@@ -1,6 +1,6 @@
-import 'package:bandobasta/Repository/venue_package_repo.dart';
-import 'package:bandobasta/Response/venu_package_response.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/Repository/venue_package_repo.dart';
+import 'package:BandoBasta/Response/venu_package_response.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 

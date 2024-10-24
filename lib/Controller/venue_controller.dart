@@ -1,6 +1,6 @@
-import 'package:bandobasta/Repository/venue_repo.dart';
-import 'package:bandobasta/Response/venue_response.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/Repository/venue_repo.dart';
+import 'package:BandoBasta/Response/venue_response.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -29,12 +29,12 @@ class VenueController extends GetxController {
     if (response.statusCode == 200) {
       VenueResponse venueResponse = VenueResponse.fromJson(response.body);
       if (venueResponse.data != null && venueResponse.data!.venues != null) {
-        _venues.addAll(venueResponse.data!.venues!);  
+        _venues.addAll(venueResponse.data!.venues!);
         _currentPage = venueResponse.data!.currentPage ?? 0;
         _totalElements = venueResponse.data!.totalElements ?? 0;
         _totalPages = venueResponse.data!.totalPages ?? 0;
       }
-      
+
       _isLoaded = true;
       update();
     } else {

@@ -1,16 +1,20 @@
-import 'package:bandobasta/Controller/booking_controller.dart';
-import 'package:bandobasta/Controller/check_hall_availability_controller.dart';
-import 'package:bandobasta/Controller/venue_controller.dart';
-import 'package:bandobasta/Controller/venue_hall_controller.dart';
-import 'package:bandobasta/Controller/venue_menu_controller.dart';
-import 'package:bandobasta/Controller/venue_package_controller.dart';
-import 'package:bandobasta/Repository/hall_availability_controller.dart';
-import 'package:bandobasta/Repository/booking_repository.dart';
-import 'package:bandobasta/Repository/venue_hall_repo.dart';
-import 'package:bandobasta/Repository/venue_menu_repository.dart';
-import 'package:bandobasta/Repository/venue_package_repo.dart';
-import 'package:bandobasta/Repository/venue_repo.dart';
-import 'package:bandobasta/utils/api/api_client.dart';
+import 'package:BandoBasta/Controller/booking_controller.dart';
+import 'package:BandoBasta/Controller/check_hall_availability_controller.dart';
+import 'package:BandoBasta/Controller/user_controller.dart';
+import 'package:BandoBasta/Controller/venue_controller.dart';
+import 'package:BandoBasta/Controller/venue_hall_controller.dart';
+import 'package:BandoBasta/Controller/venue_menu_controller.dart';
+import 'package:BandoBasta/Controller/venue_package_controller.dart';
+import 'package:BandoBasta/Repository/auth_repository.dart';
+import 'package:BandoBasta/Repository/hall_availability_controller.dart';
+import 'package:BandoBasta/Repository/booking_repository.dart';
+import 'package:BandoBasta/Repository/venue_hall_repo.dart';
+import 'package:BandoBasta/Repository/venue_menu_repository.dart';
+import 'package:BandoBasta/Repository/venue_package_repo.dart';
+import 'package:BandoBasta/Repository/venue_repo.dart';
+import 'package:BandoBasta/controller/auth_controller.dart';
+import 'package:BandoBasta/repository/customer_repo.dart';
+import 'package:BandoBasta/utils/api/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +33,8 @@ Future<void> init() async {
   Get.lazyPut(() => VenueHallRepo(apiClient: Get.find()));
   Get.lazyPut(() => VenuePackageRepo(apiClient: Get.find()));
   Get.lazyPut(() => HallAvailabilityRepo(apiClient: Get.find()));
+  Get.lazyPut(() => AuthRepo(apiClient: Get.find()));
+  Get.lazyPut(() => UserRepo(apiClient: Get.find()));
 
   //controller
   Get.lazyPut(() => VenueController(venueRepo: Get.find()));
@@ -38,4 +44,6 @@ Future<void> init() async {
   Get.lazyPut(() => VenuePackageController(venuePackageRepo: Get.find()));
   Get.lazyPut(
       () => HallAvailabilityController(hallAvailabilityRepo: Get.find()));
+  Get.lazyPut(() => AuthController(authRepo: Get.find()));
+  Get.lazyPut(() => UserController(userRepo: Get.find()));
 }

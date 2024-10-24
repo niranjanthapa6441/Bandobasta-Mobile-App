@@ -1,7 +1,7 @@
-import 'package:bandobasta/Model/response_mode.dart';
-import 'package:bandobasta/Repository/booking_repository.dart';
-import 'package:bandobasta/Request/hall_booking_request.dart';
-import 'package:bandobasta/Response/hall_booking_response.dart';
+import 'package:BandoBasta/Model/response_model.dart';
+import 'package:BandoBasta/Repository/booking_repository.dart';
+import 'package:BandoBasta/Request/hall_booking_request.dart';
+import 'package:BandoBasta/Response/hall_booking_response.dart';
 import 'package:get/get.dart';
 
 import '../utils/app_constants/app_constant.dart';
@@ -43,8 +43,6 @@ class BookingController extends GetxController {
       _isLoaded = true;
       update();
     } else {
-      Response response =
-          await bookingRepository.getCustomerHallBookingDetails();
       // ErrorResponse error = ErrorResponse.fromJson(response.body);
       // showCustomSnackBar(error.message, title: "orders");
     }
@@ -54,7 +52,6 @@ class BookingController extends GetxController {
     Response response = await bookingRepository.saveHallBooking(request);
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
-      print("I'm here");
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
       responseModel = ResponseModel(false, response.body["message"]);

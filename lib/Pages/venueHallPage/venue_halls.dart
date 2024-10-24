@@ -1,9 +1,9 @@
-import 'package:bandobasta/Controller/venue_hall_controller.dart';
-import 'package:bandobasta/Response/venue_hall_response.dart';
-import 'package:bandobasta/card/hall_card.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/Controller/venue_hall_controller.dart';
+import 'package:BandoBasta/Response/venue_hall_response.dart';
+import 'package:BandoBasta/card/hall_card.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';

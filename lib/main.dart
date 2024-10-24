@@ -1,14 +1,14 @@
-import 'package:bandobasta/Controller/booking_controller.dart';
-import 'package:bandobasta/Controller/check_hall_availability_controller.dart';
-import 'package:bandobasta/Controller/venue_controller.dart';
-import 'package:bandobasta/Controller/venue_hall_controller.dart';
-import 'package:bandobasta/Controller/venue_menu_controller.dart';
-import 'package:bandobasta/Controller/venue_package_controller.dart';
-import 'package:bandobasta/Pages/homepage/navigation.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/Controller/booking_controller.dart';
+import 'package:BandoBasta/Controller/check_hall_availability_controller.dart';
+import 'package:BandoBasta/Controller/venue_controller.dart';
+import 'package:BandoBasta/Controller/venue_hall_controller.dart';
+import 'package:BandoBasta/Controller/venue_menu_controller.dart';
+import 'package:BandoBasta/Controller/venue_package_controller.dart';
+import 'package:BandoBasta/Pages/homepage/navigation.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:bandobasta/utils/helper/dependencies.dart' as dep;
+import 'package:BandoBasta/utils/helper/dependencies.dart' as dep;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,11 +34,12 @@ class MyApp extends StatelessWidget {
     Get.find<HallAvailabilityController>().onClose();
     Get.find<HallAvailabilityController>().get();
     return GetMaterialApp(
-      title: 'Bandobasta',
+      title: 'BandoBasta',
       theme: ThemeData(
-          primaryColor: const Color.fromARGB(255, 176, 2, 2),
+          useMaterial3: false,
+          scaffoldBackgroundColor: Colors.white,
           appBarTheme: const AppBarTheme(
-            color: const Color.fromARGB(255, 176, 2, 2),
+            color: Color.fromARGB(255, 176, 2, 2),
           )),
       debugShowCheckedModeBanner: false,
       getPages: RouteHelper.routes,

@@ -1,10 +1,10 @@
-
-import 'package:bandobasta/Pages/bookingPage/view_bookings_page.dart';
-import 'package:bandobasta/Pages/homepage/homepage.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/Pages/AccountAndSettings/account_settings_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/view_bookings_page.dart';
+import 'package:BandoBasta/Pages/favouritePage/favourite_page.dart';
+import 'package:BandoBasta/Pages/homepage/homepage.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
-
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
@@ -18,8 +18,8 @@ class _NavigationState extends State<Navigation> {
   List pages = [
     const Homepage(),
     const BookingsPage(),
-    // const PaymentDetailsPage(),
-    // const ProfilePage(),
+    const FavouritePage(),
+    const AccountSettingsPage(),
   ];
 
   @override
@@ -55,10 +55,10 @@ class _NavigationState extends State<Navigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.payment,
+              Icons.favorite, // Using the standard heart icon
               size: Dimensions.height30,
             ),
-            label: 'Billings',
+            label: 'Favourites',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -68,6 +68,7 @@ class _NavigationState extends State<Navigation> {
             label: 'Profile',
           ),
         ],
+        backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
         unselectedLabelStyle: TextStyle(
             fontSize: Dimensions.font15,

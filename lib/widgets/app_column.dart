@@ -1,7 +1,6 @@
-
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/small_text.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
 import 'big_text.dart';
@@ -35,7 +34,7 @@ class AppColumn extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width:Dimensions.width10,
+            width: Dimensions.width10,
           ),
           SmallText(
             text: "4.5",

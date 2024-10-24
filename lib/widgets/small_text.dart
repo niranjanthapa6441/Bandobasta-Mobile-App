@@ -1,4 +1,4 @@
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 
 class SmallText extends StatelessWidget {

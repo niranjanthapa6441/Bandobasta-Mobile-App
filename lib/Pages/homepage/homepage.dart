@@ -1,9 +1,9 @@
-import 'package:bandobasta/Pages/homepage/homepage_body.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
-import 'package:bandobasta/widgets/big_text.dart';
-import 'package:bandobasta/widgets/small_text.dart';
+import 'package:BandoBasta/Pages/homepage/homepage_body.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/widgets/big_text.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,51 +23,24 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(Dimensions.height20 * 3.5),
-        child: AppBar(
-          elevation: 0, // No shadow
-          backgroundColor: Colors.white,
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipOval(
-                  child: Container(
-                    height: Dimensions.height10 * 5,
-                    width: Dimensions.height10 * 5,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/images/wedding.png"),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: Dimensions.width5),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(
-                      text: "BANDOBASTA",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font20,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    SmallText(
-                      text: "Effortless booking",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font12,
-                    ),
-                  ],
-                ),
-              ],
+      appBar: AppBar(
+        toolbarHeight: Dimensions.height10 * 8,
+        automaticallyImplyLeading: false,
+        elevation: 0, // No shadow
+        backgroundColor: Colors.white,
+        title: Center(
+          child: Container(
+            height: Dimensions.height10 * 9,
+            width: Dimensions.height10 * 20, // Adjust the width if needed
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain, // Use contain to fit the whole image
+                image: AssetImage("assets/images/logo.png"), // Your logo image
+              ),
             ),
           ),
-          centerTitle: true,
         ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Dimensions.width20),

@@ -1,27 +1,28 @@
-import 'package:bandobasta/utils/color/colors.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
-
 
 class AppTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final String hintText;
   final IconData icon;
-  bool isObscure;
+  final bool isObscure;
   final bool readOnly;
   final double width;
-  Widget? widget;
-  AppTextField(
-      {Key? key,
-      required this.textEditingController,
-      required this.hintText,
-      required this.icon,
-      this.isObscure = false,
-      this.readOnly = false,
-      this.widget = null,
-      required this.width 
-      ,})
-      : super(key: key);
+  final Widget? widget;
+  final Color? color; // Optional color for hint text
+
+  AppTextField({
+    Key? key,
+    required this.textEditingController,
+    required this.hintText,
+    required this.icon,
+    this.isObscure = false,
+    this.readOnly = false,
+    this.widget = null,
+    required this.width,
+    this.color, // Make color optional
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +52,14 @@ class AppTextField extends StatelessWidget {
               controller: textEditingController,
               decoration: InputDecoration(
                 hintText: hintText,
+                hintStyle: TextStyle(
+                  color: color ??
+                      Colors.grey, // Default to grey if no color is provided
+                ),
                 prefixIcon: widget == null
                     ? Icon(
                         icon,
-                        color: AppColors.mainBlackColor,
+                        color: color ?? AppColors.mainBlackColor,
                       )
                     : null,
                 focusedBorder: OutlineInputBorder(

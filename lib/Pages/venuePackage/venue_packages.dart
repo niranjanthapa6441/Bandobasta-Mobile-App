@@ -1,9 +1,9 @@
-import 'package:bandobasta/Controller/venue_package_controller.dart';
-import 'package:bandobasta/Response/venu_package_response.dart';
-import 'package:bandobasta/card/package_card.dart';
-import 'package:bandobasta/route_helper/route_helper.dart';
-import 'package:bandobasta/utils/app_constants/app_constant.dart';
-import 'package:bandobasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/Controller/venue_package_controller.dart';
+import 'package:BandoBasta/Response/venu_package_response.dart';
+import 'package:BandoBasta/card/package_card.dart';
+import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -45,10 +45,10 @@ class _VenuePackagePageState extends State<VenuePackagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.venueName + 'Packages'),
+        title: Text('${widget.venueName} Packages'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
