@@ -33,7 +33,6 @@ class VenueCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
             child: Image.network(
-              // Use Image.network instead of NetworkImage
               imageUrl,
               fit: BoxFit.cover,
               height: Dimensions.height10 * 12,

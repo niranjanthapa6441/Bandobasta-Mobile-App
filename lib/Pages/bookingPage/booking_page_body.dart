@@ -274,20 +274,6 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           SizedBox(
                             height: Dimensions.height20 * 0.92,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SmallText(
-                                text: "Show More",
-                                color: AppColors.mainBlackColor,
-                                size: Dimensions.font15,
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.mainBlackColor,
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),

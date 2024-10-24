@@ -6,7 +6,6 @@ import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/app_text_field.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
-import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,49 +31,24 @@ class _SignInPageBodyState extends State<SignInPageBody> {
             Container(
               height: Dimensions.height20 * 6,
             ),
-            PreferredSize(
-              preferredSize: Size.fromHeight(Dimensions.height20 * 3.5),
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ClipOval(
-                      child: Container(
-                        height: Dimensions.height10 * 8,
-                        width: Dimensions.height10 * 8,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("assets/images/wedding.png"),
-                          ),
-                        ),
-                      ),
+            Container(
+              height: Dimensions.height10 * 10,
+              child: Center(
+                child: Container(
+                  height: Dimensions.height10 * 10,
+                  width: Dimensions.height10 * 20, // Adjust the width if needed
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.contain, // Use contain to fit the whole image
+                      image: AssetImage(
+                          "assets/images/logo.png"), // Your logo image
                     ),
-                    SizedBox(width: Dimensions.width5),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BigText(
-                          text: "BandoBasta",
-                          color: AppColors.themeColor,
-                          size: Dimensions.font20 * 1.2,
-                          fontWeight: FontWeight.w900,
-                        ),
-                        SmallText(
-                          text: "Effortless booking",
-                          color: AppColors.themeColor,
-                          size: Dimensions.font10 * 1.5,
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
             Container(
-              height: Dimensions.height20 * 2,
+              height: Dimensions.height20,
             ),
             Container(
               margin: EdgeInsets.only(left: Dimensions.width30),

@@ -1,7 +1,7 @@
+import 'package:BandoBasta/Pages/AccountAndSettings/account_settings_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/view_bookings_page.dart';
 import 'package:BandoBasta/Pages/favouritePage/favourite_page.dart';
 import 'package:BandoBasta/Pages/homepage/homepage.dart';
-import 'package:BandoBasta/Pages/profilepage/main_profile_page.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class _NavigationState extends State<Navigation> {
     const Homepage(),
     const BookingsPage(),
     const FavouritePage(),
-    const ProfilePage(),
+    const AccountSettingsPage(),
   ];
 
   @override

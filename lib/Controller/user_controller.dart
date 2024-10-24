@@ -18,8 +18,7 @@ class UserController extends GetxController {
       _isLoaded = true;
       user = UserProfileResponse.fromJson(response.body).data;
       update();
-    } else {
-    }
+    } else {}
   }
 
   Future<ResponseModel> updateProfile(UpdateProfileRequest request) async {

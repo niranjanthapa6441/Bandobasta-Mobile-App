@@ -7,10 +7,9 @@ import 'package:BandoBasta/widgets/app_icon.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class ProfilePageBody extends StatefulWidget {
-  const ProfilePageBody({Key? key}) : super(key: key);
+  const ProfilePageBody({super.key});
 
   @override
   _ProfilePageBodyState createState() => _ProfilePageBodyState();
@@ -21,7 +20,7 @@ class _ProfilePageBodyState extends State<ProfilePageBody> {
   void initState() {
     super.initState();
     Get.find<UserController>()
-        .getCustomerDetails(); // Ensure data is fetched when widget is built.
+        .getCustomerDetails(); 
   }
 
   @override

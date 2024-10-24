@@ -66,61 +66,34 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     List<String> amenities = venue.amenities!.take(10).toList();
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(Dimensions.height20 * 3.5),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColors.themeColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              clear();
-            },
+      appBar: AppBar(
+        toolbarHeight: Dimensions.height10 * 8,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: AppColors.themeColor,
           ),
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipOval(
-                  child: Container(
-                    height: Dimensions.height10 * 5,
-                    width: Dimensions.height10 * 5,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/images/wedding.png"),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: Dimensions.width5),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(
-                      text: "BandoBasta",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font20,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    SmallText(
-                      text: "Effortless booking",
-                      color: AppColors.themeColor,
-                      size: Dimensions.font12,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          centerTitle: true,
+          onPressed: () {
+            Navigator.pop(context);
+            clear();
+          },
         ),
+        elevation: 0, // No shadow
+        backgroundColor: Colors.white,
+        title: Center(
+          child: Container(
+            height: Dimensions.height10 * 9,
+            width: Dimensions.height10 * 20, // Adjust the width if needed
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain, // Use contain to fit the whole image
+                image: AssetImage("assets/images/logo.png"), // Your logo image
+              ),
+            ),
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(

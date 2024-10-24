@@ -1,4 +1,5 @@
 import 'package:BandoBasta/Controller/booking_controller.dart';
+import 'package:BandoBasta/Controller/venue_controller.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/photo_slider.dart';
 import 'package:BandoBasta/Request/hall_booking_request.dart';
 import 'package:BandoBasta/Response/venue_menu_response.dart';
@@ -574,8 +575,42 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         menuId: menuId,
         hallAvailabilityId: hallAvailabilityId,
         eventType: eventType);
-    var orderController = Get.find<BookingController>();
-    orderController.saveHallBooking(hallBookingRequest);
-    Get.toNamed(RouteHelper.getNavigation());
+    var bookingController = Get.find<BookingController>();
+    bookingController.saveHallBooking(hallBookingRequest).then((status) {
+      if (status.isSuccess) {
+        AppConstant.address = "";
+        AppConstant.maxCapacity = 10000;
+        AppConstant.minCapacity = 0;
+        AppConstant.minPrice = 0;
+        AppConstant.maxPrice = 100000;
+        AppConstant.venueName = "";
+        Get.find<VenueController>().onClose();
+        Get.find<VenueController>().get();
+        Get.toNamed(RouteHelper.getNavigation());
+        showCustomSnackBar("Booking Successful!!",
+            title: "Booking", color: Colors.green);
+      } else {
+        showCustomSnackBar(status.message,
+            title: "Booking Failed !!", color: Colors.red);
+      }
+    });
+  }
+
+  void showCustomSnackBar(String message,
+      {required String title, MaterialColor? color}) {
+    Get.snackbar(title, message,
+        titleText: BigText(
+          text: title,
+          color: Colors.white,
+        ),
+        messageText: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: color);
   }
 }

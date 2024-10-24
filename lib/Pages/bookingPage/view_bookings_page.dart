@@ -1,7 +1,6 @@
 import 'package:BandoBasta/Controller/booking_controller.dart';
 import 'package:BandoBasta/Pages/bookingPage/booking_page_body.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
-import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -46,45 +45,21 @@ class _OrdersState extends State<BookingsPage> {
       body: Column(
         children: [
           AppBar(
+            toolbarHeight: Dimensions.height10 * 8,
             automaticallyImplyLeading: false,
             elevation: 0, // No shadow
             backgroundColor: Colors.white,
             title: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipOval(
-                    child: Container(
-                      height: Dimensions.height10 * 5,
-                      width: Dimensions.height10 * 5,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage("assets/images/wedding.png"),
-                        ),
-                      ),
-                    ),
+              child: Container(
+                height: Dimensions.height10 * 9,
+                width: Dimensions.height10 * 20, // Adjust the width if needed
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.contain, // Use contain to fit the whole image
+                    image:
+                        AssetImage("assets/images/logo.png"), // Your logo image
                   ),
-                  SizedBox(width: Dimensions.width5),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BigText(
-                        text: "BandoBasta",
-                        color: AppColors.themeColor,
-                        size: Dimensions.font20,
-                        fontWeight: FontWeight.w900,
-                      ),
-                      SmallText(
-                        text: "Effortless booking",
-                        color: AppColors.themeColor,
-                        size: Dimensions.font12,
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
             centerTitle: true,

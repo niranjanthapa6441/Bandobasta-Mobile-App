@@ -1,3 +1,4 @@
+import 'package:BandoBasta/Pages/AccountAndSettings/main_profile_page.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/venue_info_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/availability_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/checkout_page.dart';
@@ -6,7 +7,7 @@ import 'package:BandoBasta/Pages/homepage/homepage.dart';
 import 'package:BandoBasta/Pages/homepage/navigation.dart';
 import 'package:BandoBasta/Pages/menuPage/food_menu_page.dart';
 import 'package:BandoBasta/Pages/menuPage/venue_menu_page.dart';
-import 'package:BandoBasta/Pages/profilepage/updateProfilePage.dart';
+import 'package:BandoBasta/Pages/AccountAndSettings/updateProfilePage.dart';
 import 'package:BandoBasta/Pages/searchVenuePage/check_availability_form_page.dart';
 import 'package:BandoBasta/Pages/searchVenuePage/search_venue_page.dart';
 import 'package:BandoBasta/Pages/sign_in_page/sign_in.dart';
@@ -90,6 +91,7 @@ class RouteHelper {
       transition: Transition.noTransition,
     ),
     GetPage(name: searchVenue, page: () => SearchVenuePage()),
+    GetPage(name: viewProfile, page: () => ProfilePage()),
     GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
     GetPage(name: bookingConfirmationPage, page: () => const CheckoutPage()),
     GetPage(name: availableDateTime, page: () => const AvailabilityPage()),

@@ -1,9 +1,9 @@
-import 'package:BandoBasta/Pages/profilepage/profile_page_body.dart';
+import 'package:BandoBasta/Pages/AccountAndSettings/profile_page_body.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -14,11 +14,20 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) => WillPopScope(
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           title: BigText(
-            text: 'Checkout',
+            text: 'Profile',
             color: Colors.white,
           ),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           centerTitle: true,
         ),
         body: ProfilePageBody(),

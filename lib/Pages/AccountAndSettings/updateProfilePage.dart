@@ -3,14 +3,12 @@ import 'package:BandoBasta/Request/update_profile_request.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
 import '../../utils/dimensions/dimension.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/big_text.dart';
 
 class UpdateProfilePage extends StatefulWidget {
-  const UpdateProfilePage({Key? key}) : super(key: key);
+  const UpdateProfilePage({super.key});
 
   @override
   State<UpdateProfilePage> createState() => _UpdateProfilePageState();
@@ -26,9 +24,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
 
-  bool _dateSelected = false;
-
-  TextEditingController _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

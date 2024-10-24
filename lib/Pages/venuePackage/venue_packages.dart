@@ -45,10 +45,10 @@ class _VenuePackagePageState extends State<VenuePackagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.venueName + 'Packages'),
+        title: Text('${widget.venueName} Packages'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
