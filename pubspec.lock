@@ -365,11 +365,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.2.5"
-<<<<<<< Updated upstream
   web:
-=======
-  win32:
->>>>>>> Stashed changes
     dependency: transitive
     description:
       name: web
