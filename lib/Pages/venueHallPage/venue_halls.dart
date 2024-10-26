@@ -64,27 +64,41 @@ class _VenueHallPageState extends State<VenueHallPage> {
               child: GetBuilder<VenueHallController>(builder: (controller) {
                 return GestureDetector(
                   child: controller.isLoaded
-                      ? Container(
-                          height: Dimensions.height10 * 55,
-                          padding: EdgeInsets.only(bottom: Dimensions.height20),
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            padding: EdgeInsets.zero,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: controller.venueHalls.length + 1,
-                            itemBuilder: (context, index) {
-                              if (index != controller.totalElements &&
-                                  index == controller.venueHalls.length) {
-                                return _buildSingleLoadingIndicator();
-                              } else if (index == controller.totalElements &&
-                                  index == controller.venueHalls.length) {
-                                return Container();
-                              }
-                              return _buildHallCard(
-                                  controller.venueHalls[index], index);
-                            },
-                          ),
-                        )
+                      ? controller.venueHalls.isEmpty
+                          ? Container(
+                              height: MediaQuery.of(context).size.height *
+                                  0.5, // Adjust height to center vertically
+                              alignment: Alignment
+                                  .center, // Center horizontally and vertically
+                              child: Text(
+                                "No Any Availble Halls",
+                                style:
+                                    TextStyle(fontSize: 18, color: Colors.grey),
+                              ),
+                            )
+                          : Container(
+                              height: Dimensions.height10 * 55,
+                              padding:
+                                  EdgeInsets.only(bottom: Dimensions.height20),
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                padding: EdgeInsets.zero,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: controller.venueHalls.length + 1,
+                                itemBuilder: (context, index) {
+                                  if (index != controller.totalElements &&
+                                      index == controller.venueHalls.length) {
+                                    return _buildSingleLoadingIndicator();
+                                  } else if (index ==
+                                          controller.totalElements &&
+                                      index == controller.venueHalls.length) {
+                                    return Container();
+                                  }
+                                  return _buildHallCard(
+                                      controller.venueHalls[index], index);
+                                },
+                              ),
+                            )
                       : _buildLoadingIndicator(),
                 );
               }),
