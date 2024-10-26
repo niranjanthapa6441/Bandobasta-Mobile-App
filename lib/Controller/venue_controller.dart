@@ -62,6 +62,7 @@ class VenueController extends GetxController {
 
   void clear() {
     _venues.clear();
+    _isLoaded = false;
     print("Venues lentgh after ckear" + _venues.length.toString());
     AppConstant.page = 1;
     AppConstant.getVenueURI();

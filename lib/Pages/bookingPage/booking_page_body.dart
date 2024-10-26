@@ -50,36 +50,6 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Container(
-        //   height: Dimensions.height10 * 20,
-        //   width: Dimensions.width10 * 300,
-        //   decoration: BoxDecoration(
-        //     color: AppColors.themeColor,
-        //   ),
-        //   child: Container(
-        //     margin: EdgeInsets.only(
-        //         top: Dimensions.height20, left: Dimensions.width20),
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         BigText(
-        //           text: "Pending Orders",
-        //           color: Colors.white,
-        //         ),
-        //         SizedBox(
-        //           height: Dimensions.height50,
-        //         ),
-        //         Center(
-        //           child: BigText(
-        //             text: "You Don't have any recent orders",
-        //             color: Colors.white,
-        //             size: Dimensions.font10 * 1.4,
-        //           ),
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
         if (AppConstant.isUserLoggedIn)
           Container(
             margin: EdgeInsets.only(
@@ -91,31 +61,43 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
             ),
           ),
         if (AppConstant.isUserLoggedIn)
-          GetBuilder<BookingController>(builder: (orders) {
-            return GestureDetector(
-              child: orders.isLoaded
-                  ? Container(
-                      height: Dimensions.height10 * 55,
-                      padding: EdgeInsets.only(bottom: Dimensions.height20),
-                      child: ListView.builder(
+          GetBuilder<BookingController>(builder: (controller) {
+            return controller.isLoaded
+                ? controller.customerOrderDetails.isEmpty
+                    ? Container(
+                        height: MediaQuery.of(context).size.height *
+                            0.5, // Adjust height to center vertically
+                        alignment: Alignment
+                            .center, // Center horizontally and vertically
+                        child: Text(
+                          "You haven't booked yet",
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                        ),
+                      )
+                    : Container(
+                        height: Dimensions.height10 * 55,
+                        padding: EdgeInsets.only(bottom: Dimensions.height20),
+                        child: ListView.builder(
                           controller: _scrollController,
                           padding: EdgeInsets.zero,
                           physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: orders.customerOrderDetails.length + 1,
+                          itemCount: controller.customerOrderDetails.length + 1,
                           itemBuilder: (context, index) {
-                            if (index != orders.totalElements &&
-                                index == orders.customerOrderDetails.length) {
+                            if (index != controller.totalElements &&
+                                index ==
+                                    controller.customerOrderDetails.length) {
                               return _buildSingleLoadingIndicator();
-                            } else if (index == orders.totalElements &&
-                                index == orders.customerOrderDetails.length) {
+                            } else if (index == controller.totalElements &&
+                                index ==
+                                    controller.customerOrderDetails.length) {
                               return Container();
                             }
                             return _buildCustomerBookingDetailItemPage(
-                                index, orders.customerOrderDetails[index]);
-                          }),
-                    )
-                  : _buildLoadingIndicator(),
-            );
+                                index, controller.customerOrderDetails[index]);
+                          },
+                        ),
+                      )
+                : _buildLoadingIndicator();
           }),
       ],
     );

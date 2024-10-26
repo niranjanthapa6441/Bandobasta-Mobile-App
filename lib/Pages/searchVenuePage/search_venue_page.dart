@@ -155,11 +155,11 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
   Widget _buildVenueCards() {
     return GetBuilder<VenueController>(builder: (controller) {
-      if (!controller.isLoaded) return _buildLoadingIndicator();
-
       return controller.isLoaded
           ? controller.venues.isEmpty
-              ? _buildLoadingIndicator()
+              ? Center(
+                  child: Text("Venue Not Found"),
+                )
               : Container(
                   height: Dimensions.height10 * 55,
                   padding: EdgeInsets.only(bottom: Dimensions.height20),
@@ -319,8 +319,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     AppConstant.venueName = searchCriteria.text.toString();
     AppConstant.address =
         selectedLocation == '--Select Location--' ? '' : selectedLocation;
-    AppConstant.maxCapacity = 0;
-    AppConstant.minCapacity = 0;
+    AppConstant.maxCapacity = maxCapacity;
+    AppConstant.minCapacity = minCapacity;
     AppConstant.minPrice = minPrice;
     AppConstant.maxPrice = maxPrice;
     venueController.get();
