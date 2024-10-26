@@ -84,14 +84,14 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
             return GestureDetector(
               child: availabilities.isLoaded
                   ? availabilities.hallAvailabilities.isEmpty
-                      ? Center(
+                      ? Container(
+                          height: MediaQuery.of(context).size.height *
+                              0.5, // Adjust height to center vertically
+                          alignment: Alignment
+                              .center, // Center horizontally and vertically
                           child: Text(
-                            'No Available Time',
-                            style: TextStyle(
-                              fontSize: Dimensions.font10 * 2,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                            ),
+                            "No slots available. Select another date",
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                         )
                       : Container(

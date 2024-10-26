@@ -18,27 +18,30 @@ class VenueController extends GetxController {
   int get currentPage => _currentPage;
   int get totalPages => _totalPages;
   int get totalElements => _totalElements;
-  void setVenues() {
+
+  void setCustomerBookingDetail() {
     _venues = [];
   }
 
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
+
   Future<void> get() async {
     Response response = await venueRepo.getVenues();
     if (response.statusCode == 200) {
-      VenueResponse venueResponse = VenueResponse.fromJson(response.body);
-      if (venueResponse.data != null && venueResponse.data!.venues != null) {
-        _venues.addAll(venueResponse.data!.venues!);
-        _currentPage = venueResponse.data!.currentPage ?? 0;
-        _totalElements = venueResponse.data!.totalElements ?? 0;
-        _totalPages = venueResponse.data!.totalPages ?? 0;
-      }
-
+      print("length of tyhe data from response" +
+          VenueResponse.fromJson(response.body)
+              .data!
+              .venues!
+              .length
+              .toString());
+      _venues.addAll(VenueResponse.fromJson(response.body).data!.venues!);
+      _currentPage = VenueResponse.fromJson(response.body).data!.currentPage!;
+      _totalElements =
+          VenueResponse.fromJson(response.body).data!.totalElements!;
+      _totalPages = VenueResponse.fromJson(response.body).data!.totalPages!;
       _isLoaded = true;
-      update();
-    } else {
-      _isLoaded = false;
+      print("Venues length befire ckear" + _venues.length.toString());
       update();
     }
   }
@@ -59,6 +62,8 @@ class VenueController extends GetxController {
 
   void clear() {
     _venues.clear();
+    _isLoaded = false;
+    print("Venues lentgh after ckear" + _venues.length.toString());
     AppConstant.page = 1;
     AppConstant.getVenueURI();
   }

@@ -579,10 +579,10 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     bookingController.saveHallBooking(hallBookingRequest).then((status) {
       if (status.isSuccess) {
         AppConstant.address = "";
-        AppConstant.maxCapacity = 10000;
+        AppConstant.maxCapacity = 0;
         AppConstant.minCapacity = 0;
         AppConstant.minPrice = 0;
-        AppConstant.maxPrice = 100000;
+        AppConstant.maxPrice = 0;
         AppConstant.venueName = "";
         Get.find<VenueController>().onClose();
         Get.find<VenueController>().get();

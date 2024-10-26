@@ -75,6 +75,7 @@ class BookingController extends GetxController {
   }
 
   void clear() {
+    _isLoaded = false;
     _customerOrderDetails.clear();
     AppConstant.page = 1;
     AppConstant.getHallBookingURI();

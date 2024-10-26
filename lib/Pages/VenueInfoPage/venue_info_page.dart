@@ -33,26 +33,42 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
   List<String> photoUrls = [];
   IconData getAmenityIcon(String amenityName) {
     switch (amenityName) {
-      case 'Free Wi-Fi':
-        return Icons.wifi;
-      case 'Projector':
-        return Icons.movie_creation;
-      case 'Sound System':
-        return Icons.audiotrack;
-      case 'Catering Service':
-        return Icons.fastfood;
-      case 'Parking Space':
+      case 'Luxury Event Venues':
+        return Icons.event;
+      case 'Spa & Wellness Center':
+        return Icons.spa;
+      case 'Gourmet Dining':
+        return Icons.restaurant;
+      case 'Concierge Services':
+        return Icons.support_agent;
+      case 'Valet Parking':
         return Icons.local_parking;
-      case 'Lighting Equipment':
-        return Icons.lightbulb;
-      case 'Chairs & Tables':
-        return Icons.event_seat;
-      case 'Whiteboard':
-        return Icons.menu_open;
-      case 'Stage Setup':
-        return Icons.stairs;
-      case 'Photography':
-        return Icons.photo_camera;
+      case 'Private Poolside Cabanas':
+        return Icons.pool;
+      case 'Fitness Center':
+        return Icons.fitness_center;
+      case 'High-Speed Wi-Fi':
+        return Icons.wifi;
+      case 'Butler Service':
+        return Icons.room_service;
+      case 'Helipad':
+        return Icons.flight;
+      case 'Business Center':
+        return Icons.business_center;
+      case 'Bar & Lounge':
+        return Icons.local_bar;
+      case 'Airport Shuttle':
+        return Icons.airport_shuttle;
+      case 'Rooftop Terrace':
+        return Icons.view_day;
+      case 'In-Room Safe':
+        return Icons.lock;
+      case 'Luxury Suites':
+        return Icons.hotel;
+      case 'Conference Room':
+        return Icons.meeting_room;
+      case 'Banquet Hall':
+        return Icons.hail_outlined;
       default:
         return Icons.help_outline;
     }

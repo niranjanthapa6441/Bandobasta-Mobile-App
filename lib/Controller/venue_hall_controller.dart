@@ -62,6 +62,7 @@ class VenueHallController extends GetxController {
   }
 
   void clear() {
+    _isLoaded = false;
     _venueHalls.clear();
     AppConstant.page = 1;
     AppConstant.getVenueURI();

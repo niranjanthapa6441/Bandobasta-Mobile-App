@@ -1,5 +1,4 @@
 import 'package:BandoBasta/Controller/user_controller.dart';
-import 'package:BandoBasta/Response/user_profile_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
@@ -16,34 +15,11 @@ class AccountSettingsPage extends StatefulWidget {
 }
 
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
-  late UserController userController;
-  User? user;
 
   @override
   void initState() {
     super.initState();
-    userController = Get.find<UserController>();
-    _fetchUserData();
-    userController.addListener(_updateUserData);
-  }
-
-  @override
-  void dispose() {
-    userController.removeListener(_updateUserData);
-    super.dispose();
-  }
-
-  void _fetchUserData() async {
-    await userController.getCustomerDetails();
-    setState(() {
-      user = userController.user;
-    });
-  }
-
-  void _updateUserData() {
-    setState(() {
-      user = userController.user; // Get the latest user data
-    });
+    Get.find<UserController>().getCustomerDetails();
   }
 
   @override
@@ -59,7 +35,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
           padding: EdgeInsets.only(bottom: Dimensions.height20),
           child: Column(
             children: [
-              if (AppConstant.isUserLoggedIn) _buildProfileSection(user),
+              if (AppConstant.isUserLoggedIn) _buildProfileSection(),
               Divider(),
               if (AppConstant.isUserLoggedIn) _buildMenuItems(),
               Divider(),
@@ -73,38 +49,43 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     );
   }
 
-  Widget _buildProfileSection(User? user) {
-    return Container(
-      padding: EdgeInsets.all(Dimensions.height20),
-      child: Row(
-        children: [
-          AppIcon(
-            icon: Icons.person,
-            iconColor: Colors.white,
-            backgroundColor: AppColors.themeColor,
-            size: Dimensions.height10 * 10,
-          ),
-          SizedBox(width: Dimensions.width10 * 1.6),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${user?.firstName ?? 'First Name'} ${user?.lastName ?? 'Last Name'}',
-                style: TextStyle(
-                  fontSize: Dimensions.font18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: Dimensions.height5),
-              Text(
-                user?.email ?? 'Email',
-                style: TextStyle(fontSize: Dimensions.font10 * 1.4),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+  Widget _buildProfileSection() {
+    return GetBuilder<UserController>(builder: (userController) {
+      var user = userController.user;
+      return Container(
+        padding: EdgeInsets.all(Dimensions.height20),
+        child: Row(
+          children: [
+            AppIcon(
+              icon: Icons.person,
+              iconColor: Colors.white,
+              backgroundColor: AppColors.themeColor,
+              size: Dimensions.height10 * 10,
+            ),
+            SizedBox(width: Dimensions.width10 * 1.6),
+            user?.firstName != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${user?.firstName} ${user?.lastName}',
+                        style: TextStyle(
+                          fontSize: Dimensions.font18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: Dimensions.height5),
+                      Text(
+                        user?.email ?? 'Email',
+                        style: TextStyle(fontSize: Dimensions.font10 * 1.4),
+                      ),
+                    ],
+                  )
+                : CircularProgressIndicator(),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildMenuItems() {

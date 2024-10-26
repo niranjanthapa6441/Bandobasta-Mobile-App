@@ -2,6 +2,7 @@ import 'package:BandoBasta/Repository/hall_availability_controller.dart';
 import 'package:BandoBasta/Response/hall_availability_response.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class HallAvailabilityController extends GetxController {
@@ -61,6 +62,7 @@ class HallAvailabilityController extends GetxController {
   }
 
   void clear() {
+    _isLoaded = false;
     _hallAvailabilities.clear();
     AppConstant.page = 1;
     AppConstant.getVenueURI();
