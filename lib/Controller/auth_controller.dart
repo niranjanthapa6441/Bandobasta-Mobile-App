@@ -27,7 +27,6 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<ResponseModel> login(LogInRequest loginBody) async {
-    _isLoading = true;
     Response response = await authRepo.login(loginBody);
     late ResponseModel responseModel;
     if (response.statusCode == 200) {

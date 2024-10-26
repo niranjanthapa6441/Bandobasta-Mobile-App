@@ -3,7 +3,10 @@ import 'package:BandoBasta/Response/venue_hall_response.dart';
 
 class AppConstant {
   static const String appName = "BandoBasta";
-  static const String baseURL = "http://192.168.1.66:8080/book-eat-nepal";
+  static const String baseURL = "https://bandobasta.onrender.com/book-eat-nepal";
+    // static const String baseURL =
+    //   "http://localhost:8080/book-eat-nepal";
+
   static String apiVersion = "/api/v1";
 
   static bool toFood = false;
@@ -56,7 +59,7 @@ class AppConstant {
   static String eventType = "WEDDING";
   static String venueType = "";
   static int minCapacity = 0;
-  static int maxCapacity = 10000;
+  static int maxCapacity = 0;
 
   static String sortBy = "";
   static String username = "";
