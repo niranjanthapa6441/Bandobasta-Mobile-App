@@ -13,6 +13,7 @@ import 'package:BandoBasta/utils/helper/dependencies.dart' as dep;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dep.init();
+  await Future.delayed(const Duration(milliseconds: 300));
   runApp(const MyApp());
 }
 

@@ -16,10 +16,10 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
   List pages = [
-    const Homepage(),
-    const BookingsPage(),
-    const FavouritePage(),
-    const AccountSettingsPage(),
+    Homepage(),
+    BookingsPage(),
+    FavouritePage(),
+    AccountSettingsPage(),
   ];
 
   @override

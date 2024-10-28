@@ -23,6 +23,8 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
   @override
   void initState() {
     super.initState();
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
     _scrollController.addListener(_onScroll);
   }
 
@@ -155,34 +157,37 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
   Widget _buildVenueCards() {
     return GetBuilder<VenueController>(builder: (controller) {
-      return controller.isLoaded
-          ? controller.venues.isEmpty
-              ? Center(
-                  child: Text("Venue Not Found"),
-                )
-              : Container(
-                  height: Dimensions.height10 * 55,
-                  padding: EdgeInsets.only(bottom: Dimensions.height20),
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    padding: EdgeInsets.zero,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.venues.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index != controller.totalElements &&
-                          index == controller.venues.length) {
-                        return _buildSingleLoadingIndicator();
-                      } else if (index == controller.totalElements &&
-                          index == controller.venues.length) {
-                        return Container();
-                      }
-                      return _buildVenueCard(controller.venues[index], index);
-                    },
-                  ),
-                )
-          : _buildLoadingIndicator();
+      if (!controller.isLoaded) {
+        return _buildLoadingIndicator();
+      }
+
+      if (controller.venues.isEmpty) {
+        return Center(
+          child: Text("Venue Not Found"),
+        );
+      }
+
+      return Container(
+        height: Dimensions.height10 * 55,
+        padding: EdgeInsets.only(bottom: Dimensions.height20),
+        child: ListView.builder(
+          controller: _scrollController,
+          padding: EdgeInsets.zero,
+          physics: AlwaysScrollableScrollPhysics(),
+          itemCount: controller.venues.length +
+              (controller.venues.length < controller.totalElements ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index < controller.venues.length) {
+              return _buildVenueCard(controller.venues[index], index);
+            } else {
+              return _buildSingleLoadingIndicator(); // Show this at the end if there are more items to load
+            }
+          },
+        ),
+      );
     });
   }
+
 
   void _showFilterDialog() {
     showModalBottomSheet(

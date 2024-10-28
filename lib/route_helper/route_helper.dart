@@ -54,8 +54,8 @@ class RouteHelper {
   static String getVenueInfo(int pageId) => '$venueInfo?pageId=$pageId';
   static String getHallInfo(int pageId, String venueName, String imageURL) =>
       '$venueHallInfo?pageId=$pageId&imageURL=$imageURL&venueName=$venueName';
-  static String getPackageInfo(int pageId) =>
-      '$venuePackageInfo?pageId=$pageId';
+  static String getPackageInfo(int pageId, String venueName, String imageURL) =>
+      '$venuePackageInfo?pageId=$pageId&imageURL=$imageURL&venueName=$venueName';
   static String getMenuDetail(String menuName, String price) =>
       '$menuDetail?menuName=$menuName&price=$price';
   static String getHomepage() => homepage;
@@ -68,8 +68,8 @@ class RouteHelper {
       '$venueHalls?venueName=$venueName&imageURL=$imageURL';
   static String getVenueMenus(String venueName, String imageURL) =>
       '$venueMenus?venueName=$venueName&imageURL=$imageURL';
-  static String getVenuePackages(String venueName) =>
-      '$venuePackages?venueName=$venueName';
+  static String getVenuePackages(String venueName,String imageURL) =>
+      '$venuePackages?venueName=$venueName&imageURL=$imageURL';
   static String getOrderDetail(int bookingId) =>
       '$bookingDetail?bookingId=$bookingId';
   static String getConfirmOrder() => confirmBooking;
@@ -128,7 +128,9 @@ class RouteHelper {
         name: venuePackages,
         page: () {
           var name = Get.parameters['venueName'];
-          return VenuePackagePage(venueName: name!);
+          var imageURL = Get.parameters['imageURL'];
+
+          return VenuePackagePage(venueName: name!,imageURL: imageURL!);
         }),
     GetPage(
         name: venueInfo,
@@ -154,8 +156,12 @@ class RouteHelper {
         name: venuePackageInfo,
         page: () {
           var pageId = Get.parameters['pageId'];
+          var venueName = Get.parameters['venueName'];
+          var imageURL = Get.parameters['imageURL'];
           return PackageInfoPage(
             pageId: int.parse(pageId!),
+            venueName: venueName!,
+            imageURL: imageURL!,
           );
         }),
     GetPage(

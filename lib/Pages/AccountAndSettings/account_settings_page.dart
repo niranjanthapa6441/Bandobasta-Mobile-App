@@ -15,7 +15,6 @@ class AccountSettingsPage extends StatefulWidget {
 }
 
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
-
   @override
   void initState() {
     super.initState();
@@ -24,25 +23,28 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Account & Settings'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(bottom: Dimensions.height20),
-          child: Column(
-            children: [
-              if (AppConstant.isUserLoggedIn) _buildProfileSection(),
-              Divider(),
-              if (AppConstant.isUserLoggedIn) _buildMenuItems(),
-              Divider(),
-              _buildSettingsItems(),
-              Divider(),
-              _buildSupportItems(),
-            ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Account & Settings'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: Dimensions.height20),
+            child: Column(
+              children: [
+                if (AppConstant.isUserLoggedIn) _buildProfileSection(),
+                Divider(),
+                if (AppConstant.isUserLoggedIn) _buildMenuItems(),
+                Divider(),
+                _buildSettingsItems(),
+                Divider(),
+                _buildSupportItems(),
+              ],
+            ),
           ),
         ),
       ),

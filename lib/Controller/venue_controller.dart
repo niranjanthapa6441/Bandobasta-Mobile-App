@@ -29,21 +29,15 @@ class VenueController extends GetxController {
   Future<void> get() async {
     Response response = await venueRepo.getVenues();
     if (response.statusCode == 200) {
-      print("length of tyhe data from response" +
-          VenueResponse.fromJson(response.body)
-              .data!
-              .venues!
-              .length
-              .toString());
       _venues.addAll(VenueResponse.fromJson(response.body).data!.venues!);
       _currentPage = VenueResponse.fromJson(response.body).data!.currentPage!;
       _totalElements =
           VenueResponse.fromJson(response.body).data!.totalElements!;
       _totalPages = VenueResponse.fromJson(response.body).data!.totalPages!;
       _isLoaded = true;
-      print("Venues length befire ckear" + _venues.length.toString());
       update();
     }
+    print("venues.length" + venues.length.toString());
   }
 
   Future<void> loadMore() async {
@@ -63,7 +57,6 @@ class VenueController extends GetxController {
   void clear() {
     _venues.clear();
     _isLoaded = false;
-    print("Venues lentgh after ckear" + _venues.length.toString());
     AppConstant.page = 1;
     AppConstant.getVenueURI();
   }

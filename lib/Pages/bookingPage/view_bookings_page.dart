@@ -41,94 +41,97 @@ class _OrdersState extends State<BookingsPage> {
   TextEditingController _endDateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          AppBar(
-            toolbarHeight: Dimensions.height10 * 8,
-            automaticallyImplyLeading: false,
-            elevation: 0, // No shadow
-            backgroundColor: Colors.white,
-            title: Center(
-              child: Container(
-                height: Dimensions.height10 * 9,
-                width: Dimensions.height10 * 20, // Adjust the width if needed
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.contain, // Use contain to fit the whole image
-                    image:
-                        AssetImage("assets/images/logo.png"), // Your logo image
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Column(
+          children: [
+            AppBar(
+              toolbarHeight: Dimensions.height10 * 8,
+              automaticallyImplyLeading: false,
+              elevation: 0, // No shadow
+              backgroundColor: Colors.white,
+              title: Center(
+                child: Container(
+                  height: Dimensions.height10 * 9,
+                  width: Dimensions.height10 * 20, // Adjust the width if needed
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.contain, // Use contain to fit the whole image
+                      image: AssetImage(
+                          "assets/images/logo.png"), // Your logo image
+                    ),
                   ),
                 ),
+              ),
+              centerTitle: true,
+            ),
+            SizedBox(
+              height: Dimensions.height20,
+            ),
+            Container(
+              height: Dimensions.height10 * 5,
+              width: Dimensions.screenWidth,
+              child: ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: status.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _buildCategories(index, status[index]);
+                },
               ),
             ),
-            centerTitle: true,
-          ),
-          SizedBox(
-            height: Dimensions.height20,
-          ),
-          Container(
-            height: Dimensions.height10 * 5,
-            width: Dimensions.screenWidth,
-            child: ListView.builder(
-              physics: AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: status.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _buildCategories(index, status[index]);
-              },
+            Row(
+              children: [
+                AppTextField(
+                  textEditingController: _startDateController,
+                  hintText: _startDateSelected
+                      ? DateFormat.yMMMMd().format(_startDate)
+                      : "MM/DD/YYYY",
+                  icon: Icons.calendar_today_outlined,
+                  readOnly: true,
+                  width: Dimensions.width10 * 14,
+                  widget: IconButton(
+                    onPressed: () {
+                      _getStartDate();
+                      setState(() {
+                        _startDateSelected = true;
+                      });
+                      _filerOrders();
+                    },
+                    icon: Icon(
+                      Icons.calendar_today_outlined,
+                      color: AppColors.themeColor,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: Dimensions.width15,
+                ),
+                AppTextField(
+                  textEditingController: _endDateController,
+                  hintText: _endDateSelected
+                      ? DateFormat.yMMMMd().format(_endDate)
+                      : "MM/DD/YYYY",
+                  icon: Icons.calendar_today_outlined,
+                  readOnly: true,
+                  width: Dimensions.width10 * 14,
+                  widget: IconButton(
+                    onPressed: () {
+                      _getEndDate();
+                    },
+                    icon: Icon(
+                      Icons.calendar_today_outlined,
+                      color: AppColors.themeColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          Row(
-            children: [
-              AppTextField(
-                textEditingController: _startDateController,
-                hintText: _startDateSelected
-                    ? DateFormat.yMMMMd().format(_startDate)
-                    : "MM/DD/YYYY",
-                icon: Icons.calendar_today_outlined,
-                readOnly: true,
-                width: Dimensions.width10 * 14,
-                widget: IconButton(
-                  onPressed: () {
-                    _getStartDate();
-                    setState(() {
-                      _startDateSelected = true;
-                    });
-                    _filerOrders();
-                  },
-                  icon: Icon(
-                    Icons.calendar_today_outlined,
-                    color: AppColors.themeColor,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: Dimensions.width15,
-              ),
-              AppTextField(
-                textEditingController: _endDateController,
-                hintText: _endDateSelected
-                    ? DateFormat.yMMMMd().format(_endDate)
-                    : "MM/DD/YYYY",
-                icon: Icons.calendar_today_outlined,
-                readOnly: true,
-                width: Dimensions.width10 * 14,
-                widget: IconButton(
-                  onPressed: () {
-                    _getEndDate();
-                  },
-                  icon: Icon(
-                    Icons.calendar_today_outlined,
-                    color: AppColors.themeColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const Expanded(
-              child: SingleChildScrollView(child: BookingsPageBody())),
-        ],
+            const Expanded(
+                child: SingleChildScrollView(child: BookingsPageBody())),
+          ],
+        ),
       ),
     );
   }
