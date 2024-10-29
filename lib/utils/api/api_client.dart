@@ -15,11 +15,10 @@ class APIClient extends GetConnect implements GetxService {
   APIClient({required this.appBaseUrl}) {
     baseUrl = appBaseUrl;
     timeout = const Duration(seconds: 30);
-    _initializeTokenAndHeaders();
+    initializeTokenAndHeaders();
   }
 
-  // Initialization function to set token and headers asynchronously
-  Future<void> _initializeTokenAndHeaders() async {
+  Future<void> initializeTokenAndHeaders() async {
     token = await _authService.getToken();
     _updateHeaders();
   }
@@ -29,7 +28,7 @@ class APIClient extends GetConnect implements GetxService {
       _mainHeaders["Authorization"] = "Bearer $token";
     } else {
       _mainHeaders.remove(
-          "Authorization"); // Optionally remove Authorization if token is null
+          "Authorization");
     }
   }
 

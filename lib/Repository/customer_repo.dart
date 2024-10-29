@@ -10,6 +10,7 @@ class UserRepo extends GetxService {
 
   Future<Response> getUserDetails() async {
     AuthService authService = AuthService();
+    apiClient.initializeTokenAndHeaders();
     return await apiClient.getData(
         AppConstant.getProfileURL(await authService.getUserId()));
   }
