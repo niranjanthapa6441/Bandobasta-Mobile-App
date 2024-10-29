@@ -10,6 +10,6 @@ class VenueRepo {
 
   Future<Response> getVenues() async {
     return await apiClient.getData(
-        AppConstant.getVenueURI(), apiClient.mainHeaders);
+        AppConstant.getVenueURI());
   }
 }

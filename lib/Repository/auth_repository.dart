@@ -18,9 +18,4 @@ class AuthRepo {
     return await apiClient.postData(
         AppConstant.getSignInURL(), loginBody.toJson());
   }
-
-  Future<void> saveUserToken(String token) async {
-    apiClient.token = token;
-    apiClient.updateHeader(token);
-  }
 }

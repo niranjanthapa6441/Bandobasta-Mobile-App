@@ -2,6 +2,7 @@ import 'package:BandoBasta/Model/response_model.dart';
 import 'package:BandoBasta/Repository/booking_repository.dart';
 import 'package:BandoBasta/Request/hall_booking_request.dart';
 import 'package:BandoBasta/Response/hall_booking_response.dart';
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:get/get.dart';
 
 import '../utils/app_constants/app_constant.dart';
@@ -61,9 +62,10 @@ class BookingController extends GetxController {
   }
 
   Future<void> loadMore() async {
+    AuthService authService = AuthService();
     if (_currentPage < _totalPages) {
       AppConstant.page += 1;
-      AppConstant.getHallBookingURI();
+      AppConstant.getHallBookingURI(await authService.getUserId());
       get();
     }
   }
@@ -74,10 +76,11 @@ class BookingController extends GetxController {
     super.onClose();
   }
 
-  void clear() {
+  Future<void> clear() async {
+    AuthService authService = AuthService();
     _isLoaded = false;
     _customerOrderDetails.clear();
     AppConstant.page = 1;
-    AppConstant.getHallBookingURI();
+    AppConstant.getHallBookingURI(await authService.getUserId());
   }
 }

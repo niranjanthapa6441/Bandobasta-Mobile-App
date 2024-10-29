@@ -6,6 +6,7 @@ import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:BandoBasta/Response/venue_hall_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
@@ -562,8 +563,9 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     );
   }
 
-  void _makeBooking() {
-    String userId = AppConstant.userId;
+  void _makeBooking() async {
+    final AuthService _authservice = AuthService();
+    String? userId = await _authservice.getUserId();
     String menuId = AppConstant.menuDetail.id!;
 
     String hallAvailabilityId = AppConstant.hallAvailabilityId;

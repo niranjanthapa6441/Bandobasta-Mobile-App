@@ -10,6 +10,6 @@ class HallAvailabilityRepo {
 
   Future<Response> getHallAvailabilities() async {
     return await apiClient.getData(
-        AppConstant.getHallAvailabilitiesURL(), apiClient.mainHeaders);
+        AppConstant.getHallAvailabilitiesURL());
   }
 }

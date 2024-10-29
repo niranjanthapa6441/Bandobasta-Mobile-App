@@ -13,7 +13,6 @@ class AppConstant {
   static bool hasValue = false;
   static bool toCart = false;
   static bool isSelectHallPackageSelected = false;
-  static bool isUserLoggedIn = false;
   static bool isHallBooking = false;
   static MenuDetail menuDetail = MenuDetail(
     id: '',
@@ -39,7 +38,6 @@ class AppConstant {
 
   static int foodId = 0;
   static String numberOfItems = "";
-  static String userId = "";
   static String orderId = "";
   static String orderStatus = "";
   static String menuFoodId = "";
@@ -85,7 +83,7 @@ class AppConstant {
   static String updateProfileURL = "";
   static String userProfileURL = "";
 
-  static String getHallBookingURI() {
+  static String getHallBookingURI(String? userId) {
     findHallBookingByUser =
         "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size";
     return findHallBookingByUser;
@@ -136,12 +134,12 @@ class AppConstant {
     return signUpURL;
   }
 
-  static String getUpdateProfileURL() {
+  static String getUpdateProfileURL(String? userId) {
     updateProfileURL = "$apiVersion/user/$userId";
     return updateProfileURL;
   }
 
-  static String getProfileURL() {
+  static String getProfileURL(String? userId) {
     userProfileURL = "$apiVersion/user/$userId";
     return userProfileURL;
   }

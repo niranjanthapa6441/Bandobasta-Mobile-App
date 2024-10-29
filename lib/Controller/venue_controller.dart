@@ -37,7 +37,6 @@ class VenueController extends GetxController {
       _isLoaded = true;
       update();
     }
-    print("venues.length" + venues.length.toString());
   }
 
   Future<void> loadMore() async {

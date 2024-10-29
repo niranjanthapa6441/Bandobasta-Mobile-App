@@ -1,5 +1,5 @@
 class HallBookingRequest {
-  String userId;
+  String? userId;
   String id;
   String menuId;
   String eventType;

@@ -10,6 +10,6 @@ class VenueHallRepo {
 
   Future<Response> getVenueHalls() async {
     return await apiClient.getData(
-        AppConstant.getVenueHallsURI(), apiClient.mainHeaders);
+        AppConstant.getVenueHallsURI());
   }
 }

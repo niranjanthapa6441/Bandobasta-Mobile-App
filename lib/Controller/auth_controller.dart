@@ -3,7 +3,7 @@ import 'package:BandoBasta/Repository/auth_repository.dart';
 import 'package:BandoBasta/Request/log_in_request.dart';
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/Response/log_in_reponse.dart';
-import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -27,13 +27,14 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<ResponseModel> login(LogInRequest loginBody) async {
+    AuthService _authService = AuthService();
     Response response = await authRepo.login(loginBody);
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
       details = LogInResponse.fromJson(response.body);
       responseModel = ResponseModel(true, response.body["message"]);
-      authRepo.saveUserToken(details.data!.accessToken.toString());
-      AppConstant.userId = details.data!.id.toString();
+      _authService.storeToken(details.data!.accessToken.toString());
+      _authService.storeUserId(details.data!.id.toString());
     } else {
       responseModel = ResponseModel(false, response.body["message"]);
     }
