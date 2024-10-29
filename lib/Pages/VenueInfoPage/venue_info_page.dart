@@ -4,6 +4,7 @@ import 'package:BandoBasta/Pages/searchVenuePage/check_availability_form_page.da
 import 'package:BandoBasta/Response/venue_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
@@ -23,10 +24,13 @@ class VenueInfoPage extends StatefulWidget {
 class _VenueInfoPageState extends State<VenueInfoPage> {
   late int venueId;
   bool _isExpanded = false;
+  final AuthService _authService = AuthService();
+  bool isTokenExpired = false;
 
   @override
   void initState() {
     super.initState();
+    checkTokenValidation();
     venueId = widget.pageId;
   }
 
@@ -337,7 +341,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
               SizedBox(height: Dimensions.height10 * 1.6),
               ElevatedButton(
                 onPressed: () {
-                  if (AppConstant.isUserLoggedIn) {
+                  if (!isTokenExpired) {
                     AppConstant.venueId = venue.id!;
                     AppConstant.isSelectHallPackageSelected = true;
                     Get.toNamed(RouteHelper.getSelectHallPackagePage(
@@ -698,5 +702,12 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     AppConstant.venueImageURL = '';
     Get.find<VenueController>().onClose();
     Get.find<VenueController>().get();
+  }
+
+  void checkTokenValidation() async {
+    bool expired = await _authService.isTokenExpired();
+    setState(() {
+      isTokenExpired = expired;
+    });
   }
 }

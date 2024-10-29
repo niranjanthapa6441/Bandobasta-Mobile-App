@@ -1,6 +1,6 @@
 import 'package:BandoBasta/Controller/user_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
-import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/app_icon.dart';
@@ -15,9 +15,13 @@ class AccountSettingsPage extends StatefulWidget {
 }
 
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
+  final AuthService _authService = AuthService();
+  bool isTokenExpired = false;
+
   @override
   void initState() {
     super.initState();
+    checkTokenValidation();
     Get.find<UserController>().getCustomerDetails();
   }
 
@@ -36,9 +40,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
             padding: EdgeInsets.only(bottom: Dimensions.height20),
             child: Column(
               children: [
-                if (AppConstant.isUserLoggedIn) _buildProfileSection(),
+                if (!isTokenExpired) _buildProfileSection(),
                 Divider(),
-                if (AppConstant.isUserLoggedIn) _buildMenuItems(),
+                if (!isTokenExpired) _buildMenuItems(),
                 Divider(),
                 _buildSettingsItems(),
                 Divider(),
@@ -119,13 +123,13 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       children: [
         _buildMenuItem(Icons.support, 'Emergency Support'),
         _buildMenuItem(Icons.chat, 'Chat with us'),
-        if (AppConstant.isUserLoggedIn)
+        if (!isTokenExpired)
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Log Out'),
             onTap: () {
-              AppConstant.userId = "";
-              AppConstant.isUserLoggedIn = false;
+              _authService.clearToken();
+              _authService.clearUserId();
               Get.toNamed(RouteHelper.getSignIn());
             },
           )
@@ -152,5 +156,12 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         }
       },
     );
+  }
+
+  void checkTokenValidation() async {
+    bool expired = await _authService.isTokenExpired();
+    setState(() {
+      isTokenExpired = expired;
+    });
   }
 }

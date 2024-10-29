@@ -1,30 +1,41 @@
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class APIClient extends GetConnect implements GetxService {
-  late String token;
+  String? token;
   final String appBaseUrl;
-  late Map<String, String> _mainHeaders;
+  final AuthService _authService = AuthService();
+  Map<String, String> _mainHeaders = {
+    "content-type": "application/json; charset=utf-8",
+  };
+
   Map<String, String> get mainHeaders => _mainHeaders;
+
   APIClient({required this.appBaseUrl}) {
     baseUrl = appBaseUrl;
     timeout = const Duration(seconds: 30);
-    token = "";
-    _mainHeaders = {
-      "content-type": "application/json; charset-UTF_8",
-      "Authorization": "Bearer $token"
-    };
-  }
-  void updateHeader(String token) {
-    _mainHeaders = {
-      "content-type": "application/json; charset-UTF_8",
-      "Authorization": "Bearer $token"
-    };
+    _initializeTokenAndHeaders();
   }
 
-  Future<Response> getData(String uri, Map<String, String> mainHeaders) async {
+  // Initialization function to set token and headers asynchronously
+  Future<void> _initializeTokenAndHeaders() async {
+    token = await _authService.getToken();
+    _updateHeaders();
+  }
+
+  void _updateHeaders() {
+    if (token != null) {
+      _mainHeaders["Authorization"] = "Bearer $token";
+    } else {
+      _mainHeaders.remove(
+          "Authorization"); // Optionally remove Authorization if token is null
+    }
+  }
+
+  Future<Response> getData(String uri) async {
     try {
-      Response response = await get(uri, headers: mainHeaders);
+      Response response = await get(uri, headers: _mainHeaders);
       return response;
     } catch (e) {
       return Response(statusCode: 1, statusText: e.toString());
@@ -49,12 +60,9 @@ class APIClient extends GetConnect implements GetxService {
     }
   }
 
-  Future<Response> deleteData(String uri, dynamic body) async {
+  Future<Response> deleteData(String uri) async {
     try {
-      Response response = await delete(
-        uri,
-        headers: _mainHeaders,
-      );
+      Response response = await delete(uri, headers: _mainHeaders);
       return response;
     } catch (e) {
       return Response(statusCode: 1, statusText: e.toString());

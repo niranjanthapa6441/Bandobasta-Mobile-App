@@ -1,7 +1,7 @@
 import 'package:BandoBasta/Controller/booking_controller.dart';
 import 'package:BandoBasta/Response/hall_booking_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
-import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
@@ -21,10 +21,12 @@ class BookingsPageBody extends StatefulWidget {
 
 class _OrdersPageBodyState extends State<BookingsPageBody> {
   ScrollController _scrollController = ScrollController();
-
+  bool isTokenExpired = false;
+  final AuthService _authService = AuthService();
   @override
   void initState() {
     super.initState();
+    checkTokenValidation();
     _scrollController.addListener(_onScroll);
     Get.find<BookingController>().onClose();
     Get.find<BookingController>().get();
@@ -50,7 +52,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (AppConstant.isUserLoggedIn)
+        if (!isTokenExpired)
           Container(
             margin: EdgeInsets.only(
                 top: Dimensions.height10, left: Dimensions.width10),
@@ -60,7 +62,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
               color: Colors.black,
             ),
           ),
-        if (AppConstant.isUserLoggedIn)
+        if (!isTokenExpired)
           GetBuilder<BookingController>(builder: (controller) {
             return controller.isLoaded
                 ? controller.customerOrderDetails.isEmpty
@@ -445,5 +447,12 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
         ),
       ),
     );
+  }
+
+ void checkTokenValidation() async {
+    bool expired = await _authService.isTokenExpired();
+    setState(() {
+      isTokenExpired = expired;
+    });
   }
 }

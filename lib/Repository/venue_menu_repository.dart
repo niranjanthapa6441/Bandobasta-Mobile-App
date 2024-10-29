@@ -10,6 +10,6 @@ class VenueMenuRepo {
 
   Future<Response> getVenueMenus() async {
     return await apiClient.getData(
-        AppConstant.getVenueMenusURI(), apiClient.mainHeaders);
+        AppConstant.getVenueMenusURI());
   }
 }

@@ -1,7 +1,6 @@
 import 'package:BandoBasta/Request/log_in_request.dart';
 import 'package:BandoBasta/controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
-import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/app_text_field.dart';
@@ -211,7 +210,6 @@ class _SignInPageBodyState extends State<SignInPageBody> {
 
       if (status.isSuccess) {
         Get.toNamed(RouteHelper.getNavigation());
-        AppConstant.isUserLoggedIn = true;
       } else {
         showCustomSnackBar(status.message, title: "Invalid Login Details");
       }
