@@ -267,7 +267,8 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
         description: detail.description!,
         price: detail.price!,
         onViewPackageInfo: () {
-          Get.toNamed(RouteHelper.getPackageInfo(index,widget.venueName,widget.imageURL));
+          Get.toNamed(RouteHelper.getPackageInfo(
+              index, widget.venueName, widget.imageURL));
         });
   }
 
@@ -429,5 +430,6 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
     Get.find<VenueHallController>().get();
     Get.find<VenuePackageController>().onClose();
     Get.find<VenuePackageController>().get();
+    AppConstant.isSelectHallPackageSelected = false;
   }
 }

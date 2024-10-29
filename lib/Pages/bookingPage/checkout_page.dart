@@ -586,6 +586,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         AppConstant.minPrice = 0;
         AppConstant.maxPrice = 0;
         AppConstant.venueName = "";
+        AppConstant.isSelectHallPackageSelected = false;
         Get.find<VenueController>().onClose();
         Get.find<VenueController>().get();
         Get.toNamed(RouteHelper.getNavigation());
