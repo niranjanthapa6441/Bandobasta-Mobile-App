@@ -10,8 +10,9 @@ class BookingRepository extends GetxService {
 
   Future<Response> getCustomerHallBookingDetails() async {
     AuthService authService = AuthService();
-    return await apiClient.getData(
-        AppConstant.getHallBookingURI(await authService.getUserId()));
+    apiClient.initializeTokenAndHeaders();
+    return await apiClient
+        .getData(AppConstant.getHallBookingURI(await authService.getUserId()));
   }
 
   Future<Response> saveHallBooking(HallBookingRequest request) async {
