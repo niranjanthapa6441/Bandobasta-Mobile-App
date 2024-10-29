@@ -267,7 +267,7 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
         description: detail.description!,
         price: detail.price!,
         onViewPackageInfo: () {
-          Get.toNamed(RouteHelper.getPackageInfo(index));
+          Get.toNamed(RouteHelper.getPackageInfo(index,widget.venueName,widget.imageURL));
         });
   }
 

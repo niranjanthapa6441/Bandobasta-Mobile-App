@@ -30,6 +30,8 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   @override
   void dispose() {
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
     pageController.dispose();
     super.dispose();
   }

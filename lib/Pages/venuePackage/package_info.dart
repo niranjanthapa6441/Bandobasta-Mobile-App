@@ -5,6 +5,7 @@ import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
+import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
@@ -12,8 +13,14 @@ import 'package:get/get.dart';
 
 class PackageInfoPage extends StatefulWidget {
   final int pageId;
+  final String venueName;
+  final String imageURL;
 
-  const PackageInfoPage({super.key, required this.pageId});
+  const PackageInfoPage(
+      {super.key,
+      required this.pageId,
+      required this.venueName,
+      required this.imageURL});
 
   @override
   State<PackageInfoPage> createState() => _PackageInfoPageState();
@@ -250,23 +257,26 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
               ),
 
               SizedBox(height: Dimensions.height10),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.themeColor,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.width20,
-                    vertical: Dimensions.height10 * 1.6,
+              if (AppConstant.isSelectHallPackageSelected)
+                ElevatedButton(
+                  onPressed: () {
+                    _showAddToCartDialog(context, package);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.themeColor,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.width20,
+                      vertical: Dimensions.height10 * 1.6,
+                    ),
+                    minimumSize: Size(double.infinity, 50),
                   ),
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                child: Center(
-                  child: BigText(
-                    text: 'Select Package',
-                    color: Colors.white,
+                  child: Center(
+                    child: BigText(
+                      text: 'Select Package',
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
               SizedBox(height: Dimensions.height10 * 1.6),
               Text(
                 'About this space',
@@ -624,6 +634,58 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
     return imageUrls.map((imageUrl) {
       return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
     }).toList();
+  }
+  
+  void _showAddToCartDialog(BuildContext context, Package package) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.vertical(top: Radius.circular(Dimensions.radius20)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.all(Dimensions.height20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BigText(
+                text: package.name!,
+                size: Dimensions.font10 * 2,
+              ),
+              SizedBox(height: Dimensions.height10),
+              SmallText(
+                text: 'Capacity: ${package.hallDetail!.capacity!}',
+                size: Dimensions.font10 * 1.6,
+                color: Colors.black,
+              ),
+              SizedBox(height: Dimensions.height10),
+              ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(RouteHelper.getVenueMenus(
+                      widget.venueName, widget.imageURL));
+                  AppConstant.isHallBooking = true;
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.themeColor,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.width20,
+                    vertical: Dimensions.height10 * 1.6,
+                  ),
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                child: Center(
+                  child: BigText(
+                    text: 'Add to cart',
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Map<String, int> countFoodItemsByCategoryMenu(MenuDetail menuDetail) {

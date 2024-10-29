@@ -10,8 +10,9 @@ import 'package:shimmer/shimmer.dart';
 
 class VenuePackagePage extends StatefulWidget {
   final String venueName;
+  final String imageURL;
 
-  const VenuePackagePage({super.key, required this.venueName});
+  const VenuePackagePage({super.key, required this.venueName, required this.imageURL});
 
   @override
   _VenuePackagePageState createState() => _VenuePackagePageState();
@@ -112,7 +113,7 @@ class _VenuePackagePageState extends State<VenuePackagePage> {
         description: detail.description!,
         price: detail.price!,
         onViewPackageInfo: () {
-          Get.toNamed(RouteHelper.getPackageInfo(index));
+          Get.toNamed(RouteHelper.getPackageInfo(index,widget.venueName,widget.imageURL));
         });
   }
 

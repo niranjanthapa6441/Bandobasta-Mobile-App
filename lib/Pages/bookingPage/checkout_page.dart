@@ -573,7 +573,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     HallBookingRequest hallBookingRequest = HallBookingRequest(
         userId: userId,
         menuId: menuId,
-        hallAvailabilityId: hallAvailabilityId,
+        id: hallAvailabilityId,
         eventType: eventType);
     var bookingController = Get.find<BookingController>();
     bookingController.saveHallBooking(hallBookingRequest).then((status) {

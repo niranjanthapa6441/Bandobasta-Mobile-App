@@ -69,6 +69,26 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
         return Icons.meeting_room;
       case 'Banquet Hall':
         return Icons.hail_outlined;
+      case 'Free Wi-Fi':
+        return Icons.wifi; // Represents Wi-Fi
+      case 'Projector':
+        return Icons.movie_creation; // Represents projector
+      case 'Sound System':
+        return Icons.audiotrack; // Represents sound system
+      case 'Catering Service':
+        return Icons.fastfood; // Represents food services
+      case 'Parking Space':
+        return Icons.local_parking; // Represents parking space
+      case 'Lighting Equipment':
+        return Icons.lightbulb; // Represents lighting equipment
+      case 'Chairs & Tables':
+        return Icons.event_seat; // Represents chairs
+      case 'Whiteboard':
+        return Icons.menu_open; // Represents a whiteboard
+      case 'Stage Setup':
+        return Icons.stairs; // Represents stage setup
+      case 'Photography':
+        return Icons.photo_camera;
       default:
         return Icons.help_outline;
     }
@@ -255,8 +275,9 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         ElevatedButton(
                           onPressed: () {
                             AppConstant.venueId = venue.id!;
-                            Get.toNamed(
-                                RouteHelper.getVenuePackages(venue.name!));
+                            Get.toNamed(RouteHelper.getVenuePackages(
+                                venue.name!,
+                                getVenueImageURLs(venue.venueImagePaths!)[0]));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
