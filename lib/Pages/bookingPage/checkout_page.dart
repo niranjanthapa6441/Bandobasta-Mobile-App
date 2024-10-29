@@ -563,7 +563,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
   }
 
   void _makeBooking() {
-    String userId = AppConstant.userId;
+    String? userId = AppConstant.userId;
     String menuId = AppConstant.menuDetail.id!;
 
     String hallAvailabilityId = AppConstant.hallAvailabilityId;

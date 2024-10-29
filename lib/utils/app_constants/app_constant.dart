@@ -1,13 +1,16 @@
 import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:BandoBasta/Response/venue_hall_response.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AppConstant {
   static const String appName = "BandoBasta";
-  static const String baseURL = "https://bandobasta.onrender.com/book-eat-nepal";
-    // static const String baseURL =
-    //   "http://localhost:8080/book-eat-nepal";
+  static const String baseURL =
+      "https://bandobasta.onrender.com/book-eat-nepal";
+  // static const String baseURL =
+  //   "http://localhost:8080/book-eat-nepal";
 
   static String apiVersion = "/api/v1";
+  static final _storage = FlutterSecureStorage();
 
   static bool toFood = false;
   static bool hasValue = false;
@@ -39,7 +42,7 @@ class AppConstant {
 
   static int foodId = 0;
   static String numberOfItems = "";
-  static String userId = "";
+  static String? userId = "";
   static String orderId = "";
   static String orderStatus = "";
   static String menuFoodId = "";
@@ -84,6 +87,21 @@ class AppConstant {
   static String saveHallBookingURL = "";
   static String updateProfileURL = "";
   static String userProfileURL = "";
+
+  static Future<void> saveUserId(String? id) async {
+    await _storage.write(key: 'user_id', value: id);
+    userId = id;
+  }
+
+  static Future<String?> getUserId() async {
+    userId = await _storage.read(key: 'user_id');
+    return userId;
+  }
+
+  static Future<void> clearUserId() async {
+    await _storage.delete(key: 'userId');
+    userId = '';
+  }
 
   static String getHallBookingURI() {
     findHallBookingByUser =

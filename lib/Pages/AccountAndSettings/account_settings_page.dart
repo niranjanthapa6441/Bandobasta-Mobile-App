@@ -3,6 +3,7 @@ import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
+import 'package:BandoBasta/utils/service/auth_service.dart';
 import 'package:BandoBasta/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,39 +16,50 @@ class AccountSettingsPage extends StatefulWidget {
 }
 
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
+  final AuthService _authService = AuthService(); // Create an instance here
+
   @override
   void initState() {
+    AppConstant.getUserId();
     super.initState();
     Get.find<UserController>().getCustomerDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Account & Settings'),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(bottom: Dimensions.height20),
-            child: Column(
-              children: [
-                if (AppConstant.isUserLoggedIn) _buildProfileSection(),
-                Divider(),
-                if (AppConstant.isUserLoggedIn) _buildMenuItems(),
-                Divider(),
-                _buildSettingsItems(),
-                Divider(),
-                _buildSupportItems(),
-              ],
+    return FutureBuilder<bool>(
+      future: _authService.isTokenExpired(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        bool tokenExpired = snapshot.data ?? true;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Account & Settings'),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: Dimensions.height20),
+              child: Column(
+                children: [
+                  if (tokenExpired) _buildProfileSection(),
+                  Divider(),
+                  if (tokenExpired) _buildMenuItems(),
+                  Divider(),
+                  _buildSettingsItems(),
+                  Divider(),
+                  _buildSupportItems(tokenExpired),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -114,18 +126,19 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     );
   }
 
-  Widget _buildSupportItems() {
+  Widget _buildSupportItems(bool tokenExpired) {
     return Column(
       children: [
         _buildMenuItem(Icons.support, 'Emergency Support'),
         _buildMenuItem(Icons.chat, 'Chat with us'),
-        if (AppConstant.isUserLoggedIn)
+        if (tokenExpired)
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Log Out'),
             onTap: () {
               AppConstant.userId = "";
-              AppConstant.isUserLoggedIn = false;
+              _authService.clearToken();
+              AppConstant.clearUserId(); // Call clearToken on the instance
               Get.toNamed(RouteHelper.getSignIn());
             },
           )

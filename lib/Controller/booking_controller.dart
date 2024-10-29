@@ -27,6 +27,7 @@ class BookingController extends GetxController {
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
   Future<void> get() async {
+    AppConstant.getUserId();
     Response response = await bookingRepository.getCustomerHallBookingDetails();
 
     if (response.statusCode == 200) {

@@ -4,6 +4,7 @@ import 'package:BandoBasta/Request/log_in_request.dart';
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/Response/log_in_reponse.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
+import 'package:BandoBasta/utils/service/auth_service.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -33,7 +34,10 @@ class AuthController extends GetxController implements GetxService {
       details = LogInResponse.fromJson(response.body);
       responseModel = ResponseModel(true, response.body["message"]);
       authRepo.saveUserToken(details.data!.accessToken.toString());
-      AppConstant.userId = details.data!.id.toString();
+      AuthService authService = new AuthService();
+      authService.storeToken(details.data!.accessToken.toString());
+      AppConstant.saveUserId(details.data!.id.toString());
+      print(AppConstant.userId.toString() + "userID");
     } else {
       responseModel = ResponseModel(false, response.body["message"]);
     }
