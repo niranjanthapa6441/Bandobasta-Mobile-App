@@ -226,8 +226,10 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
   }
 
   Widget buildMenuCard(MenuDetail menuDetail, int index,
-      Map<String, Map<String, int>> menuCategoryCounts) {
-    Map<String, int>? countsForCategory = menuCategoryCounts[menuDetail.id];
+      Map<String, Map<String, Map<String, int>>> menuCategoryCounts) {
+    // Retrieve the counts for the current menu's category
+    Map<String, Map<String, int>>? countsForCategory =
+        menuCategoryCounts[menuDetail.id];
 
     return Padding(
       padding: EdgeInsets.all(Dimensions.height10 * 0.8),
@@ -248,10 +250,37 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                       fontSize: Dimensions.font10 * 1.6,
                       color: AppColors.themeColor)),
               SizedBox(height: Dimensions.height10),
+
+              // Check if countsForCategory is not null
               if (countsForCategory != null)
-                ...countsForCategory.entries.map((entry) {
-                  return buildMenuRow(entry.key, entry.value);
+                ...countsForCategory.entries.map((categoryEntry) {
+                  // Retrieve the subcategory counts for each category
+                  String category = categoryEntry.key;
+                  Map<String, int> subCategoryCounts = categoryEntry.value;
+
+                  // Build a row for the food category
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        category,
+                        style: TextStyle(
+                          fontSize: Dimensions.font10 * 1.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      // Display each subcategory and its count
+                      ...subCategoryCounts.entries.map((subCategoryEntry) {
+                        return buildMenuRow(
+                            subCategoryEntry.key, subCategoryEntry.value);
+                      }).toList(),
+                      SizedBox(
+                          height: Dimensions.height10 *
+                              0.5), // Add spacing between categories
+                    ],
+                  );
                 }).toList(),
+
               SizedBox(height: Dimensions.height10),
               SizedBox(
                 width: double.infinity,
@@ -289,7 +318,7 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(value(label)),
+        Text(label),
         Text(count.toString()),
       ],
     );
@@ -376,42 +405,5 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
         ),
       ),
     );
-  }
-
-  String value(String value) {
-    switch (value) {
-      case "STARTERS":
-        return "Starters";
-      case "SOUP":
-        return "Soup";
-      case "SALAD":
-        return "Salad";
-      case "MAIN_COURSE_VEGETARIAN":
-        return "Main Course - Vegetarian";
-      case "MAIN_COURSE_NON_VEGETARIAN":
-        return "Main Course - Non-Vegetarian";
-      case "SIDE_DISH":
-        return "Side Dish";
-      case "BREAD":
-        return "Bread";
-      case "RICE":
-        return "Rice";
-      case "DAL":
-        return "Dal";
-      case "DESSERT":
-        return "Dessert";
-      case "BEVERAGE_NON_ALCOHOLIC":
-        return "Non-Alcoholic Beverages";
-      case "BEVERAGE_ALCOHOLIC":
-        return "Alcoholic Beverages";
-      case "SPECIALTY_ITEM":
-        return "Specialty Item";
-      case "CONDIMENT":
-        return "Condiments";
-      case "LIVE_STATION":
-        return "Live Station";
-      default:
-        return "";
-    }
   }
 }

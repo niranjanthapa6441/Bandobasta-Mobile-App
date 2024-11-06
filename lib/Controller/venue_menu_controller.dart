@@ -12,8 +12,8 @@ class VenueMenuController extends GetxController {
   Map<String, List<Map<String, dynamic>>> get categorizedMenuMap =>
       _categorizedMenuMap;
 
-  Map<String, Map<String, int>> _menuCategoryCounts = {};
-  Map<String, Map<String, int>> get menuCategoryCount => _menuCategoryCounts;
+  Map<String, Map<String, Map<String, int>>> _menuCategoryCounts = {};
+  Map<String, Map<String, Map<String, int>>> get menuCategoryCount => _menuCategoryCounts;
   List<MenuDetail> _venueMenus = [];
   List<MenuDetail> get venueMenus => _venueMenus;
 
@@ -34,12 +34,12 @@ class VenueMenuController extends GetxController {
   Future<void> get() async {
     Response response = await venueMenuRepo.getVenueMenus();
     if (response.statusCode == 200) {
-      VenueMenuReponse venueMenuReponse =
-          VenueMenuReponse.fromJson(response.body);
+      VenueMenuResponse venueMenuReponse =
+          VenueMenuResponse.fromJson(response.body);
       if (venueMenuReponse.data != null &&
           venueMenuReponse.data!.menuDetails != null) {
         _venueMenus.addAll(venueMenuReponse.data!.menuDetails!);
-        countFoodItemsByCategoryPerMenu(venueMenuReponse.data!.menuDetails!);
+        countFoodItemsByCategoryAndSubcategory(venueMenuReponse.data!.menuDetails!);
         _currentPage = venueMenuReponse.data!.currentPage ?? 0;
         _totalElements = venueMenuReponse.data!.totalElements ?? 0;
         _totalPages = venueMenuReponse.data!.totalPages ?? 0;
@@ -53,17 +53,25 @@ class VenueMenuController extends GetxController {
     }
   }
 
-  Map<String, Map<String, int>> countFoodItemsByCategoryPerMenu(
-      List<MenuDetail> menuDetails) {
+  Map<String, Map<String, Map<String, int>>>
+      countFoodItemsByCategoryAndSubcategory(List<MenuDetail> menuDetails) {
     for (var menu in menuDetails) {
-      Map<String, int> foodCategoryCounts = {};
+      Map<String, Map<String, int>> foodCategoryCounts = {};
+      if (menu.foodDetails != null) {
+        for (var food in menu.foodDetails!) {
+          String category = food.foodCategory ?? 'Unknown Category';
+          String subCategory = food.foodSubCategory ?? 'Unknown Subcategory';
 
-      for (var food in menu.foodDetails!) {
-        if (foodCategoryCounts.containsKey(food.foodCategory)) {
-          foodCategoryCounts[food.foodCategory!] =
-              foodCategoryCounts[food.foodCategory]! + 1;
-        } else {
-          foodCategoryCounts[food.foodCategory!] = 1;
+          if (!foodCategoryCounts.containsKey(category)) {
+            foodCategoryCounts[category] = {};
+          }
+
+          if (foodCategoryCounts[category]!.containsKey(subCategory)) {
+            foodCategoryCounts[category]![subCategory] =
+                foodCategoryCounts[category]![subCategory]! + 1;
+          } else {
+            foodCategoryCounts[category]![subCategory] = 1;
+          }
         }
       }
 
@@ -72,6 +80,7 @@ class VenueMenuController extends GetxController {
 
     return _menuCategoryCounts;
   }
+
 
   Future<void> loadMore() async {
     if (_currentPage < _totalPages) {
@@ -94,17 +103,4 @@ class VenueMenuController extends GetxController {
     AppConstant.page = 1;
     AppConstant.getVenueURI();
   }
-
-  Map<String, String> categoryMapping = {
-    'SALAD': 'Salad',
-    'MAIN_COURSE_NON_VEGETARIAN': 'Main Course - Non-Vegetarian',
-    'MAIN_COURSE_VEGETARIAN': 'Main Course - Vegetarian',
-    'DESSERT': 'Dessert',
-    'BREAD': 'Bread',
-    'RICE': 'Rice',
-    'SOUP': 'Soup',
-    'DAL': 'Dal',
-    'STARTERS': 'Starters',
-    'BEVERAGE_NON_ALCOHOLIC': 'Beverages',
-  };
 }

@@ -87,6 +87,92 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     );
   }
 
+  Widget _buildMenuCard(MenuDetail menuDetail) {
+    Map<String, Map<String, Map<String, dynamic>>> categorizedMenu =
+        getCategorizedMenu(menuDetail);
+
+    return Padding(
+      padding: EdgeInsets.all(Dimensions.height10 * 0.8),
+      child: Card(
+        elevation: 4,
+        child: Padding(
+          padding: EdgeInsets.all(Dimensions.height10 * 1.6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${menuDetail.menuType} Menu',
+                  style: TextStyle(
+                      fontSize: Dimensions.font10 * 1.8,
+                      fontWeight: FontWeight.bold)),
+              SizedBox(height: Dimensions.height10 * 0.5),
+              Text(menuDetail.price!.toString(),
+                  style: TextStyle(
+                      fontSize: Dimensions.font10 * 1.6,
+                      color: AppColors.themeColor)),
+              SizedBox(height: Dimensions.height10),
+              ...categorizedMenu.entries.map((categoryEntry) {
+                String category = categoryEntry.key;
+                Map<String, Map<String, dynamic>> subCategories =
+                    categoryEntry.value;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(category,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    ...subCategories.entries.map((subCategoryEntry) {
+                      String subCategory = subCategoryEntry.key;
+                      int maxSelection = subCategoryEntry.value['maxSelection'];
+                      List foods = subCategoryEntry.value['foods'];
+
+                      return buildMenuRow(subCategory, maxSelection);
+                    }).toList(),
+                  ],
+                );
+              }).toList(),
+              SizedBox(height: Dimensions.height10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(
+                        RouteHelper.getMenuDetail("${menuDetail.menuType} Menu",
+                            menuDetail.price.toString()),
+                        arguments: menuDetail);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.themeColor,
+                    padding:
+                        EdgeInsets.symmetric(vertical: Dimensions.height10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radius10 * 0.8)),
+                  ),
+                  child: BigText(
+                    text: 'View Menu',
+                    color: Colors.white,
+                    size: Dimensions.font15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildMenuRow(String label, int count) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+            label), // Assuming the `value` function is replaced with just label
+        Text(count.toString()),
+      ],
+    );
+  }
+
   Widget _buildHallCard(HallDetail hallDetail, int index) {
     photoUrls = getHallImageURLs(hallDetail.hallImagePaths!);
 
@@ -241,130 +327,11 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     );
   }
 
-  Widget _buildMenuCard(MenuDetail menuDetail) {
-    Map<String, int> countsForCategory = _countFoodItemsByCategory(menuDetail);
-
-    return Padding(
-      padding: EdgeInsets.all(Dimensions.height10 * 0.8),
-      child: Card(
-        elevation: 4,
-        child: Padding(
-          padding: EdgeInsets.all(Dimensions.height10 * 1.6),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(menuDetail.menuType! + " Menu",
-                  style: TextStyle(
-                      fontSize: Dimensions.font10 * 1.8,
-                      fontWeight: FontWeight.bold)),
-              SizedBox(height: Dimensions.height10 * 0.5),
-              Text(menuDetail.price!.toString(),
-                  style: TextStyle(
-                      fontSize: Dimensions.font10 * 1.6,
-                      color: AppColors.themeColor)),
-              SizedBox(height: Dimensions.height10),
-              ...countsForCategory.entries.map((entry) {
-                return buildMenuRow(entry.key, entry.value);
-              }).toList(),
-              SizedBox(height: Dimensions.height10),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(
-                        RouteHelper.getMenuDetail("${menuDetail.menuType} Menu",
-                            menuDetail.price.toString()),
-                        arguments: menuDetail);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.themeColor,
-                    padding:
-                        EdgeInsets.symmetric(vertical: Dimensions.height10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius10 * 0.8)),
-                  ),
-                  child: BigText(
-                    text: 'View Menu',
-                    color: Colors.white,
-                    size: Dimensions.font15,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildMenuRow(String label, int count) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(value(label)),
-        Text(count.toString()),
-      ],
-    );
-  }
-
   String? getImagePath(List<String>? hallImagePaths) {
     if (hallImagePaths != null && hallImagePaths.isNotEmpty) {
       return hallImagePaths[0];
     }
     return null;
-  }
-
-  String value(String value) {
-    switch (value) {
-      case "STARTERS":
-        return "Starters";
-      case "SOUP":
-        return "Soup";
-      case "SALAD":
-        return "Salad";
-      case "MAIN_COURSE_VEGETARIAN":
-        return "Main Course - Vegetarian";
-      case "MAIN_COURSE_NON_VEGETARIAN":
-        return "Main Course - Non-Vegetarian";
-      case "SIDE_DISH":
-        return "Side Dish";
-      case "BREAD":
-        return "Bread";
-      case "RICE":
-        return "Rice";
-      case "DAL":
-        return "Dal";
-      case "DESSERT":
-        return "Dessert";
-      case "BEVERAGE_NON_ALCOHOLIC":
-        return "Non-Alcoholic Beverages";
-      case "BEVERAGE_ALCOHOLIC":
-        return "Alcoholic Beverages";
-      case "SPECIALTY_ITEM":
-        return "Specialty Item";
-      case "CONDIMENT":
-        return "Condiments";
-      case "LIVE_STATION":
-        return "Live Station";
-      default:
-        return "";
-    }
-  }
-
-  Map<String, int> _countFoodItemsByCategory(MenuDetail menuDetail) {
-    Map<String, int> foodCategoryCounts = {};
-
-    for (var food in menuDetail.foodDetails!) {
-      if (foodCategoryCounts.containsKey(food.foodCategory)) {
-        foodCategoryCounts[food.foodCategory!] =
-            foodCategoryCounts[food.foodCategory]! + 1;
-      } else {
-        foodCategoryCounts[food.foodCategory!] = 1;
-      }
-    }
-
-    return foodCategoryCounts;
   }
 
   List<String> getHallImageURLs(List<String> imageUrls) {
@@ -567,7 +534,11 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     final AuthService _authservice = AuthService();
     String? userId = await _authservice.getUserId();
     String menuId = AppConstant.menuDetail.id!;
-
+    List<String> foodIds = AppConstant.menuDetail.foodDetails
+            ?.map((food) => food.id ?? '')
+            .toList() ??
+        [];
+    print(foodIds);
     String hallAvailabilityId = AppConstant.hallAvailabilityId;
 
     String eventType = AppConstant.eventType;
@@ -576,7 +547,9 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         userId: userId,
         menuId: menuId,
         id: hallAvailabilityId,
-        eventType: eventType);
+        eventType: eventType,
+        numberOfGuests: AppConstant.numberOfGuests,
+        foodIds: foodIds);
     var bookingController = Get.find<BookingController>();
     bookingController.saveHallBooking(hallBookingRequest).then((status) {
       if (status.isSuccess) {
@@ -586,6 +559,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         AppConstant.minPrice = 0;
         AppConstant.maxPrice = 0;
         AppConstant.venueName = "";
+        AppConstant.isSelectHallPackageSelected = false;
         Get.find<VenueController>().onClose();
         Get.find<VenueController>().get();
         Get.toNamed(RouteHelper.getNavigation());
@@ -614,5 +588,36 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         colorText: Colors.white,
         snackPosition: SnackPosition.TOP,
         backgroundColor: color);
+  }
+
+  Map<String, Map<String, Map<String, dynamic>>> getCategorizedMenu(
+      MenuDetail menuDetail) {
+    Map<String, Map<String, Map<String, dynamic>>> menuMap = {};
+    Map<String, int?> maxSelectionMap = {};
+
+    for (var selectionDetail in menuDetail.menuItemSelectionRangeDetails!) {
+      maxSelectionMap[selectionDetail.foodSubCategory!] =
+          selectionDetail.maxSelection;
+    }
+
+    for (var food in menuDetail.foodDetails!) {
+      String category = food.foodCategory!;
+      String subCategory = food.foodSubCategory ?? 'General';
+
+      if (!menuMap.containsKey(category)) {
+        menuMap[category] = {};
+      }
+
+      if (!menuMap[category]!.containsKey(subCategory)) {
+        menuMap[category]![subCategory] = {
+          'foods': [],
+          'maxSelection': maxSelectionMap[subCategory] ?? 0,
+        };
+      }
+
+      menuMap[category]![subCategory]!['foods'].add(food);
+    }
+
+    return menuMap;
   }
 }
