@@ -3,9 +3,9 @@ import 'package:BandoBasta/Response/venue_hall_response.dart';
 
 class AppConstant {
   static const String appName = "BandoBasta";
-  static const String baseURL = "https://bandobasta.onrender.com/book-eat-nepal";
-    // static const String baseURL =
-    //   "http://localhost:8080/book-eat-nepal";
+  // static const String baseURL = "https://bandobasta.onrender.com/book-eat-nepal";
+  static const String baseURL =
+      "http://localhost:8080/book-eat-nepal";
 
   static String apiVersion = "/api/v1";
 
@@ -22,6 +22,7 @@ class AppConstant {
     status: '',
     menuType: '',
     foodDetails: [],
+    menuItemSelectionRangeDetails:[]
   );
   static HallDetail hallDetail = HallDetail(
     venueId: '',
@@ -48,6 +49,7 @@ class AppConstant {
   static String venueName = "";
   static int page = 1;
   static int size = 5;
+  static int numberOfGuests = 100;
   static String period = "";
   static String startDate = "";
   static String endDate = "";

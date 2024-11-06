@@ -8,7 +8,7 @@ import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FoodMenuScreen extends StatelessWidget {
+class FoodMenuScreen extends StatefulWidget {
   final MenuDetail menuDetail;
   final String menuName;
   final String price;
@@ -21,10 +21,40 @@ class FoodMenuScreen extends StatelessWidget {
   });
 
   @override
+  _FoodMenuScreenState createState() => _FoodMenuScreenState();
+}
+
+class _FoodMenuScreenState extends State<FoodMenuScreen> {
+  late Map<String, Map<String, Map<String, dynamic>>> menuMap;
+  late Map<String, Map<String, List<bool>>> checkBoxStates;
+  List<FoodDetail> selectedFoods = [];
+  Map<String, String> validationMessages = {};
+
+  @override
+  void initState() {
+    super.initState();
+    menuMap = getCategorizedMenu(widget.menuDetail);
+    checkBoxStates = initializeCheckBoxStates(menuMap);
+  }
+
+  Map<String, Map<String, List<bool>>> initializeCheckBoxStates(
+      Map<String, Map<String, Map<String, dynamic>>> menuMap) {
+    Map<String, Map<String, List<bool>>> states = {};
+    menuMap.forEach((category, subCategories) {
+      states[category] = {};
+      subCategories.forEach((subCategory, subCategoryDetails) {
+        states[category]![subCategory] =
+            List.generate(subCategoryDetails['foods'].length, (_) => false);
+      });
+    });
+    return states;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(menuName),
+        title: Text(widget.menuName),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -40,14 +70,13 @@ class FoodMenuScreen extends StatelessWidget {
             if (!controller.isLoaded) {
               return Center(child: CircularProgressIndicator());
             }
-            List<Map<String, dynamic>> categorizedMenu =
-                getCategorizedMenu(menuDetail);
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
                   child: Text(
-                    'Price: NPR $price',
+                    'Price: NPR ${widget.price}',
                     style: TextStyle(
                       fontSize: Dimensions.font10 * 2,
                       fontWeight: FontWeight.bold,
@@ -60,30 +89,130 @@ class FoodMenuScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: categorizedMenu.map((menuCategory) {
-                        if (menuCategory['items'] == null ||
-                            menuCategory['items'].isEmpty) {
-                          return SizedBox();
-                        }
-
+                      children: menuMap.entries.map((categoryEntry) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              menuCategory['category'],
+                              categoryEntry.key,
                               style: TextStyle(
                                 fontSize: Dimensions.font10 * 1.6,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 5),
-                            ...menuCategory['items'].map((item) {
-                              return ListTile(
-                                title:
-                                    Text(item.name), // Displaying the item name
-                                trailing: Text(
-                                  'N/A', // Placeholder for price (can be updated if needed)
-                                ),
+                            ...categoryEntry.value.entries
+                                .map((subCategoryEntry) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        subCategoryEntry.key,
+                                        style: TextStyle(
+                                          fontSize: Dimensions.font10 * 1.4,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: Dimensions.width10,
+                                      ),
+                                      if (AppConstant
+                                          .isSelectHallPackageSelected)
+                                        Text(
+                                          "(Select any ${subCategoryEntry.value['maxSelection']} from below)",
+                                          style: TextStyle(
+                                            fontSize: Dimensions.font10 * 1.2,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  if (AppConstant
+                                      .isSelectHallPackageSelected) ...[
+                                    ...subCategoryEntry.value['foods']
+                                        .asMap()
+                                        .entries
+                                        .map((entry) {
+                                      int index = entry.key;
+                                      FoodDetail item = entry.value;
+
+                                      return CheckboxListTile(
+                                        title: Text(item.name ?? 'Unnamed'),
+                                        value:
+                                            checkBoxStates[categoryEntry.key]![
+                                                subCategoryEntry.key]![index],
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            int currentSelectionCount =
+                                                checkBoxStates[
+                                                            categoryEntry.key]![
+                                                        subCategoryEntry.key]!
+                                                    .where((isChecked) =>
+                                                        isChecked)
+                                                    .length;
+                                            int maxSelection = subCategoryEntry
+                                                .value['maxSelection'];
+
+                                            // Allow selection if not exceeding max
+                                            if (value == true &&
+                                                currentSelectionCount <
+                                                    maxSelection) {
+                                              checkBoxStates[
+                                                      categoryEntry.key]![
+                                                  subCategoryEntry
+                                                      .key]![index] = true;
+                                              selectedFoods.add(item);
+                                            } else if (value == false) {
+                                              checkBoxStates[
+                                                      categoryEntry.key]![
+                                                  subCategoryEntry
+                                                      .key]![index] = false;
+                                              selectedFoods.remove(item);
+                                            } else {
+                                              // Update validation message
+                                              validationMessages[
+                                                      subCategoryEntry.key] =
+                                                  'You can only select up to $maxSelection items from ${subCategoryEntry.key}.';
+                                            }
+
+                                            // Clear validation message if selection meets the max
+                                            if (currentSelectionCount +
+                                                    (value == true ? 1 : -1) >=
+                                                maxSelection) {
+                                              validationMessages
+                                                  .remove(subCategoryEntry.key);
+                                            }
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                  ] else ...[
+                                    ...subCategoryEntry.value['foods']
+                                        .map((item) {
+                                      return ListTile(
+                                        title: Text(item.name ?? 'Unnamed'),
+                                        trailing: Text(
+                                          'N/A',
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ],
+                                  // Display validation message if any
+                                  if (validationMessages
+                                      .containsKey(subCategoryEntry.key))
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4.0),
+                                      child: Text(
+                                        validationMessages[
+                                            subCategoryEntry.key]!,
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  SizedBox(height: 10),
+                                ],
                               );
                             }).toList(),
                             Divider(),
@@ -100,8 +229,46 @@ class FoodMenuScreen extends StatelessWidget {
                       height: Dimensions.height10 * 5,
                       child: ElevatedButton(
                         onPressed: () {
-                          AppConstant.menuDetail = menuDetail;
-                          Get.toNamed(RouteHelper.getCheckAvailabilityForm());
+                          // Validate selection against maxSelection for each sub-category
+                          bool isValid = true;
+
+                          for (var categoryEntry in menuMap.entries) {
+                            for (var subCategoryEntry
+                                in categoryEntry.value.entries) {
+                              int currentSelectionCount = checkBoxStates[
+                                      categoryEntry.key]![subCategoryEntry.key]!
+                                  .where((isChecked) => isChecked)
+                                  .length;
+                              int maxSelection =
+                                  subCategoryEntry.value['maxSelection'];
+
+                              if (currentSelectionCount < maxSelection) {
+                                isValid = false;
+                                validationMessages[subCategoryEntry.key] =
+                                    'You must select at least $maxSelection items from ${subCategoryEntry.key}.';
+                              } else {
+                                // Clear any existing validation messages if selection is valid
+                                validationMessages.remove(subCategoryEntry.key);
+                              }
+                            }
+                          }
+
+                          if (isValid) {
+                            // Update AppConstant.menuDetail to keep only selected foods
+                            setState(() {
+                              widget.menuDetail.foodDetails = selectedFoods;
+                              AppConstant.menuDetail = widget.menuDetail;
+                            });
+
+                            // Log updated food details for verification
+                            print(
+                                "Updated Food Details: ${widget.menuDetail.foodDetails!.map((food) => food.name).join(", ")}");
+
+                            Get.toNamed(RouteHelper.getCheckAvailabilityForm());
+                          } else {
+                            // Trigger a rebuild to display validation messages
+                            setState(() {});
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.themeColor,
@@ -115,9 +282,7 @@ class FoodMenuScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                SizedBox(
-                  height: Dimensions.height20,
-                )
+                SizedBox(height: Dimensions.height20),
               ],
             );
           },
@@ -126,37 +291,34 @@ class FoodMenuScreen extends StatelessWidget {
     );
   }
 
-  List<Map<String, dynamic>> getCategorizedMenu(MenuDetail menuDetail) {
-    Map<String, List<FoodDetail>> menuMap = {};
+  Map<String, Map<String, Map<String, dynamic>>> getCategorizedMenu(
+      MenuDetail menuDetail) {
+    Map<String, Map<String, Map<String, dynamic>>> menuMap = {};
+
+    Map<String, int?> maxSelectionMap = {};
+    for (var selectionDetail in menuDetail.menuItemSelectionRangeDetails!) {
+      maxSelectionMap[selectionDetail.foodSubCategory!] =
+          selectionDetail.maxSelection;
+    }
 
     for (var food in menuDetail.foodDetails!) {
       String category = food.foodCategory!;
-      String categoryName = categoryMapping[category] ?? category;
+      String subCategory = food.foodSubCategory ?? 'General';
 
-      if (!menuMap.containsKey(categoryName)) {
-        menuMap[categoryName] = [];
+      if (!menuMap.containsKey(category)) {
+        menuMap[category] = {};
       }
 
-      menuMap[categoryName]!.add(food);
-    }
-    return menuMap.entries.map((entry) {
-      return {
-        'category': entry.key,
-        'items': entry.value,
-      };
-    }).toList();
-  }
+      if (!menuMap[category]!.containsKey(subCategory)) {
+        menuMap[category]![subCategory] = {
+          'foods': [],
+          'maxSelection': maxSelectionMap[subCategory] ?? 0,
+        };
+      }
 
-  Map<String, String> categoryMapping = {
-    'SALAD': 'Salad',
-    'MAIN_COURSE_NON_VEGETARIAN': 'Main Course - Non-Vegetarian',
-    'MAIN_COURSE_VEGETARIAN': 'Main Course - Vegetarian',
-    'DESSERT': 'Dessert',
-    'BREAD': 'Bread',
-    'RICE': 'Rice',
-    'SOUP': 'Soup',
-    'DAL': 'Dal',
-    'STARTERS': 'Starters',
-    'BEVERAGE_NON_ALCOHOLIC': 'Beverages',
-  };
+      menuMap[category]![subCategory]!['foods'].add(food);
+    }
+
+    return menuMap;
+  }
 }
