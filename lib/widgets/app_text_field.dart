@@ -11,6 +11,7 @@ class AppTextField extends StatelessWidget {
   final double width;
   final Widget? widget;
   final Color? color; // Optional color for hint text
+  final VoidCallback? onIconPressed; // New callback for icon press
 
   AppTextField({
     Key? key,
@@ -22,44 +23,45 @@ class AppTextField extends StatelessWidget {
     this.widget = null,
     required this.width,
     this.color, // Make color optional
+    this.onIconPressed, // Initialize onIconPressed
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(Dimensions.radius15),
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 8,
-                spreadRadius: 6,
-                offset: Offset(1, 8),
-                color: Colors.grey.withOpacity(0.2))
-          ]),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(Dimensions.radius15),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 8,
+            spreadRadius: 6,
+            offset: Offset(1, 8),
+            color: Colors.grey.withOpacity(0.2),
+          ),
+        ],
+      ),
       child: Row(
         children: [
-          widget == null
-              ? Container()
-              : Container(
-                  child: widget,
-                ),
+          widget ?? Container(), // Display widget if not null
           Container(
             width: width,
             child: TextFormField(
               readOnly: readOnly,
-              obscureText: isObscure ? true : false,
+              obscureText: isObscure,
               controller: textEditingController,
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: TextStyle(
-                  color: color ??
-                      Colors.grey, // Default to grey if no color is provided
+                  color: color ?? Colors.grey, // Default hint color
                 ),
                 prefixIcon: widget == null
-                    ? Icon(
-                        icon,
-                        color: color ?? AppColors.mainBlackColor,
+                    ? GestureDetector(
+                        onTap: onIconPressed, // Toggle visibility
+                        child: Icon(
+                          icon,
+                          color: color ?? AppColors.mainBlackColor,
+                        ),
                       )
                     : null,
                 focusedBorder: OutlineInputBorder(
