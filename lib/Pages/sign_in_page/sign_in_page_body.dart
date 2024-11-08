@@ -23,6 +23,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _isPasswordVisible = false; // New variable for password visibility
 
   @override
   void dispose() {
@@ -97,9 +98,17 @@ class _SignInPageBodyState extends State<SignInPageBody> {
                   AppTextField(
                     textEditingController: passwordController,
                     hintText: "Password",
-                    icon: Icons.password,
-                    isObscure: true,
+                    icon: _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    isObscure: !_isPasswordVisible, // Toggle visibility
                     width: Dimensions.width10 * 37,
+                    onIconPressed: () {
+                      setState(() {
+                        _isPasswordVisible =
+                            !_isPasswordVisible; // Toggle state
+                      });
+                    },
                   ),
                   ErrorLabel(
                     error: passwordError,

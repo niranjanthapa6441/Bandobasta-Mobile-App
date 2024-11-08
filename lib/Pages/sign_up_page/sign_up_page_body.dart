@@ -18,6 +18,8 @@ class SignUpPageBody extends StatefulWidget {
 
 class _SignUpPageBodyState extends State<SignUpPageBody> {
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   var emailController = TextEditingController();
   var firstNameController = TextEditingController();
@@ -86,20 +88,36 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                     textEditingController: passwordController,
                     hintText: "Password",
                     color: passwordError.isEmpty ? null : AppColors.themeColor,
-                    icon: Icons.password,
+                    icon: _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    isObscure: !_isPasswordVisible, // Toggle visibility
                     width: Dimensions.width10 * 37,
-                    isObscure: true,
+                    onIconPressed: () {
+                      setState(() {
+                        _isPasswordVisible =
+                            !_isPasswordVisible; // Toggle state
+                      });
+                    },
                   ),
                   ErrorLabel(error: passwordError),
                   AppTextField(
                     textEditingController: confirmPasswordController,
                     hintText: "Confirm Password",
-                    icon: Icons.password,
                     color: confirmPasswordError.isEmpty
                         ? null
                         : AppColors.themeColor,
+                    icon: _isConfirmPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    isObscure: !_isConfirmPasswordVisible, // Toggle visibility
                     width: Dimensions.width10 * 37,
-                    isObscure: true,
+                    onIconPressed: () {
+                      setState(() {
+                        _isConfirmPasswordVisible =
+                            !_isConfirmPasswordVisible; // Toggle state
+                      });
+                    },
                   ),
                   ErrorLabel(error: confirmPasswordError),
                   AppTextField(
@@ -204,7 +222,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
       String confirmPassword = confirmPasswordController.text.trim();
       String email = emailController.text.trim();
       String phoneNumber = phoneNumberController.text.trim();
-      
+
       if (firstName.isEmpty ||
           lastName.isEmpty ||
           username.isEmpty ||
@@ -270,12 +288,8 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
           });
           if (status.isSuccess) {
             Get.toNamed(RouteHelper.getSignIn());
-            showCustomSnackBar("Registration Successful!",
-                title: "Registration", color: Colors.green);
           } else {
-            // Handle registration error
-            showCustomSnackBar("Registration Failed: ${status.message}",
-                title: "Error");
+            Get.snackbar("Error", status.message);
           }
         });
       }
