@@ -254,15 +254,10 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
                           }
 
                           if (isValid) {
-                            // Update AppConstant.menuDetail to keep only selected foods
                             setState(() {
                               widget.menuDetail.foodDetails = selectedFoods;
                               AppConstant.menuDetail = widget.menuDetail;
                             });
-
-                            // Log updated food details for verification
-                            print(
-                                "Updated Food Details: ${widget.menuDetail.foodDetails!.map((food) => food.name).join(", ")}");
 
                             Get.toNamed(RouteHelper.getCheckAvailabilityForm());
                           } else {

@@ -1,6 +1,7 @@
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTextField extends StatelessWidget {
   final TextEditingController textEditingController;
@@ -12,7 +13,9 @@ class AppTextField extends StatelessWidget {
   final Widget? widget;
   final Color? color; // Optional color for hint text
   final VoidCallback? onIconPressed; // New callback for icon press
+  final List<TextInputFormatter>? inputFormatters; // Add inputFormatters
 
+  // Constructor to initialize parameters
   AppTextField({
     Key? key,
     required this.textEditingController,
@@ -24,6 +27,7 @@ class AppTextField extends StatelessWidget {
     required this.width,
     this.color, // Make color optional
     this.onIconPressed, // Initialize onIconPressed
+    this.inputFormatters, // Initialize inputFormatters
   }) : super(key: key);
 
   @override
@@ -50,17 +54,22 @@ class AppTextField extends StatelessWidget {
               readOnly: readOnly,
               obscureText: isObscure,
               controller: textEditingController,
+              inputFormatters: inputFormatters, // Apply the inputFormatters
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: TextStyle(
-                  color: color ?? Colors.grey, // Default hint color
+                  color: color ??
+                      Colors.grey, // Default hint color if none provided
                 ),
                 prefixIcon: widget == null
                     ? GestureDetector(
-                        onTap: onIconPressed, // Toggle visibility
+                        onTap:
+                            onIconPressed, // Invoke onIconPressed callback if provided
                         child: Icon(
                           icon,
-                          color: color ?? AppColors.mainBlackColor,
+                          color: color ??
+                              AppColors
+                                  .mainBlackColor, // Default color if none provided
                         ),
                       )
                     : null,

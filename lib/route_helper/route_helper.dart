@@ -8,7 +8,7 @@ import 'package:BandoBasta/Pages/homepage/navigation.dart';
 import 'package:BandoBasta/Pages/menuPage/food_menu_page.dart';
 import 'package:BandoBasta/Pages/menuPage/venue_menu_page.dart';
 import 'package:BandoBasta/Pages/AccountAndSettings/updateProfilePage.dart';
-import 'package:BandoBasta/Pages/searchVenuePage/check_availability_form_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/check_availability_form_page.dart';
 import 'package:BandoBasta/Pages/searchVenuePage/search_venue_page.dart';
 import 'package:BandoBasta/Pages/sign_in_page/sign_in.dart';
 import 'package:BandoBasta/Pages/sign_up_page/sign_up.dart';
