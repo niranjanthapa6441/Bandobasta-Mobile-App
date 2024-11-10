@@ -501,12 +501,10 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                       );
                     },
                     onPageChanged: (newIndex) {
-                      // Update the current index in the ValueNotifier
                       currentIndexNotifier.value = newIndex;
                     },
                   ),
                 ),
-                // Display the current index from the ValueNotifier
                 ValueListenableBuilder<int>(
                   valueListenable: currentIndexNotifier,
                   builder: (context, currentIndex, _) {
@@ -538,7 +536,6 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
             ?.map((food) => food.id ?? '')
             .toList() ??
         [];
-    print(foodIds);
     String hallAvailabilityId = AppConstant.hallAvailabilityId;
 
     String eventType = AppConstant.eventType;

@@ -85,10 +85,8 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
               child: availabilities.isLoaded
                   ? availabilities.hallAvailabilities.isEmpty
                       ? Container(
-                          height: MediaQuery.of(context).size.height *
-                              0.5, // Adjust height to center vertically
-                          alignment: Alignment
-                              .center, // Center horizontally and vertically
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          alignment: Alignment.center,
                           child: Text(
                             "No slots available. Select another date",
                             style: TextStyle(fontSize: 18, color: Colors.grey),
@@ -101,21 +99,17 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
                               padding: EdgeInsets.zero,
                               physics: AlwaysScrollableScrollPhysics(),
                               itemCount:
-                                  availabilities.hallAvailabilities.length + 1,
+                                  availabilities.hallAvailabilities.length,
                               itemBuilder: (context, index) {
-                                if (index != availabilities.totalElements &&
-                                    index ==
-                                        availabilities
-                                            .hallAvailabilities.length) {
-                                } else if (index ==
-                                        availabilities.totalElements &&
-                                    index ==
-                                        availabilities
-                                            .hallAvailabilities.length) {
+                                // Check if index is valid before accessing the list
+                                if (index <
+                                    availabilities.hallAvailabilities.length) {
+                                  return _buildTimeRow(
+                                      availabilities.hallAvailabilities[index]);
+                                } else {
+                                  // Return an empty container if index is out of bounds
                                   return Container();
                                 }
-                                return _buildTimeRow(
-                                    availabilities.hallAvailabilities[index]);
                               }),
                         )
                   : _buildLoadingIndicator(),

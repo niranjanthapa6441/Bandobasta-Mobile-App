@@ -1,6 +1,6 @@
 import 'package:BandoBasta/Controller/venue_controller.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/photo_slider.dart';
-import 'package:BandoBasta/Pages/searchVenuePage/check_availability_form_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/check_availability_form_page.dart';
 import 'package:BandoBasta/Response/venue_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
