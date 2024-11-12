@@ -30,7 +30,8 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
     'Corporate Event',
     'Party',
     'Rice Feeding Ceremenoy',
-    'Other'
+    'Bratabanda'
+        'Other'
   ]; // List of event types
 
   @override
@@ -126,7 +127,8 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
                   AppConstant.selectedDate =
                       DateFormat('yyyy-MM-dd').format(_date);
                   AppConstant.numberOfGuests = guests!;
-                  AppConstant.eventType =_transformEventType(_selectedEventType!); 
+                  AppConstant.eventType =
+                      _transformEventType(_selectedEventType!);
 
                   Get.toNamed(RouteHelper.getAvailableDateTime());
                 } else {
@@ -209,8 +211,10 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
         return "BIRTHDAY_PARTY";
       case "Corporate Meeting":
         return "CORPORATE_MEETING";
-      case "Gala Dinner":
-        return "GALA_DINNER";
+      case "Bratabanda":
+        return "BRATABANDA";
+      case "Rice Feeding Ceremony":
+        return "RICE_FEEDING_CEREMONY";
       default:
         return eventType!.toUpperCase().replaceAll(' ', '_');
     }

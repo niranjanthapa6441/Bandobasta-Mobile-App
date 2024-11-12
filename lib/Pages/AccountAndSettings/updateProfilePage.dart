@@ -94,7 +94,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             ),
             GestureDetector(
               onTap: () {
-                _Validation();
+                _validation();
               },
               child: Container(
                 margin: EdgeInsets.only(
@@ -124,7 +124,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Future<void> _Validation() async {
+  Future<void> _validation() async {
     String firstName = firstNameController.text.trim();
     String lastName = lastNameController.text.trim();
     String middleName = middleNameController.text.trim();
