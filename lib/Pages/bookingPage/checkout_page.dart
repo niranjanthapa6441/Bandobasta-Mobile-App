@@ -22,6 +22,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPagePageState extends State<CheckoutPage> {
+  bool _isLoading = false;
   bool _isExpanded = false;
   List<String> photoUrls = [];
 
@@ -44,45 +45,59 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
           },
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(Dimensions.height10 * 0.5),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildHallCard(
-                        AppConstant.hallDetail, AppConstant.hallIndex),
-                    _buildMenuCard(AppConstant.menuDetail),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: Dimensions.height20),
-            ElevatedButton(
-              onPressed: () {
-                _makeBooking();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.themeColor,
-                padding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.width20,
-                  vertical: Dimensions.height10 * 1.6,
-                ),
-              ),
-              child: Container(
-                width: Dimensions.width10 * 20,
-                child: Center(
-                  child: BigText(
-                    text: 'Checkout',
-                    color: Colors.white,
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(Dimensions.height10 * 0.5),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildHallCard(
+                            AppConstant.hallDetail, AppConstant.hallIndex),
+                        _buildMenuCard(AppConstant.menuDetail),
+                      ],
+                    ),
                   ),
                 ),
+                SizedBox(height: Dimensions.height20),
+                ElevatedButton(
+                  onPressed: () {
+                    _makeBooking();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.themeColor,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.width20,
+                      vertical: Dimensions.height10 * 1.6,
+                    ),
+                  ),
+                  child: Container(
+                    width: Dimensions.width10 * 20,
+                    child: Center(
+                      child: BigText(
+                        text: 'Checkout',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black
+                  .withOpacity(0.5), // Optional overlay background color
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.themeColor,
+                ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -529,6 +544,9 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
   }
 
   void _makeBooking() async {
+    setState(() {
+      _isLoading = true;
+    });
     final AuthService _authservice = AuthService();
     String? userId = await _authservice.getUserId();
     String menuId = AppConstant.menuDetail.id!;
@@ -550,6 +568,9 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     var bookingController = Get.find<BookingController>();
     bookingController.saveHallBooking(hallBookingRequest).then((status) {
       if (status.isSuccess) {
+        setState(() {
+          _isLoading = false;
+        });
         AppConstant.address = "";
         AppConstant.maxCapacity = 0;
         AppConstant.minCapacity = 0;
@@ -563,6 +584,9 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
         showCustomSnackBar("Booking Successful!!",
             title: "Booking", color: Colors.green);
       } else {
+        setState(() {
+          _isLoading = false;
+        });
         showCustomSnackBar(status.message,
             title: "Booking Failed !!", color: Colors.red);
       }

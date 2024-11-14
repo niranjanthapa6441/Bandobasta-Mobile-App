@@ -23,7 +23,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
   bool _isLoading = false;
-  bool _isPasswordVisible = false; // New variable for password visibility
+  bool _isPasswordVisible = false; 
 
   @override
   void dispose() {
@@ -119,7 +119,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               GestureDetector(
                 onTap: _isLoading
                     ? null
-                    : _loginValidation, // Disable onTap if loading
+                    : _submitForm, 
                 child: Container(
                   margin:
                       EdgeInsets.symmetric(horizontal: Dimensions.width30 * 4),
@@ -169,7 +169,6 @@ class _SignInPageBodyState extends State<SignInPageBody> {
             ],
           ),
         ),
-        // Display loading spinner
         if (_isLoading)
           Center(
             child: CircularProgressIndicator(
@@ -180,7 +179,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
     );
   }
 
-  void _loginValidation() {
+  void _submitForm() {
     String username = usernameController.text.trim();
     String password = passwordController.text.trim();
 
