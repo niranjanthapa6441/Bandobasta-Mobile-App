@@ -288,6 +288,11 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
           });
           if (status.isSuccess) {
             Get.toNamed(RouteHelper.getSignIn());
+            showCustomSnackBar(
+                message: "Verify Your account",
+                isError: false,
+                title: "Registration Successful",
+                color: Colors.green);
           } else {
             Get.snackbar("Error", status.message);
           }
@@ -296,8 +301,8 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
     });
   }
 
-  void showCustomSnackBar(String message,
-      {bool isError = true, String title = "Error", Color color = Colors.red}) {
+  void showCustomSnackBar(
+      {required String message, required bool isError, required String title, required Color color}) {
     Get.snackbar(title, message,
         titleText: BigText(
           text: title,

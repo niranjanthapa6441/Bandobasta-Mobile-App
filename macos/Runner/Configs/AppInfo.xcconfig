@@ -8,7 +8,7 @@
 PRODUCT_NAME = BandoBasta
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.bandobasta.BandoBasta
+PRODUCT_BUNDLE_IDENTIFIER = com.BandoBasta.BandoBasta
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 com.bandobasta. All rights reserved.
