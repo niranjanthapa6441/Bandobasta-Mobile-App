@@ -116,7 +116,6 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
               ],
             ),
             SizedBox(height: Dimensions.height10 * 5),
-
             Padding(
               padding: EdgeInsets.all(Dimensions.width10 * 1.6),
               child: Column(
@@ -152,9 +151,9 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                     vertical: Dimensions.height10 * 1.5,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.themeColor, // Background color
-                    borderRadius: BorderRadius.circular(
-                        Dimensions.radius10 * 1.5), // Rounded corners
+                    color: AppColors.themeColor,
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.radius10 * 1.5),
                   ),
                   child: Center(
                     child: BigText(
@@ -191,8 +190,6 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                 ),
               ),
             SizedBox(height: Dimensions.height20),
-
-            // Venue cards section
             GetBuilder<VenueMenuController>(builder: (controller) {
               return GestureDetector(
                 child: controller.isLoaded
@@ -226,10 +223,10 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
   }
 
   Widget buildMenuCard(MenuDetail menuDetail, int index,
-      Map<String, Map<String, Map<String, int>>> menuCategoryCounts) {
-    // Retrieve the counts for the current menu's category
-    Map<String, Map<String, int>>? countsForCategory =
-        menuCategoryCounts[menuDetail.id];
+      Map<String, Map<String, Map<String, dynamic>>> menuCategoryCounts) {
+    Map<String, int>? categoryCounts = menuCategoryCounts[menuDetail.id]?.map(
+        (key, value) => MapEntry(
+            key, value['total'])); // Access the total count for each category
 
     return Padding(
       padding: EdgeInsets.all(Dimensions.height10 * 0.8),
@@ -240,47 +237,35 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(menuDetail.menuType! + " Menu",
-                  style: TextStyle(
-                      fontSize: Dimensions.font10 * 1.8,
-                      fontWeight: FontWeight.bold)),
+              Text(
+                menuDetail.menuType! + " Menu",
+                style: TextStyle(
+                    fontSize: Dimensions.font10 * 1.8,
+                    fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: Dimensions.height10 * 0.5),
-              Text(menuDetail.price!.toString(),
-                  style: TextStyle(
-                      fontSize: Dimensions.font10 * 1.6,
-                      color: AppColors.themeColor)),
+              Text(
+                menuDetail.price!.toString(),
+                style: TextStyle(
+                    fontSize: Dimensions.font10 * 1.6,
+                    color: AppColors.themeColor),
+              ),
               SizedBox(height: Dimensions.height10),
-
-              // Check if countsForCategory is not null
-              if (countsForCategory != null)
-                ...countsForCategory.entries.map((categoryEntry) {
-                  // Retrieve the subcategory counts for each category
-                  String category = categoryEntry.key;
-                  Map<String, int> subCategoryCounts = categoryEntry.value;
-
-                  // Build a row for the food category
+              if (categoryCounts != null)
+                ...categoryCounts.entries.map((entry) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        category,
+                        "${entry.key}: ${entry.value} items", // Display the total count
                         style: TextStyle(
                           fontSize: Dimensions.font10 * 1.5,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // Display each subcategory and its count
-                      ...subCategoryCounts.entries.map((subCategoryEntry) {
-                        return buildMenuRow(
-                            subCategoryEntry.key, subCategoryEntry.value);
-                      }).toList(),
-                      SizedBox(
-                          height: Dimensions.height10 *
-                              0.5), // Add spacing between categories
+                      SizedBox(height: Dimensions.height10 * 0.5),
                     ],
                   );
                 }).toList(),
-
               SizedBox(height: Dimensions.height10),
               SizedBox(
                 width: double.infinity,
@@ -288,9 +273,10 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                   onPressed: () {
                     AppConstant.menuIndex = index;
                     Get.toNamed(
-                        RouteHelper.getMenuDetail("${menuDetail.menuType} Menu",
-                            menuDetail.price.toString()),
-                        arguments: menuDetail);
+                      RouteHelper.getMenuDetail("${menuDetail.menuType} Menu",
+                          menuDetail.price.toString()),
+                      arguments: menuDetail,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.themeColor,
