@@ -12,8 +12,8 @@ class AppTextField extends StatelessWidget {
   final double width;
   final Widget? widget;
   final Color? color; // Optional color for hint text
-  final VoidCallback? onIconPressed; // New callback for icon press
-  final List<TextInputFormatter>? inputFormatters; // Add inputFormatters
+  final VoidCallback? onIconPressed; // Callback for icon press
+  final List<TextInputFormatter>? inputFormatters; // Input formatters
 
   // Constructor to initialize parameters
   AppTextField({
@@ -25,7 +25,7 @@ class AppTextField extends StatelessWidget {
     this.readOnly = false,
     this.widget = null,
     required this.width,
-    this.color, // Make color optional
+    this.color, // Optional color
     this.onIconPressed, // Initialize onIconPressed
     this.inputFormatters, // Initialize inputFormatters
   }) : super(key: key);
@@ -48,28 +48,25 @@ class AppTextField extends StatelessWidget {
       child: Row(
         children: [
           widget ?? Container(), // Display widget if not null
-          Container(
-            width: width,
+          Expanded(
+            // Allow TextFormField to take available space
             child: TextFormField(
               readOnly: readOnly,
               obscureText: isObscure,
               controller: textEditingController,
-              inputFormatters: inputFormatters, // Apply the inputFormatters
+              inputFormatters: inputFormatters, // Apply inputFormatters
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: TextStyle(
-                  color: color ??
-                      Colors.grey, // Default hint color if none provided
+                  color: color ?? Colors.grey, // Default hint color
                 ),
                 prefixIcon: widget == null
                     ? GestureDetector(
-                        onTap:
-                            onIconPressed, // Invoke onIconPressed callback if provided
+                        onTap: onIconPressed, // Invoke onIconPressed
                         child: Icon(
                           icon,
                           color: color ??
-                              AppColors
-                                  .mainBlackColor, // Default color if none provided
+                              AppColors.mainBlackColor, // Default icon color
                         ),
                       )
                     : null,

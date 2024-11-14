@@ -39,6 +39,7 @@ class _OrdersState extends State<BookingsPage> {
 
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -82,47 +83,53 @@ class _OrdersState extends State<BookingsPage> {
               ),
             ),
             Row(
+              mainAxisSize:
+                  MainAxisSize.min, // Ensure Row doesn't take infinite space
               children: [
-                AppTextField(
-                  textEditingController: _startDateController,
-                  hintText: _startDateSelected
-                      ? DateFormat.yMMMMd().format(_startDate)
-                      : "MM/DD/YYYY",
-                  icon: Icons.calendar_today_outlined,
-                  readOnly: true,
-                  width: Dimensions.width10 * 14,
-                  widget: IconButton(
-                    onPressed: () {
-                      _getStartDate();
-                      setState(() {
-                        _startDateSelected = true;
-                      });
-                      _filerOrders();
-                    },
-                    icon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: AppColors.themeColor,
+                Flexible(
+                  child: AppTextField(
+                    textEditingController: _startDateController,
+                    hintText: _startDateSelected
+                        ? DateFormat.yMMMMd().format(_startDate)
+                        : "MM/DD/YYYY",
+                    icon: Icons.calendar_today_outlined,
+                    readOnly: true,
+                    width: Dimensions.width10 * 14,
+                    widget: IconButton(
+                      onPressed: () {
+                        _getStartDate();
+                        setState(() {
+                          _startDateSelected = true;
+                        });
+                        _filerOrders();
+                      },
+                      icon: Icon(
+                        Icons.calendar_today_outlined,
+                        color: AppColors.themeColor,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   width: Dimensions.width15,
                 ),
-                AppTextField(
-                  textEditingController: _endDateController,
-                  hintText: _endDateSelected
-                      ? DateFormat.yMMMMd().format(_endDate)
-                      : "MM/DD/YYYY",
-                  icon: Icons.calendar_today_outlined,
-                  readOnly: true,
-                  width: Dimensions.width10 * 14,
-                  widget: IconButton(
-                    onPressed: () {
-                      _getEndDate();
-                    },
-                    icon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: AppColors.themeColor,
+                Flexible(
+                  child: AppTextField(
+                    textEditingController: _endDateController,
+                    hintText: _endDateSelected
+                        ? DateFormat.yMMMMd().format(_endDate)
+                        : "MM/DD/YYYY",
+                    icon: Icons.calendar_today_outlined,
+                    readOnly: true,
+                    width: Dimensions.width10 * 14,
+                    widget: IconButton(
+                      onPressed: () {
+                        _getEndDate();
+                      },
+                      icon: Icon(
+                        Icons.calendar_today_outlined,
+                        color: AppColors.themeColor,
+                      ),
                     ),
                   ),
                 ),
@@ -219,9 +226,7 @@ class _OrdersState extends State<BookingsPage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            colorScheme: ColorScheme.light(primary: AppColors.themeColor
-                // Change the primary color here
-                ),
+            colorScheme: ColorScheme.light(primary: AppColors.themeColor),
           ),
           child: child!,
         );
@@ -262,11 +267,8 @@ class _OrdersState extends State<BookingsPage> {
 
   void _clear() {
     AppConstant.startDate = '';
-
     AppConstant.endDate = '';
-
     AppConstant.orderStatus = '';
-
     Get.find<BookingController>().onClose();
     Get.find<BookingController>().get();
   }

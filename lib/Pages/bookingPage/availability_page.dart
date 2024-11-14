@@ -76,46 +76,52 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          _buildMonthYearBar(),
-          _buildDateCarousel(),
-          GetBuilder<HallAvailabilityController>(builder: (availabilities) {
-            return GestureDetector(
-              child: availabilities.isLoaded
-                  ? availabilities.hallAvailabilities.isEmpty
-                      ? Container(
-                          height: MediaQuery.of(context).size.height * 0.5,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "No slots available. Select another date",
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
-                          ),
-                        )
-                      : Container(
-                          height: Dimensions.height10 * 55,
-                          padding: EdgeInsets.only(bottom: Dimensions.height20),
-                          child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemCount:
-                                  availabilities.hallAvailabilities.length,
-                              itemBuilder: (context, index) {
-                                // Check if index is valid before accessing the list
-                                if (index <
-                                    availabilities.hallAvailabilities.length) {
-                                  return _buildTimeRow(
-                                      availabilities.hallAvailabilities[index]);
-                                } else {
-                                  // Return an empty container if index is out of bounds
-                                  return Container();
-                                }
-                              }),
-                        )
-                  : _buildLoadingIndicator(),
-            );
-          }),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildMonthYearBar(),
+            _buildDateCarousel(),
+            GetBuilder<HallAvailabilityController>(builder: (availabilities) {
+              return GestureDetector(
+                child: availabilities.isLoaded
+                    ? availabilities.hallAvailabilities.isEmpty
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.5,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "No slots available. Select another date",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                            ),
+                          )
+                        : Container(
+                            height: Dimensions.height10 * 55,
+                            padding:
+                                EdgeInsets.only(bottom: Dimensions.height20),
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                physics:
+                                    const NeverScrollableScrollPhysics(), 
+                                shrinkWrap:
+                                    true, 
+                                itemCount:
+                                    availabilities.hallAvailabilities.length,
+                                itemBuilder: (context, index) {
+                                  if (index <
+                                      availabilities
+                                          .hallAvailabilities.length) {
+                                    return _buildTimeRow(availabilities
+                                        .hallAvailabilities[index]);
+                                  } else {
+                                    return Container();
+                                  }
+                                }),
+                          )
+                    : _buildLoadingIndicator(),
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
@@ -160,11 +166,11 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
 
   Widget _buildMonthYearBar() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: Dimensions.width10),
       child: Text(
         DateFormat.yMMMM().format(currentMonth),
         style: TextStyle(
-          fontSize: 20,
+          fontSize: Dimensions.font10*2,
           fontWeight: FontWeight.bold,
         ),
       ),
