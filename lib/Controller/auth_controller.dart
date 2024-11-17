@@ -3,6 +3,7 @@ import 'package:BandoBasta/Repository/auth_repository.dart';
 import 'package:BandoBasta/Request/log_in_request.dart';
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/Response/log_in_reponse.dart';
+import 'package:BandoBasta/utils/api/api_client.dart';
 import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:get/get.dart';
 
@@ -35,6 +36,10 @@ class AuthController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, response.body["message"]);
       _authService.storeToken(details.data!.accessToken.toString());
       _authService.storeUserId(details.data!.id.toString());
+      String? token = await _authService.getToken();
+      APIClient apiClient =
+          Get.find<APIClient>(); 
+      await apiClient.initializeTokenAndHeaders();
     } else {
       responseModel = ResponseModel(false, response.body["message"]);
     }
