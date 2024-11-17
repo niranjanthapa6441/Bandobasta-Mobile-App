@@ -91,7 +91,7 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
                             child: Text(
                               "No slots available. Select another date",
                               style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
+                                  TextStyle(fontSize: Dimensions.font10 * 1.8, color: Colors.grey),
                             ),
                           )
                         : Container(

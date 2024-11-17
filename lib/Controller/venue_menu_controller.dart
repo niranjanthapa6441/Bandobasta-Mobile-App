@@ -12,8 +12,9 @@ class VenueMenuController extends GetxController {
   Map<String, List<Map<String, dynamic>>> get categorizedMenuMap =>
       _categorizedMenuMap;
 
-  Map<String, Map<String, Map<String, int>>> _menuCategoryCounts = {};
-  Map<String, Map<String, Map<String, int>>> get menuCategoryCount => _menuCategoryCounts;
+  Map<String, Map<String, Map<String, dynamic>>> _menuCategoryCounts = {};
+  Map<String, Map<String, Map<String, dynamic>>> get menuCategoryCount =>
+      _menuCategoryCounts;
   List<MenuDetail> _venueMenus = [];
   List<MenuDetail> get venueMenus => _venueMenus;
 
@@ -31,18 +32,20 @@ class VenueMenuController extends GetxController {
 
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
+
   Future<void> get() async {
     Response response = await venueMenuRepo.getVenueMenus();
     if (response.statusCode == 200) {
-      VenueMenuResponse venueMenuReponse =
+      VenueMenuResponse venueMenuResponse =
           VenueMenuResponse.fromJson(response.body);
-      if (venueMenuReponse.data != null &&
-          venueMenuReponse.data!.menuDetails != null) {
-        _venueMenus.addAll(venueMenuReponse.data!.menuDetails!);
-        countFoodItemsByCategoryAndSubcategory(venueMenuReponse.data!.menuDetails!);
-        _currentPage = venueMenuReponse.data!.currentPage ?? 0;
-        _totalElements = venueMenuReponse.data!.totalElements ?? 0;
-        _totalPages = venueMenuReponse.data!.totalPages ?? 0;
+      if (venueMenuResponse.data != null &&
+          venueMenuResponse.data!.menuDetails != null) {
+        _venueMenus.addAll(venueMenuResponse.data!.menuDetails!);
+        countFoodItemsByCategoryAndSubcategory(
+            venueMenuResponse.data!.menuDetails!);
+        _currentPage = venueMenuResponse.data!.currentPage ?? 0;
+        _totalElements = venueMenuResponse.data!.totalElements ?? 0;
+        _totalPages = venueMenuResponse.data!.totalPages ?? 0;
       }
 
       _isLoaded = true;
@@ -53,25 +56,30 @@ class VenueMenuController extends GetxController {
     }
   }
 
-  Map<String, Map<String, Map<String, int>>>
+  Map<String, Map<String, Map<String, dynamic>>>
       countFoodItemsByCategoryAndSubcategory(List<MenuDetail> menuDetails) {
     for (var menu in menuDetails) {
-      Map<String, Map<String, int>> foodCategoryCounts = {};
+      Map<String, Map<String, dynamic>> foodCategoryCounts = {};
       if (menu.foodDetails != null) {
         for (var food in menu.foodDetails!) {
           String category = food.foodCategory ?? 'Unknown Category';
           String subCategory = food.foodSubCategory ?? 'Unknown Subcategory';
 
           if (!foodCategoryCounts.containsKey(category)) {
-            foodCategoryCounts[category] = {};
+            foodCategoryCounts[category] = {'total': 0, 'subcategories': {}};
           }
 
-          if (foodCategoryCounts[category]!.containsKey(subCategory)) {
-            foodCategoryCounts[category]![subCategory] =
-                foodCategoryCounts[category]![subCategory]! + 1;
+          if (foodCategoryCounts[category]!['subcategories']
+              .containsKey(subCategory)) {
+            foodCategoryCounts[category]!['subcategories'][subCategory] =
+                foodCategoryCounts[category]!['subcategories'][subCategory]! +
+                    1;
           } else {
-            foodCategoryCounts[category]![subCategory] = 1;
+            foodCategoryCounts[category]!['subcategories'][subCategory] = 1;
           }
+
+          foodCategoryCounts[category]!['total'] =
+              foodCategoryCounts[category]!['total']! + 1;
         }
       }
 
@@ -80,7 +88,6 @@ class VenueMenuController extends GetxController {
 
     return _menuCategoryCounts;
   }
-
 
   Future<void> loadMore() async {
     if (_currentPage < _totalPages) {

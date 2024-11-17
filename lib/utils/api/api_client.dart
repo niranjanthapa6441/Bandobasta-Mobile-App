@@ -27,8 +27,7 @@ class APIClient extends GetConnect implements GetxService {
     if (token != null) {
       _mainHeaders["Authorization"] = "Bearer $token";
     } else {
-      _mainHeaders.remove(
-          "Authorization");
+      _mainHeaders.remove("Authorization");
     }
   }
 

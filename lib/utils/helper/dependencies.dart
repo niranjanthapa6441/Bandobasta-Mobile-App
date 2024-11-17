@@ -6,7 +6,7 @@ import 'package:BandoBasta/Controller/venue_hall_controller.dart';
 import 'package:BandoBasta/Controller/venue_menu_controller.dart';
 import 'package:BandoBasta/Controller/venue_package_controller.dart';
 import 'package:BandoBasta/Repository/auth_repository.dart';
-import 'package:BandoBasta/Repository/hall_availability_controller.dart';
+import 'package:BandoBasta/Repository/hall_availability_repo.dart';
 import 'package:BandoBasta/Repository/booking_repository.dart';
 import 'package:BandoBasta/Repository/venue_hall_repo.dart';
 import 'package:BandoBasta/Repository/venue_menu_repository.dart';

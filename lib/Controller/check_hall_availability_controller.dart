@@ -1,4 +1,4 @@
-import 'package:BandoBasta/Repository/hall_availability_controller.dart';
+import 'package:BandoBasta/Repository/hall_availability_repo.dart';
 import 'package:BandoBasta/Response/hall_availability_response.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -37,7 +37,6 @@ class HallAvailabilityController extends GetxController {
         _totalElements = hallAvailabilityResponse.data!.totalElements ?? 0;
         _totalPages = hallAvailabilityResponse.data!.totalPages ?? 0;
       }
-
       _isLoaded = true;
       update();
     } else {

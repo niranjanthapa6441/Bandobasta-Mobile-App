@@ -80,143 +80,135 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
                     style: TextStyle(
                       fontSize: Dimensions.font10 * 2,
                       fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
+                      color: AppColors.themeColor,
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: Dimensions.height10),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: menuMap.entries.map((categoryEntry) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              categoryEntry.key,
-                              style: TextStyle(
-                                fontSize: Dimensions.font10 * 1.6,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        return ExpansionTile(
+                          tilePadding: EdgeInsets.zero,
+                          title: Text(
+                            categoryEntry.key,
+                            style: TextStyle(
+                              fontSize: Dimensions.font10 * 1.6,
+                              fontWeight: FontWeight.bold,
                             ),
-                            SizedBox(height: 5),
-                            ...categoryEntry.value.entries
-                                .map((subCategoryEntry) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                          iconColor: AppColors.themeColor,
+                          children: categoryEntry.value.entries
+                              .map((subCategoryEntry) {
+                            return ExpansionTile(
+                              tilePadding: EdgeInsets.symmetric(horizontal: 10),
+                              title: Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        subCategoryEntry.key,
-                                        style: TextStyle(
-                                          fontSize: Dimensions.font10 * 1.4,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: Dimensions.width10,
-                                      ),
-                                      if (AppConstant
-                                          .isSelectHallPackageSelected)
-                                        Text(
-                                          "(Select any ${subCategoryEntry.value['maxSelection']} from below)",
-                                          style: TextStyle(
-                                            fontSize: Dimensions.font10 * 1.2,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                    ],
+                                  Text(
+                                    subCategoryEntry.key,
+                                    style: TextStyle(
+                                      fontSize: Dimensions.font10 * 1.4,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                  SizedBox(height: 5),
-                                  if (AppConstant
-                                      .isSelectHallPackageSelected) ...[
-                                    ...subCategoryEntry.value['foods']
-                                        .asMap()
-                                        .entries
-                                        .map((entry) {
-                                      int index = entry.key;
-                                      FoodDetail item = entry.value;
-
-                                      return CheckboxListTile(
-                                        title: Text(item.name ?? 'Unnamed'),
-                                        value:
-                                            checkBoxStates[categoryEntry.key]![
-                                                subCategoryEntry.key]![index],
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            int currentSelectionCount =
-                                                checkBoxStates[
-                                                            categoryEntry.key]![
-                                                        subCategoryEntry.key]!
-                                                    .where((isChecked) =>
-                                                        isChecked)
-                                                    .length;
-                                            int maxSelection = subCategoryEntry
-                                                .value['maxSelection'];
-
-                                            // Allow selection if not exceeding max
-                                            if (value == true &&
-                                                currentSelectionCount <
-                                                    maxSelection) {
-                                              checkBoxStates[
-                                                      categoryEntry.key]![
-                                                  subCategoryEntry
-                                                      .key]![index] = true;
-                                              selectedFoods.add(item);
-                                            } else if (value == false) {
-                                              checkBoxStates[
-                                                      categoryEntry.key]![
-                                                  subCategoryEntry
-                                                      .key]![index] = false;
-                                              selectedFoods.remove(item);
-                                            } else {
-                                              // Update validation message
-                                              validationMessages[
-                                                      subCategoryEntry.key] =
-                                                  'You can only select up to $maxSelection items from ${subCategoryEntry.key}.';
-                                            }
-
-                                            // Clear validation message if selection meets the max
-                                            if (currentSelectionCount +
-                                                    (value == true ? 1 : -1) >=
-                                                maxSelection) {
-                                              validationMessages
-                                                  .remove(subCategoryEntry.key);
-                                            }
-                                          });
-                                        },
-                                      );
-                                    }).toList(),
-                                  ] else ...[
-                                    ...subCategoryEntry.value['foods']
-                                        .map((item) {
-                                      return ListTile(
-                                        title: Text(item.name ?? 'Unnamed'),
-                                        trailing: Text(
-                                          'N/A',
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ],
-                                  // Display validation message if any
-                                  if (validationMessages
-                                      .containsKey(subCategoryEntry.key))
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Text(
-                                        validationMessages[
-                                            subCategoryEntry.key]!,
-                                        style: TextStyle(color: Colors.red),
+                                  SizedBox(width: Dimensions.width10),
+                                  if (AppConstant.isSelectHallPackageSelected)
+                                    Text(
+                                      "(Select any ${subCategoryEntry.value['maxSelection']} from below)",
+                                      style: TextStyle(
+                                        fontSize: Dimensions.font10 * 1.2,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  SizedBox(height: 10),
                                 ],
-                              );
-                            }).toList(),
-                            Divider(),
-                          ],
+                              ),
+                              iconColor: AppColors.themeColor,
+                              children: [
+                                if (AppConstant
+                                    .isSelectHallPackageSelected) ...[
+                                  ...subCategoryEntry.value['foods']
+                                      .asMap()
+                                      .entries
+                                      .map((entry) {
+                                    int index = entry.key;
+                                    FoodDetail item = entry.value;
+
+                                    return CheckboxListTile(
+                                      tileColor:
+                                          checkBoxStates[categoryEntry.key]![
+                                                  subCategoryEntry.key]![index]
+                                              ? AppColors.themeColor
+                                                  .withOpacity(0.1)
+                                              : Colors.transparent,
+                                      title: Text(item.name ?? 'Unnamed'),
+                                      value: checkBoxStates[categoryEntry.key]![
+                                          subCategoryEntry.key]![index],
+                                      activeColor: AppColors.themeColor,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          int currentSelectionCount =
+                                              checkBoxStates[
+                                                          categoryEntry.key]![
+                                                      subCategoryEntry.key]!
+                                                  .where(
+                                                      (isChecked) => isChecked)
+                                                  .length;
+                                          int maxSelection = subCategoryEntry
+                                              .value['maxSelection'];
+
+                                          if (value == true &&
+                                              currentSelectionCount <
+                                                  maxSelection) {
+                                            checkBoxStates[categoryEntry.key]![
+                                                subCategoryEntry
+                                                    .key]![index] = true;
+                                            selectedFoods.add(item);
+                                          } else if (value == false) {
+                                            checkBoxStates[categoryEntry.key]![
+                                                subCategoryEntry
+                                                    .key]![index] = false;
+                                            selectedFoods.remove(item);
+                                          } else {
+                                            validationMessages[
+                                                    subCategoryEntry.key] =
+                                                'You can only select up to $maxSelection items from ${subCategoryEntry.key}.';
+                                          }
+
+                                          if (currentSelectionCount +
+                                                  (value == true ? 1 : -1) >=
+                                              maxSelection) {
+                                            validationMessages
+                                                .remove(subCategoryEntry.key);
+                                          }
+                                        });
+                                      },
+                                    );
+                                  }).toList(),
+                                ] else ...[
+                                  ...subCategoryEntry.value['foods']
+                                      .map((item) {
+                                    return ListTile(
+                                      title: Text(item.name ?? 'Unnamed'),
+                                      trailing: Text('N/A'),
+                                    );
+                                  }).toList(),
+                                ],
+                                if (validationMessages
+                                    .containsKey(subCategoryEntry.key))
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      validationMessages[subCategoryEntry.key]!,
+                                      style: TextStyle(
+                                          color: AppColors.themeColor),
+                                    ),
+                                  ),
+                                SizedBox(height: Dimensions.height10),
+                              ],
+                            );
+                          }).toList(),
                         );
                       }).toList(),
                     ),
@@ -229,7 +221,6 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
                       height: Dimensions.height10 * 5,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Validate selection against maxSelection for each sub-category
                           bool isValid = true;
 
                           for (var categoryEntry in menuMap.entries) {
