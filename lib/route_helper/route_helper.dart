@@ -1,5 +1,8 @@
 import 'package:BandoBasta/Pages/AccountAndSettings/main_profile_page.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/venue_info_page.dart';
+import 'package:BandoBasta/Pages/authenticate/otp/otp.dart';
+import 'package:BandoBasta/Pages/authenticate/otp/email_otp.dart';
+import 'package:BandoBasta/Pages/authenticate/reset_password_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/availability_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/checkout_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/select_hall_package_page.dart';
@@ -10,8 +13,8 @@ import 'package:BandoBasta/Pages/menuPage/venue_menu_page.dart';
 import 'package:BandoBasta/Pages/AccountAndSettings/updateProfilePage.dart';
 import 'package:BandoBasta/Pages/bookingPage/check_availability_form_page.dart';
 import 'package:BandoBasta/Pages/searchVenuePage/search_venue_page.dart';
-import 'package:BandoBasta/Pages/sign_in_page/sign_in.dart';
-import 'package:BandoBasta/Pages/sign_up_page/sign_up.dart';
+import 'package:BandoBasta/Pages/authenticate/sign_in_page/sign_in.dart';
+import 'package:BandoBasta/Pages/authenticate/sign_up_page/sign_up.dart';
 import 'package:BandoBasta/Pages/venueHallPage/hall_info.dart';
 import 'package:BandoBasta/Pages/venueHallPage/venue_halls.dart';
 import 'package:BandoBasta/Pages/venuePackage/package_info.dart';
@@ -45,11 +48,20 @@ class RouteHelper {
   static const String bookingConfirmationPage = '/booking/confirmation';
   static const String availableDateTime = '/getAvailableTime';
   static const String checkAvailabilityForm = '/checkAvailabilityForm';
+  static const String getEmailForOTP = '/getEmailForOTP';
+  static const String verifyOTP = '/verifyOTP';
+    static const String resetPassword = '/resetPassword';
+
 
   static String getInitial() => initial;
   static String getNavigation() => navigation;
   static String getSignIn() => signIn;
   static String getSignUp() => signUp;
+  static String getEmailOTP() => getEmailForOTP;
+  static String getVerifyOTP() => verifyOTP;
+  static String getResetPasswordPage() => resetPassword;
+
+
   static String getBookingConfirmationPage() => bookingConfirmationPage;
   static String getVenueInfo(int pageId) => '$venueInfo?pageId=$pageId';
   static String getHallInfo(int pageId, String venueName, String imageURL) =>
@@ -68,7 +80,7 @@ class RouteHelper {
       '$venueHalls?venueName=$venueName&imageURL=$imageURL';
   static String getVenueMenus(String venueName, String imageURL) =>
       '$venueMenus?venueName=$venueName&imageURL=$imageURL';
-  static String getVenuePackages(String venueName,String imageURL) =>
+  static String getVenuePackages(String venueName, String imageURL) =>
       '$venuePackages?venueName=$venueName&imageURL=$imageURL';
   static String getOrderDetail(int bookingId) =>
       '$bookingDetail?bookingId=$bookingId';
@@ -85,6 +97,10 @@ class RouteHelper {
     GetPage(name: homepage, page: () => const Homepage()),
     GetPage(name: signUp, page: () => const SignUpPage()),
     GetPage(name: signIn, page: () => const SignInPage()),
+    GetPage(name: getEmailForOTP, page: () => const GetEmailOTP()),
+    GetPage(name: verifyOTP, page: () => OTPPage()),
+    GetPage(name: resetPassword, page: () => const ResetPasswordPage()),
+
     GetPage(
       name: navigation,
       page: () => const Navigation(),
@@ -130,7 +146,7 @@ class RouteHelper {
           var name = Get.parameters['venueName'];
           var imageURL = Get.parameters['imageURL'];
 
-          return VenuePackagePage(venueName: name!,imageURL: imageURL!);
+          return VenuePackagePage(venueName: name!, imageURL: imageURL!);
         }),
     GetPage(
         name: venueInfo,

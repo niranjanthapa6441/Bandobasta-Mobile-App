@@ -1,4 +1,4 @@
-import 'package:BandoBasta/Pages/sign_up_page/sign_up_page_body.dart';
+import 'package:BandoBasta/Pages/authenticate/sign_up_page/sign_up_page_body.dart';
 
 import 'package:flutter/material.dart';
 
