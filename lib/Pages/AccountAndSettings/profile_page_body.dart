@@ -1,5 +1,6 @@
 import 'package:BandoBasta/Controller/user_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/account_widget.dart';
@@ -19,8 +20,7 @@ class _ProfilePageBodyState extends State<ProfilePageBody> {
   @override
   void initState() {
     super.initState();
-    Get.find<UserController>()
-        .getCustomerDetails(); 
+    Get.find<UserController>().getCustomerDetails();
   }
 
   @override
@@ -122,7 +122,6 @@ class _ProfilePageBodyState extends State<ProfilePageBody> {
             ),
             SizedBox(height: Dimensions.height20),
 
-            // Phone Number
             AccountWidget(
               appIcon: AppIcon(
                 icon: Icons.phone_android,
@@ -132,16 +131,16 @@ class _ProfilePageBodyState extends State<ProfilePageBody> {
               ),
               bigText: BigText(
                 size: Dimensions.font10 * 1.6,
-                text: user.phoneNumber ?? 'Phone Number', // Null safety check
+                text: user.phoneNumber ?? 'Phone Number',
                 color: AppColors.textColor,
                 textOverflow: TextOverflow.ellipsis,
               ),
             ),
             SizedBox(height: Dimensions.height10),
 
-            // Edit Profile Button
             GestureDetector(
               onTap: () {
+                AppConstant.user = user;
                 Get.toNamed(RouteHelper.getUpdateProfile());
               },
               child: Container(

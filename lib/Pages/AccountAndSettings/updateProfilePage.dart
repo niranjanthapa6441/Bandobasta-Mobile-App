@@ -1,5 +1,6 @@
 import 'package:BandoBasta/Controller/user_controller.dart';
 import 'package:BandoBasta/Request/update_profile_request.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,14 @@ class UpdateProfilePage extends StatefulWidget {
 }
 
 class _UpdateProfilePageState extends State<UpdateProfilePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.text = AppConstant.user.email!;
+    phoneNumberController.text = AppConstant.user.phoneNumber!;
+  }
+  
   var emailController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
@@ -45,7 +54,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
               AppTextField(
                 textEditingController: firstNameController,
-                hintText: "First Name",
+                hintText: AppConstant.user.firstName!,
                 icon: Icons.person,
                 width: Dimensions.width10 * 30,
               ),
@@ -54,7 +63,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
               AppTextField(
                 textEditingController: middleNameController,
-                hintText: "Middle Name",
+                hintText: (AppConstant.user.middleName?.isEmpty ?? true)
+                    ? "Middle Name"
+                    : AppConstant.user.middleName!,
                 icon: Icons.person,
                 width: Dimensions.width10 * 30,
               ),
@@ -63,7 +74,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
               AppTextField(
                 textEditingController: lastNameController,
-                hintText: "Last Name",
+                hintText: AppConstant.user.lastName!,
                 icon: Icons.person,
                 width: Dimensions.width10 * 30,
               ),
@@ -72,18 +83,20 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
               AppTextField(
                 textEditingController: emailController,
-                hintText: "Email",
+                hintText: AppConstant.user.email!,
                 icon: Icons.email,
                 width: Dimensions.width10 * 30,
+                readOnly: true,
               ),
               SizedBox(
                 height: Dimensions.height20,
               ),
               AppTextField(
                 textEditingController: phoneNumberController,
-                hintText: "Phone Number",
+                hintText: AppConstant.user.phoneNumber!,
                 icon: Icons.phone,
                 width: Dimensions.width10 * 30,
+                readOnly: true,
               ),
               SizedBox(
                 height: Dimensions.height20,
