@@ -14,15 +14,14 @@ class AppConstant {
   static bool isSelectHallPackageSelected = false;
   static bool isHallBooking = false;
   static MenuDetail menuDetail = MenuDetail(
-    id: '',
-    venueId: '',
-    description: '',
-    price: 0.0,
-    status: '',
-    menuType: '',
-    foodDetails: [],
-    menuItemSelectionRangeDetails:[]
-  );
+      id: '',
+      venueId: '',
+      description: '',
+      price: 0.0,
+      status: '',
+      menuType: '',
+      foodDetails: [],
+      menuItemSelectionRangeDetails: []);
   static HallDetail hallDetail = HallDetail(
     venueId: '',
     id: 0,
@@ -35,7 +34,8 @@ class AppConstant {
   );
   static int hallIndex = 0;
   static int menuIndex = 0;
-
+  static String email = "";
+  static String otp = "";
   static int foodId = 0;
   static String numberOfItems = "";
   static String orderId = "";
@@ -83,6 +83,9 @@ class AppConstant {
   static String saveHallBookingURL = "";
   static String updateProfileURL = "";
   static String userProfileURL = "";
+  static String sendOTPEmailURL = "";
+  static String verifyOTPURL = "";
+  static String resetPasswordURL = "";
 
   static String getHallBookingURI(String? userId) {
     findHallBookingByUser =
@@ -143,5 +146,20 @@ class AppConstant {
   static String getProfileURL(String? userId) {
     userProfileURL = "$apiVersion/user/$userId";
     return userProfileURL;
+  }
+
+  static String getVerifyOTPURL(String otp) {
+    verifyOTPURL = "$apiVersion/user/validateOTP?otp=$otp";
+    return verifyOTPURL;
+  }
+
+  static String getSendOTPEmailURL() {
+    sendOTPEmailURL = "$apiVersion/user/forgotPassword";
+    return sendOTPEmailURL;
+  }
+
+  static String getResetPasswordURL() {
+    resetPasswordURL = "$apiVersion/user/resetUserPassword";
+    return resetPasswordURL;
   }
 }

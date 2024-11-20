@@ -23,7 +23,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
   bool _isLoading = false;
-  bool _isPasswordVisible = false; 
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -117,9 +117,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               ),
               SizedBox(height: Dimensions.height30),
               GestureDetector(
-                onTap: _isLoading
-                    ? null
-                    : _submitForm, 
+                onTap: _isLoading ? null : _submitForm,
                 child: Container(
                   margin:
                       EdgeInsets.symmetric(horizontal: Dimensions.width30 * 4),
@@ -141,8 +139,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               GestureDetector(
                 onTap: () => Get.toNamed(RouteHelper.getSignUp()),
                 child: Container(
-                  height: 30,
-                  margin: EdgeInsets.only(bottom: Dimensions.height30),
+                  height: Dimensions.height10 * 3,
                   child: Center(
                     child: RichText(
                       text: TextSpan(
@@ -154,6 +151,34 @@ class _SignInPageBodyState extends State<SignInPageBody> {
                         children: [
                           TextSpan(
                             text: "Create",
+                            style: TextStyle(
+                              color: AppColors.themeColor,
+                              fontSize: Dimensions.font10 * 1.8,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: Dimensions.height10),
+              GestureDetector(
+                onTap: () => Get.toNamed(RouteHelper.getEmailOTP()),
+                child: Container(
+                  height: Dimensions.height10 * 3,
+                  child: Center(
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Forgot Password!! ",
+                        style: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: Dimensions.font10 * 1.6,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Reset",
                             style: TextStyle(
                               color: AppColors.themeColor,
                               fontSize: Dimensions.font10 * 1.8,
@@ -183,7 +208,6 @@ class _SignInPageBodyState extends State<SignInPageBody> {
     String username = usernameController.text.trim();
     String password = passwordController.text.trim();
 
-    // Reset error messages
     setState(() {
       usernameError = '';
       passwordError = '';

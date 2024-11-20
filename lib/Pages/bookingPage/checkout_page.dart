@@ -544,6 +544,37 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
   }
 
   void _makeBooking() async {
+    final bool confirmed = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Confirm Booking"),
+              content: const Text(
+                  "Are you sure you want to proceed with the booking?"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // User cancels the action
+                  },
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // User confirms the action
+                  },
+                  child: const Text("Confirm"),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Default to `false` if the dialog is dismissed
+
+    if (!confirmed) {
+      return; // Exit the method if not confirmed
+    }
+
+    // Proceed with the booking if confirmed
     setState(() {
       _isLoading = true;
     });
@@ -559,12 +590,13 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     String eventType = AppConstant.eventType;
 
     HallBookingRequest hallBookingRequest = HallBookingRequest(
-        userId: userId,
-        menuId: menuId,
-        id: hallAvailabilityId,
-        eventType: eventType,
-        numberOfGuests: AppConstant.numberOfGuests,
-        foodIds: foodIds);
+      userId: userId,
+      menuId: menuId,
+      id: hallAvailabilityId,
+      eventType: eventType,
+      numberOfGuests: AppConstant.numberOfGuests,
+      foodIds: foodIds,
+    );
     var bookingController = Get.find<BookingController>();
     bookingController.saveHallBooking(hallBookingRequest).then((status) {
       if (status.isSuccess) {

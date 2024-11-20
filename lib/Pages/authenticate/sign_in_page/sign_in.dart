@@ -1,4 +1,4 @@
-import 'package:BandoBasta/Pages/sign_in_page/sign_in_page_body.dart';
+import 'package:BandoBasta/Pages/authenticate/sign_in_page/sign_in_page_body.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
