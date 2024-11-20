@@ -1,3 +1,4 @@
+import 'package:BandoBasta/Response/user_profile_response.dart';
 import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:BandoBasta/Response/venue_hall_response.dart';
 
@@ -32,6 +33,14 @@ class AppConstant {
     status: '',
     hallImagePaths: [],
   );
+  static User user = User(
+      id: 0,
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      email: '',
+      phoneNumber: '');
+      
   static int hallIndex = 0;
   static int menuIndex = 0;
   static String email = "";
