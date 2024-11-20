@@ -1,11 +1,10 @@
-import 'package:BandoBasta/Pages/authenticate/reset_password_page.dart';
 import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:BandoBasta/Response/venue_hall_response.dart';
 
 class AppConstant {
   static const String appName = "BandoBasta";
-  // static const String baseURL = "https://bandobasta.onrender.com/bandobasta";
-  static const String baseURL = "http://localhost:8080/bandobasta";
+  static const String baseURL = "https://bandobasta.onrender.com/bandobasta";
+  // static const String baseURL = "http://localhost:8080/bandobasta";
 
   static String apiVersion = "/api/v1";
 

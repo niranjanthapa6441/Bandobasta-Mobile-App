@@ -348,8 +348,31 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         venue.name!,
                         getVenueImageURLs(venue.venueImagePaths!)[0]));
                   } else {
-                    clear();
-                    Get.toNamed(RouteHelper.getSignIn());
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Sign In Required"),
+                          content: Text(
+                              "You need to sign in before booking. Would you like to sign in now?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context); // Close the dialog
+                              },
+                              child: Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context); // Close the dialog
+                                Get.toNamed(RouteHelper.getSignIn());
+                              },
+                              child: Text("Sign In"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -367,6 +390,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ),
                 ),
               ),
+
               SizedBox(height: Dimensions.height10 * 1.6),
               Text(
                 'About this space',
@@ -424,49 +448,6 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
           ),
         ),
       ),
-    );
-  }
-
-  void _showAvailabilityDialog(String venueName) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Container(
-            width:
-                MediaQuery.of(context).size.width * 0.8, // 80% of screen width
-            height: MediaQuery.of(context).size.height *
-                0.7, // 50% of screen height
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BigText(text: venueName),
-                SizedBox(height: 20),
-                Expanded(
-                    child: CheckAvailabilityPage()), // To fill the content area
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      child: SmallText(
-                        text: 'Cancel',
-                        color: AppColors.themeColor,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 
