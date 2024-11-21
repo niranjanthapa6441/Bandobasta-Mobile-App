@@ -98,7 +98,7 @@ class AppConstant {
 
   static String getHallBookingURI(String? userId) {
     findHallBookingByUser =
-        "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size&bookingStatus=$bookingStatus";
+        "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size&bookingStatus=$bookingStatus&startDate=$startDate&endDate=$endDate";
     return findHallBookingByUser;
   }
 

@@ -36,6 +36,7 @@ class _OrdersState extends State<BookingsPage> {
 
   bool _startDateSelected = false;
   bool _endDateSelected = false;
+  bool _isLoading = false;
 
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
@@ -55,12 +56,11 @@ class _OrdersState extends State<BookingsPage> {
               title: Center(
                 child: Container(
                   height: Dimensions.height10 * 9,
-                  width: Dimensions.height10 * 20, 
+                  width: Dimensions.height10 * 20,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.contain, 
-                      image: AssetImage(
-                          "assets/images/logo.png"), 
+                      fit: BoxFit.contain,
+                      image: AssetImage("assets/images/logo.png"),
                     ),
                   ),
                 ),
@@ -83,8 +83,7 @@ class _OrdersState extends State<BookingsPage> {
               ),
             ),
             Row(
-              mainAxisSize:
-                  MainAxisSize.min, 
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
                   child: AppTextField(
@@ -135,8 +134,13 @@ class _OrdersState extends State<BookingsPage> {
                 ),
               ],
             ),
-            const Expanded(
-                child: SingleChildScrollView(child: BookingsPageBody())),
+            Expanded(
+              child: _isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                          color: AppColors.themeColor))
+                  : SingleChildScrollView(child: BookingsPageBody()),
+            ),
           ],
         ),
       ),
@@ -187,6 +191,7 @@ class _OrdersState extends State<BookingsPage> {
       onTap: () {
         setState(() {
           _selectedIndex = index;
+          _isLoading = true;
           _filerOrders();
         });
       },
@@ -215,6 +220,7 @@ class _OrdersState extends State<BookingsPage> {
     }
     Get.find<BookingController>().onClose();
     Get.find<BookingController>().get();
+    _isLoading = false;
   }
 
   _getStartDate() async {
@@ -256,12 +262,19 @@ class _OrdersState extends State<BookingsPage> {
         );
       },
     );
+
     if (_pickerDate != null) {
-      setState(() {
-        _endDateSelected = true;
-        _endDate = _pickerDate;
-        _filerOrders();
-      });
+      if (_pickerDate.isBefore(_startDate)) {
+        Get.snackbar(
+            "Invalid Date", "End date must be greater than start date.",
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red);
+      } else {
+        setState(() {
+          _endDateSelected = true;
+          _endDate = _pickerDate;
+          _filerOrders();
+        });
+      }
     }
   }
 
