@@ -242,7 +242,6 @@ class _OrdersState extends State<BookingsPage> {
       setState(() {
         _startDateSelected = true;
         _startDate = _pickerDate;
-        _filerOrders();
       });
     }
   }
