@@ -40,7 +40,7 @@ class AppConstant {
       middleName: '',
       email: '',
       phoneNumber: '');
-      
+
   static int hallIndex = 0;
   static int menuIndex = 0;
   static String email = "";
@@ -48,7 +48,7 @@ class AppConstant {
   static int foodId = 0;
   static String numberOfItems = "";
   static String orderId = "";
-  static String orderStatus = "";
+  static String bookingStatus = "";
   static String menuFoodId = "";
   static String menuType = "";
   static String category = "";
@@ -98,7 +98,7 @@ class AppConstant {
 
   static String getHallBookingURI(String? userId) {
     findHallBookingByUser =
-        "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size";
+        "$apiVersion/booking/hall/user?userId=$userId&page=$page&size=$size&bookingStatus=$bookingStatus";
     return findHallBookingByUser;
   }
 

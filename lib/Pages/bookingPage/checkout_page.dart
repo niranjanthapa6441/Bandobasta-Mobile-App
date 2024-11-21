@@ -201,7 +201,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                     onPressed: () {
                       // Navigate to the menu detail screen
                       Get.toNamed(
-                        RouteHelper.getBookingMenu(
+                        RouteHelper.getMenuDetail(
                           "${menuDetail.menuType} Menu",
                           menuDetail.price.toString(),
                         ),
@@ -237,8 +237,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-            label), // Assuming the `value` function is replaced with just label
+        Text(label),
         Text(count.toString()),
       ],
     );

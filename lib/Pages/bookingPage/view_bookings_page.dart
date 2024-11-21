@@ -55,12 +55,12 @@ class _OrdersState extends State<BookingsPage> {
               title: Center(
                 child: Container(
                   height: Dimensions.height10 * 9,
-                  width: Dimensions.height10 * 20, // Adjust the width if needed
+                  width: Dimensions.height10 * 20, 
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.contain, // Use contain to fit the whole image
+                      fit: BoxFit.contain, 
                       image: AssetImage(
-                          "assets/images/logo.png"), // Your logo image
+                          "assets/images/logo.png"), 
                     ),
                   ),
                 ),
@@ -84,7 +84,7 @@ class _OrdersState extends State<BookingsPage> {
             ),
             Row(
               mainAxisSize:
-                  MainAxisSize.min, // Ensure Row doesn't take infinite space
+                  MainAxisSize.min, 
               children: [
                 Flexible(
                   child: AppTextField(
@@ -195,14 +195,14 @@ class _OrdersState extends State<BookingsPage> {
 
   _filerOrders() {
     if (_selectedIndex == 0) {
-      AppConstant.orderStatus = '';
+      AppConstant.bookingStatus = '';
     } else {
       if (status[_selectedIndex] == 'Pending') {
-        AppConstant.orderStatus = 'PENDING';
+        AppConstant.bookingStatus = 'PENDING';
       } else if (status[_selectedIndex] == 'Booked') {
-        AppConstant.orderStatus = 'BOOKED';
+        AppConstant.bookingStatus = 'BOOKED';
       } else if (status[_selectedIndex] == 'Cancelled') {
-        AppConstant.orderStatus = 'CANCELLED';
+        AppConstant.bookingStatus = 'CANCELLED';
       }
     }
     if (_startDateSelected == true) {
@@ -268,7 +268,7 @@ class _OrdersState extends State<BookingsPage> {
   void _clear() {
     AppConstant.startDate = '';
     AppConstant.endDate = '';
-    AppConstant.orderStatus = '';
+    AppConstant.bookingStatus = '';
     Get.find<BookingController>().onClose();
     Get.find<BookingController>().get();
   }
