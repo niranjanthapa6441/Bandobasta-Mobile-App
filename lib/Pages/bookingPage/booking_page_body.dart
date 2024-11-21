@@ -23,7 +23,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
   ScrollController _scrollController = ScrollController();
   bool isTokenExpired = false;
   final AuthService _authService = AuthService();
-  
+
   @override
   void initState() {
     super.initState();
@@ -66,7 +66,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
         if (!isTokenExpired)
           GetBuilder<BookingController>(builder: (controller) {
             return controller.isLoaded
-                ? controller.customerOrderDetails.isEmpty
+                ? controller.bookings.isEmpty
                     ? Container(
                         height: MediaQuery.of(context).size.height *
                             0.5, // Adjust height to center vertically
@@ -84,19 +84,19 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           controller: _scrollController,
                           padding: EdgeInsets.zero,
                           physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: controller.customerOrderDetails.length + 1,
+                          itemCount: controller.bookings.length + 1,
                           itemBuilder: (context, index) {
                             if (index != controller.totalElements &&
                                 index ==
-                                    controller.customerOrderDetails.length) {
+                                    controller.bookings.length) {
                               return _buildSingleLoadingIndicator();
                             } else if (index == controller.totalElements &&
                                 index ==
-                                    controller.customerOrderDetails.length) {
+                                    controller.bookings.length) {
                               return Container();
                             }
                             return _buildCustomerBookingDetailItemPage(
-                                index, controller.customerOrderDetails[index]);
+                                index, controller.bookings[index]);
                           },
                         ),
                       )
@@ -258,6 +258,26 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           ),
                           SizedBox(
                             height: Dimensions.height20 * 0.92,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(
+                                  RouteHelper.getBookingInfo(index));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                SmallText(
+                                  text: "View More",
+                                  color: AppColors.mainBlackColor,
+                                  size: 13.5,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: AppColors.mainBlackColor,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -450,7 +470,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
     );
   }
 
- void checkTokenValidation() async {
+  void checkTokenValidation() async {
     bool expired = await _authService.isTokenExpired();
     setState(() {
       isTokenExpired = expired;

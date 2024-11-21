@@ -12,8 +12,8 @@ class BookingController extends GetxController {
 
   BookingController({required this.bookingRepository});
 
-  List<dynamic> _customerOrderDetails = [];
-  List<dynamic> get customerOrderDetails => _customerOrderDetails;
+  List<dynamic> _bookings = [];
+  List<dynamic> get bookings => _bookings;
   int _currentPage = 0;
   int _totalPages = 0;
   int _totalElements = 0;
@@ -22,7 +22,7 @@ class BookingController extends GetxController {
   int get totalPages => _totalPages;
   int get totalElements => _totalElements;
   void setCustomerBookingDetail() {
-    _customerOrderDetails = [];
+    _bookings = [];
   }
 
   bool _isLoaded = false;
@@ -36,7 +36,7 @@ class BookingController extends GetxController {
 
       if (bookingResponse.data != null &&
           bookingResponse.data!.bookings != null) {
-        _customerOrderDetails.addAll(bookingResponse.data!.bookings!);
+        _bookings.addAll(bookingResponse.data!.bookings!);
         _currentPage = bookingResponse.data!.currentPage ?? 0;
         _totalElements = bookingResponse.data!.totalElements ?? 0;
         _totalPages = bookingResponse.data!.totalPages ?? 0;
@@ -79,7 +79,7 @@ class BookingController extends GetxController {
   Future<void> clear() async {
     AuthService authService = AuthService();
     _isLoaded = false;
-    _customerOrderDetails.clear();
+    _bookings.clear();
     AppConstant.page = 1;
     AppConstant.getHallBookingURI(await authService.getUserId());
   }

@@ -56,9 +56,9 @@ class Data {
 
 class Booking {
   int? id;
+  String? venueName;
   String? userId;
   String? bookedForDate;
-  String? venueName;
   HallDetail? hallDetail;
   MenuDetail? menuDetail;
   String? requestedDate;
@@ -68,9 +68,13 @@ class Booking {
   double? price;
   String? status;
   String? eventType;
+  String? startTime;
+  String? endTime;
+  int? numberOfGuests;
 
   Booking(
       {this.id,
+      this.venueName,
       this.userId,
       this.bookedForDate,
       this.hallDetail,
@@ -82,12 +86,14 @@ class Booking {
       this.price,
       this.status,
       this.eventType,
-      this.venueName});
+      this.startTime,
+      this.numberOfGuests,
+      this.endTime});
 
   Booking.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userId = json['userId'];
     venueName = json['venueName'];
+    userId = json['userId'];
     bookedForDate = json['bookedForDate'];
     hallDetail = json['hallDetail'] != null
         ? new HallDetail.fromJson(json['hallDetail'])
@@ -102,11 +108,15 @@ class Booking {
     price = json['price'];
     status = json['status'];
     eventType = json['eventType'];
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    numberOfGuests = json['numberOfGuests'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['venueName'] = this.venueName;
     data['userId'] = this.userId;
     data['bookedForDate'] = this.bookedForDate;
     if (this.hallDetail != null) {
@@ -122,6 +132,8 @@ class Booking {
     data['price'] = this.price;
     data['status'] = this.status;
     data['eventType'] = this.eventType;
+    data['startTime'] = this.startTime;
+    data['endTime'] = this.endTime;
     return data;
   }
 }
@@ -179,6 +191,7 @@ class MenuDetail {
   String? status;
   String? menuType;
   List<FoodDetails>? foodDetails;
+  Null? menuItemSelectionRangeDetails;
 
   MenuDetail(
       {this.id,
@@ -187,7 +200,8 @@ class MenuDetail {
       this.price,
       this.status,
       this.menuType,
-      this.foodDetails});
+      this.foodDetails,
+      this.menuItemSelectionRangeDetails});
 
   MenuDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -202,6 +216,7 @@ class MenuDetail {
         foodDetails!.add(new FoodDetails.fromJson(v));
       });
     }
+    menuItemSelectionRangeDetails = json['menuItemSelectionRangeDetails'];
   }
 
   Map<String, dynamic> toJson() {
@@ -215,6 +230,7 @@ class MenuDetail {
     if (this.foodDetails != null) {
       data['foodDetails'] = this.foodDetails!.map((v) => v.toJson()).toList();
     }
+    data['menuItemSelectionRangeDetails'] = this.menuItemSelectionRangeDetails;
     return data;
   }
 }
@@ -227,6 +243,7 @@ class FoodDetails {
   String? imageUrl;
   String? status;
   String? foodCategory;
+  String? foodSubCategory;
 
   FoodDetails(
       {this.id,
@@ -235,7 +252,8 @@ class FoodDetails {
       this.description,
       this.imageUrl,
       this.status,
-      this.foodCategory});
+      this.foodCategory,
+      this.foodSubCategory});
 
   FoodDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -245,6 +263,7 @@ class FoodDetails {
     imageUrl = json['imageUrl'];
     status = json['status'];
     foodCategory = json['foodCategory'];
+    foodSubCategory = json['foodSubCategory'];
   }
 
   Map<String, dynamic> toJson() {
@@ -256,6 +275,7 @@ class FoodDetails {
     data['imageUrl'] = this.imageUrl;
     data['status'] = this.status;
     data['foodCategory'] = this.foodCategory;
+    data['foodSubCategory'] = this.foodSubCategory;
     return data;
   }
 }
