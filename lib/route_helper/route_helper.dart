@@ -1,11 +1,15 @@
 import 'package:BandoBasta/Pages/AccountAndSettings/main_profile_page.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/venue_info_page.dart';
+import 'package:BandoBasta/Response/hall_booking_response.dart' as hallBooking;
+
 import 'package:BandoBasta/Pages/authenticate/otp/otp.dart';
 import 'package:BandoBasta/Pages/authenticate/otp/email_otp.dart';
 import 'package:BandoBasta/Pages/authenticate/reset_password_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/availability_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/booking_info_menu.dart';
 import 'package:BandoBasta/Pages/bookingPage/checkout_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/select_hall_package_page.dart';
+import 'package:BandoBasta/Pages/bookingPage/view_booking_info_page.dart';
 import 'package:BandoBasta/Pages/homepage/homepage.dart';
 import 'package:BandoBasta/Pages/homepage/navigation.dart';
 import 'package:BandoBasta/Pages/menuPage/food_menu_page.dart';
@@ -50,8 +54,9 @@ class RouteHelper {
   static const String checkAvailabilityForm = '/checkAvailabilityForm';
   static const String getEmailForOTP = '/getEmailForOTP';
   static const String verifyOTP = '/verifyOTP';
-    static const String resetPassword = '/resetPassword';
-
+  static const String resetPassword = '/resetPassword';
+  static const String viewBookingInfo = '/viewBookingInfo';
+  static const String viewBookingMenu = '/viewBookingMenu';
 
   static String getInitial() => initial;
   static String getNavigation() => navigation;
@@ -61,7 +66,6 @@ class RouteHelper {
   static String getVerifyOTP() => verifyOTP;
   static String getResetPasswordPage() => resetPassword;
 
-
   static String getBookingConfirmationPage() => bookingConfirmationPage;
   static String getVenueInfo(int pageId) => '$venueInfo?pageId=$pageId';
   static String getHallInfo(int pageId, String venueName, String imageURL) =>
@@ -70,6 +74,8 @@ class RouteHelper {
       '$venuePackageInfo?pageId=$pageId&imageURL=$imageURL&venueName=$venueName';
   static String getMenuDetail(String menuName, String price) =>
       '$menuDetail?menuName=$menuName&price=$price';
+  static String getBookingMenu(String menuName, String price) =>
+      '$viewBookingMenu?menuName=$menuName&price=$price';
   static String getHomepage() => homepage;
   static String getSearchVenue() => searchVenue;
   static String getOrders() => bookings;
@@ -92,7 +98,7 @@ class RouteHelper {
 
   static String getSelectHallPackagePage(String venueName, String imageURL) =>
       '$selectHallVenuePackage?venueName=$venueName&imageURL=$imageURL';
-
+  static String getBookingInfo(int index) => '$viewBookingInfo?pageId=$index';
   static List<GetPage> routes = [
     GetPage(name: homepage, page: () => const Homepage()),
     GetPage(name: signUp, page: () => const SignUpPage()),
@@ -100,7 +106,6 @@ class RouteHelper {
     GetPage(name: getEmailForOTP, page: () => const GetEmailOTP()),
     GetPage(name: verifyOTP, page: () => OTPPage()),
     GetPage(name: resetPassword, page: () => const ResetPasswordPage()),
-
     GetPage(
       name: navigation,
       page: () => const Navigation(),
@@ -157,6 +162,14 @@ class RouteHelper {
           );
         }),
     GetPage(
+        name: viewBookingInfo,
+        page: () {
+          var pageId = Get.parameters['pageId'];
+          return BookingInfoPage(
+            pageId: int.parse(pageId!),
+          );
+        }),
+    GetPage(
         name: venueHallInfo,
         page: () {
           var pageId = Get.parameters['pageId'];
@@ -187,6 +200,15 @@ class RouteHelper {
           var price = Get.parameters['price'];
           MenuDetail menuDetail = Get.arguments as MenuDetail;
           return FoodMenuScreen(
+              menuDetail: menuDetail, menuName: menuName!, price: price!);
+        }),
+        GetPage(
+        name: viewBookingMenu,
+        page: () {
+          var menuName = Get.parameters['menuName'];
+          var price = Get.parameters['price'];
+         hallBooking.MenuDetail menuDetail = Get.arguments as hallBooking.MenuDetail;
+          return BookingInfoMenu(
               menuDetail: menuDetail, menuName: menuName!, price: price!);
         }),
   ];
