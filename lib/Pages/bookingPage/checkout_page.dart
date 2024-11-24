@@ -170,7 +170,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
           children: [
             BigText(
               text: 'View Your Menu',
-              color: Colors.black, // Main title color
+              color: Colors.black,
               size: Dimensions.font20,
             ),
           ],
@@ -195,11 +195,9 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                 ),
                 SizedBox(height: Dimensions.height20),
                 SizedBox(
-                  width: double
-                      .infinity, // Makes the button span the full card width
+                  width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigate to the menu detail screen
                       Get.toNamed(
                         RouteHelper.getMenuDetail(
                           "${menuDetail.menuType} Menu",
@@ -244,6 +242,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
   }
 
   Widget _buildHallCard(HallDetail hallDetail, int index) {
+    photoUrls = getHallImageURLs(hallDetail.hallImagePaths!);
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -255,7 +254,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
           children: [
             BigText(
               text: "View your Hall Detail",
-              color: Colors.black, // Main title color
+              color: Colors.black,
               size: Dimensions.font20,
             ),
             Icon(Icons.arrow_drop_down, color: AppColors.themeColor),
@@ -310,7 +309,6 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                   ),
                 ),
                 SizedBox(height: Dimensions.height10),
-                // Display Capacity
                 Row(
                   children: [
                     Icon(Icons.people, color: Colors.grey),
@@ -322,7 +320,6 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                   ],
                 ),
                 SizedBox(height: Dimensions.height10),
-                // Display Description
                 Text(
                   'About this space',
                   style: TextStyle(
@@ -351,7 +348,6 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                   ),
                 ),
                 SizedBox(height: Dimensions.height10),
-                // View Photos Button (inside the ExpansionTile)
                 ElevatedButton.icon(
                   onPressed: () {
                     _showPhotoGalleryDialog(context);
@@ -382,7 +378,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
 
   List<String> getHallImageURLs(List<String> imageUrls) {
     return imageUrls.map((imageUrl) {
-      return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
+      return imageUrl;
     }).toList();
   }
 
@@ -428,7 +424,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                             loadingBuilder: (BuildContext context, Widget child,
                                 ImageChunkEvent? loadingProgress) {
                               if (loadingProgress == null) {
-                                return child; // Image loaded successfully
+                                return child;
                               } else {
                                 return Container(
                                   color: Colors.grey[
@@ -591,7 +587,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true); // User confirms the action
+                    Navigator.of(context).pop(true);
                   },
                   child: const Text("Confirm"),
                 ),
@@ -599,13 +595,12 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
             );
           },
         ) ??
-        false; // Default to `false` if the dialog is dismissed
+        false;
 
     if (!confirmed) {
-      return; // Exit the method if not confirmed
+      return;
     }
 
-    // Proceed with the booking if confirmed
     setState(() {
       _isLoading = true;
     });

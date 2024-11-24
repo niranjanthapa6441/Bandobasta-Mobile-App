@@ -42,23 +42,40 @@ class _OTPPageState extends State<OTPPage> {
         _isLoading = true;
       });
       var authController = Get.find<AuthController>();
+      if (!AppConstant.isAccountRegistered) {
+        authController.verifyOTP(otp).then((status) {
+          setState(() {
+            _isLoading = false;
+          });
 
-      authController.verifyOTP(otp).then((status) {
-        setState(() {
-          _isLoading = false;
+          if (status.isSuccess) {
+            AppConstant.otp = otp;
+            Get.toNamed(RouteHelper.getResetPasswordPage());
+          } else {
+            showCustomSnackBar(status.message, title: "Invalid OTP");
+          }
+        }).catchError((error) {
+          setState(() {
+            _isLoading = false;
+          });
         });
-
-        if (status.isSuccess) {
-          AppConstant.otp = otp;
-          Get.toNamed(RouteHelper.getResetPasswordPage());
-        } else {
-          showCustomSnackBar(status.message, title: "Invalid OTP");
-        }
-      }).catchError((error) {
-        setState(() {
-          _isLoading = false;
+      } else {
+        authController.verifyRegisteredAccount(otp).then((status) {
+          setState(() {
+            _isLoading = false;
+          });
+          if (status.isSuccess) {
+            Get.toNamed(RouteHelper.getSignIn());
+            AppConstant.isAccountRegistered = false;
+          } else {
+            showCustomSnackBar(status.message, title: "Invalid OTP");
+          }
+        }).catchError((error) {
+          setState(() {
+            _isLoading = false;
+          });
         });
-      });
+      }
     } else {
       showCustomSnackBar('Please enter a valid 6-digit OTP', isError: true);
     }

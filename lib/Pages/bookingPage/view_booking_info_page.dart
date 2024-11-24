@@ -211,6 +211,8 @@ class _BookingInfoPageState extends State<BookingInfoPage> {
   }
 
   Widget _buildHallCard(HallDetail hallDetail, int index) {
+    photoUrls = getHallImageURLs(hallDetail.hallImagePaths!);
+
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -349,7 +351,7 @@ class _BookingInfoPageState extends State<BookingInfoPage> {
 
   List<String> getHallImageURLs(List<String> imageUrls) {
     return imageUrls.map((imageUrl) {
-      return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
+      return imageUrl;
     }).toList();
   }
 

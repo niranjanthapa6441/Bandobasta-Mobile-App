@@ -11,6 +11,7 @@ class AppConstant {
 
   static bool toFood = false;
   static bool hasValue = false;
+  static bool isAccountRegistered = false;
   static bool toCart = false;
   static bool isSelectHallPackageSelected = false;
   static bool isHallBooking = false;
@@ -95,6 +96,7 @@ class AppConstant {
   static String sendOTPEmailURL = "";
   static String verifyOTPURL = "";
   static String resetPasswordURL = "";
+  static String verifyAccountURL = "";
 
   static String getHallBookingURI(String? userId) {
     findHallBookingByUser =
@@ -170,5 +172,11 @@ class AppConstant {
   static String getResetPasswordURL() {
     resetPasswordURL = "$apiVersion/user/resetUserPassword";
     return resetPasswordURL;
+  }
+
+  static String getVerifyAccountURL(String token) {
+    verifyAccountURL =
+        "$apiVersion/user/authenticate/register/confirm?token=$token";
+    return verifyAccountURL;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:BandoBasta/Controller/venue_controller.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/photo_slider.dart';
-import 'package:BandoBasta/Pages/bookingPage/check_availability_form_page.dart';
 import 'package:BandoBasta/Response/venue_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
-import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:get/get.dart';
 
 class VenueInfoPage extends StatefulWidget {
@@ -102,7 +100,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
   Widget build(BuildContext context) {
     int id = venueId;
     Venue venue = Get.find<VenueController>().venues[id];
-    photoUrls = getVenueImageURLs(venue.venueImagePaths!);
+    photoUrls = venue.venueImagePaths!;
     List<String> amenities = venue.amenities!.take(10).toList();
 
     return Scaffold(
@@ -146,7 +144,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.network(
-                      getVenueImageURLs(venue.venueImagePaths!).first,
+                      venue.venueImagePaths!.first,
                       height: Dimensions.height10 * 20,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -262,7 +260,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                           onPressed: () {
                             AppConstant.venueId = venue.id!;
                             Get.toNamed(RouteHelper.getVenueHalls(venue.name!,
-                                getVenueImageURLs(venue.venueImagePaths!)[0]));
+                                venue.venueImagePaths![0]));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
@@ -281,7 +279,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                             AppConstant.venueId = venue.id!;
                             Get.toNamed(RouteHelper.getVenuePackages(
                                 venue.name!,
-                                getVenueImageURLs(venue.venueImagePaths!)[0]));
+                                venue.venueImagePaths![0]));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
@@ -346,7 +344,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                     AppConstant.isSelectHallPackageSelected = true;
                     Get.toNamed(RouteHelper.getSelectHallPackagePage(
                         venue.name!,
-                        getVenueImageURLs(venue.venueImagePaths!)[0]));
+                        venue.venueImagePaths![0]));
                   } else {
                     showDialog(
                       context: context,
@@ -672,11 +670,6 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     );
   }
 
-  List<String> getVenueImageURLs(List<String> imageUrls) {
-    return imageUrls.map((imageUrl) {
-      return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
-    }).toList();
-  }
 
   void clear() {
     AppConstant.venueName = '';

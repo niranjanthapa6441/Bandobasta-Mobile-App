@@ -548,7 +548,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
 
   List<String> getHallImageURLs(List<String> imageUrls) {
     return imageUrls.map((imageUrl) {
-      return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
+      return imageUrl;
     }).toList();
   }
 

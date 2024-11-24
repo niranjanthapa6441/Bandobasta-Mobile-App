@@ -11,7 +11,6 @@ class ResetPasswordRequest {
     data['email'] = email;
     data['otp'] = otp;
     data['password'] = password;
-    print(data);
     return data;
   }
 }

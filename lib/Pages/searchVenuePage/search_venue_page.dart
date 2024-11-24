@@ -340,8 +340,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
   Widget _buildVenueCard(Venue venue, int index) {
     return VenueCard(
-        imageUrl: AppConstant.baseURL +
-            AppConstant.apiVersion +
+        imageUrl: 
             getImagePath(venue.venueImagePaths)!,
         name: venue.name!,
         rating: "4.0",

@@ -34,4 +34,9 @@ class AuthRepo {
     return await apiClient.postData(
         AppConstant.getResetPasswordURL(), resetPassword.toJson());
   }
+  
+  Future<Response> verifyRegisteredAccount(String token) async {
+    return await apiClient.getData(
+        AppConstant.getVerifyAccountURL(token));
+  }
 }

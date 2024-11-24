@@ -90,7 +90,6 @@ class _HomePageBodyState extends State<HomePageBody> {
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.width10,
         ),
-        // Use Flexible or Adjusted Heights
         height: Dimensions.height10 * 25,
         width: Dimensions.width10 * 25,
         decoration: BoxDecoration(
@@ -128,7 +127,6 @@ class _HomePageBodyState extends State<HomePageBody> {
     String imageUrl = (imagePaths != null && imagePaths.isNotEmpty)
         ? imagePaths[0]
         : fallbackImageUrl;
-
     return Container(
       height: Dimensions.height10 * 15,
       width: double.infinity,
@@ -137,7 +135,7 @@ class _HomePageBodyState extends State<HomePageBody> {
         image: DecorationImage(
           fit: BoxFit.cover,
           image: NetworkImage(
-              AppConstant.baseURL + AppConstant.apiVersion + imageUrl),
+              imageUrl),
         ),
       ),
     );

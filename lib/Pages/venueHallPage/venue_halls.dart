@@ -2,7 +2,6 @@ import 'package:BandoBasta/Controller/venue_hall_controller.dart';
 import 'package:BandoBasta/Response/venue_hall_response.dart';
 import 'package:BandoBasta/card/hall_card.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
-import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -118,9 +117,7 @@ class _VenueHallPageState extends State<VenueHallPage> {
 
   Widget _buildHallCard(HallDetail detail, int index) {
     return HallCard(
-        imageUrl: AppConstant.baseURL +
-            AppConstant.apiVersion +
-            getImagePath(detail.hallImagePaths)!,
+        imageUrl: getImagePath(detail.hallImagePaths)!,
         name: detail.name!,
         floorNumber: detail.floorNumber!,
         capacity: detail.capacity.toString(),

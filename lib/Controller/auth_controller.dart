@@ -60,6 +60,18 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
+  Future<ResponseModel> verifyRegisteredAccount(String token) async {
+    Response response = await authRepo.verifyRegisteredAccount(token);
+    late ResponseModel responseModel;
+    if (response.statusCode == 200) {
+      responseModel = ResponseModel(true, response.body["message"]);
+    } else {
+      responseModel = ResponseModel(false, response.body["message"]);
+    }
+    update();
+    return responseModel;
+  }
+
   Future<ResponseModel> verifyOTP(String otp) async {
     Response response = await authRepo.verifyOTP(otp, {});
     late ResponseModel responseModel;
@@ -79,8 +91,6 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      print(response.body["message"]);
-      print(response.body["errorData"]);
       responseModel = ResponseModel(false, response.body["message"]);
     }
     update();

@@ -200,8 +200,7 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
 
   Widget _buildHallCard(VH.HallDetail detail, int index) {
     return HallCard(
-        imageUrl: AppConstant.baseURL +
-            AppConstant.apiVersion +
+        imageUrl: 
             getImagePath(detail.hallImagePaths)!,
         name: detail.name!,
         floorNumber: detail.floorNumber!,

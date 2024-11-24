@@ -257,11 +257,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           SizedBox(
                             height: Dimensions.height20 * 0.92,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.toNamed(RouteHelper.getBookingInfo(index));
-                            },
-                            child: Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 SmallText(
@@ -275,7 +271,6 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                                 ),
                               ],
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -286,7 +281,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
           ],
         ),
       ),
-      onTap: () => Get.toNamed(RouteHelper.getOrderDetail(index)),
+      onTap: () => Get.toNamed(RouteHelper.getBookingInfo(index)),
     );
   }
 

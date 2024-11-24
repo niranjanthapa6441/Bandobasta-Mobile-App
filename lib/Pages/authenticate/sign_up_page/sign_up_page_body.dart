@@ -1,6 +1,7 @@
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/app_text_field.dart';
@@ -269,7 +270,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         }
       } else {
         setState(() {
-          _isLoading = true; // Start loading
+          _isLoading = true;
         });
         SignUpRequest newUser = SignUpRequest(
             firstName: firstName,
@@ -284,10 +285,11 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         var authController = Get.find<AuthController>();
         authController.registration(newUser).then((status) {
           setState(() {
-            _isLoading = false; // Start loading
+            _isLoading = false;
           });
           if (status.isSuccess) {
-            Get.toNamed(RouteHelper.getSignIn());
+            AppConstant.isAccountRegistered = true;
+            Get.toNamed(RouteHelper.getVerifyOTP());
             showCustomSnackBar(
                 message: "Verify Your account",
                 isError: false,
@@ -302,7 +304,10 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
   }
 
   void showCustomSnackBar(
-      {required String message, required bool isError, required String title, required Color color}) {
+      {required String message,
+      required bool isError,
+      required String title,
+      required Color color}) {
     Get.snackbar(title, message,
         titleText: BigText(
           text: title,
