@@ -250,9 +250,8 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
                               AppConstant.menuDetail = widget.menuDetail;
                             });
 
-                            Get.toNamed(RouteHelper.getCheckAvailabilityForm());
+                            Get.toNamed(RouteHelper.getAvailableDateTime());
                           } else {
-                            // Trigger a rebuild to display validation messages
                             setState(() {});
                           }
                         },

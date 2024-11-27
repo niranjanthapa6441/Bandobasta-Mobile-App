@@ -199,20 +199,24 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
   }
 
   Widget _buildHallCard(VH.HallDetail detail, int index) {
+    final imageUrl = getImagePath(detail.hallImagePaths) ??
+        'assets/default_image.png'; 
+
     return HallCard(
-        imageUrl: 
-            getImagePath(detail.hallImagePaths)!,
-        name: detail.name!,
-        floorNumber: detail.floorNumber!,
-        capacity: detail.capacity.toString(),
-        description: detail.description!,
-        onViewHallInfo: () {
-          AppConstant.hallDetail = detail;
-          AppConstant.hallIndex = index;
-          Get.toNamed(RouteHelper.getHallInfo(
-              index, widget.venueName, widget.imageURL));
-        });
+      imageUrl: imageUrl,
+      name: detail.name ?? 'No Name', 
+      floorNumber: detail.floorNumber!,
+      capacity: detail.capacity?.toString() ?? 'N/A',
+      description: detail.description ?? 'No Description Available',
+      onViewHallInfo: () {
+        AppConstant.hallDetail = detail;
+        AppConstant.hallIndex = index;
+        Get.toNamed(
+            RouteHelper.getHallInfo(index, widget.venueName, widget.imageURL));
+      },
+    );
   }
+
 
   String? getImagePath(List<String>? venueImagePaths) {
     if (venueImagePaths != null && venueImagePaths.isNotEmpty) {

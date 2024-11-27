@@ -97,6 +97,9 @@ class AppConstant {
   static String verifyOTPURL = "";
   static String resetPasswordURL = "";
   static String verifyAccountURL = "";
+  static String availableVenueURI = "";
+
+  static bool isFeaturedVenueSelected = false;
 
   static String getHallBookingURI(String? userId) {
     findHallBookingByUser =
@@ -118,7 +121,7 @@ class AppConstant {
 
   static String getVenueHallsURI() {
     venueHallURI =
-        "$apiVersion/hall/findAll?venueId=$venueId&page=$page&size=$size";
+        "$apiVersion/hall/findAll?venueId=$venueId&numberOfGuests=$numberOfGuests&page=$page&size=$size";
     return venueHallURI;
   }
 
@@ -178,5 +181,10 @@ class AppConstant {
     verifyAccountURL =
         "$apiVersion/user/authenticate/register/confirm?token=$token";
     return verifyAccountURL;
+  }
+
+  static String getAvailableVenueURI() {
+    availableVenueURI= "$apiVersion/venue/checkVenueAvailability?checkAvailableDate=$selectedDate&numberOfGuests=$numberOfGuests&venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
+    return availableVenueURI;
   }
 }

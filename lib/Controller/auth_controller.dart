@@ -6,6 +6,7 @@ import 'package:BandoBasta/Request/reset_password_request.dart';
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/Response/log_in_reponse.dart';
 import 'package:BandoBasta/utils/api/api_client.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:get/get.dart';
 

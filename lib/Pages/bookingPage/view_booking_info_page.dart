@@ -162,10 +162,9 @@ class _BookingInfoPageState extends State<BookingInfoPage> {
                 SizedBox(height: Dimensions.height20),
                 SizedBox(
                   width: double
-                      .infinity, // Makes the button span the full card width
+                      .infinity, 
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigate to the menu detail screen
                       Get.toNamed(
                         RouteHelper.getBookingMenu(
                           "${menuDetail.menuType} Menu",

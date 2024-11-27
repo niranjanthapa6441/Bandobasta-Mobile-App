@@ -1,6 +1,5 @@
 import 'package:BandoBasta/Controller/booking_controller.dart';
 import 'package:BandoBasta/Controller/check_hall_availability_controller.dart';
-import 'package:BandoBasta/Controller/venue_controller.dart';
 import 'package:BandoBasta/Controller/venue_hall_controller.dart';
 import 'package:BandoBasta/Controller/venue_menu_controller.dart';
 import 'package:BandoBasta/Controller/venue_package_controller.dart';
@@ -22,8 +21,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<VenueController>().onClose();
-    Get.find<VenueController>().get();
     Get.find<BookingController>().onClose();
     Get.find<BookingController>().get();
     Get.find<VenueMenuController>().onClose();
