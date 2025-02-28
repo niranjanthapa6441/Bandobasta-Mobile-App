@@ -32,17 +32,23 @@
             </intent-filter>
         </activity>
 
-        <!-- Meta-data for Flutter's embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2"/>
     </application>
 
-    <!-- Required to query activities that can process text -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
         </intent>
     </queries>
 </manifest>

@@ -320,8 +320,8 @@ class _HomepageState extends State<Homepage> {
     DateTime? _pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(), // Prevent selecting past dates
-      lastDate: DateTime(2025),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(9999),
       builder: (context, child) {
         return Theme(
           data: ThemeData(

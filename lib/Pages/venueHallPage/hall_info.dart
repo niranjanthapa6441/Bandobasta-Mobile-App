@@ -303,6 +303,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
                 onPressed: () {
                   Get.toNamed(RouteHelper.getVenueMenus(
                       widget.venueName, widget.imageURL));
+                  AppConstant.hallId = hallDetail.id!.toString();
                   AppConstant.isHallBooking = true;
                 },
                 style: ElevatedButton.styleFrom(

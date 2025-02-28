@@ -5,7 +5,7 @@ import 'package:BandoBasta/Response/venue_hall_response.dart';
 class AppConstant {
   static const String appName = "BandoBasta";
   static const String baseURL = "https://bandobasta.onrender.com/bandobasta";
-  // static const String baseURL = "http://localhost:8080/bandobasta";
+  // static const String baseURL = "http://192.168.1.66:8080/bandobasta";
 
   static String apiVersion = "/api/v1";
 
@@ -69,6 +69,8 @@ class AppConstant {
   static String venueType = "";
   static int minCapacity = 0;
   static int maxCapacity = 0;
+  static String hallId = "";
+  static String ticketOrderId = "";
 
   static String sortBy = "";
   static String username = "";
@@ -98,7 +100,10 @@ class AppConstant {
   static String resetPasswordURL = "";
   static String verifyAccountURL = "";
   static String availableVenueURI = "";
-
+  static String allTicketsByEventURI = "";
+  static String checkInURI = "";
+  static String eventId = "1";
+  static String countOfBookedAndCheckInTicketURI = "";
   static bool isFeaturedVenueSelected = false;
 
   static String getHallBookingURI(String? userId) {
@@ -121,7 +126,7 @@ class AppConstant {
 
   static String getVenueHallsURI() {
     venueHallURI =
-        "$apiVersion/hall/findAll?venueId=$venueId&numberOfGuests=$numberOfGuests&page=$page&size=$size";
+        "$apiVersion/hall/findAll?venueId=$venueId&checkAvailableDate=$selectedDate&numberOfGuests=$numberOfGuests&page=$page&size=$size";
     return venueHallURI;
   }
 
@@ -133,7 +138,7 @@ class AppConstant {
 
   static String getHallAvailabilitiesURL() {
     hallAvailabilitiesURL =
-        "$apiVersion/hall/availability?venueId=$venueId&date=$selectedDate&page=$page&size=$size";
+        "$apiVersion/hall/availability?venueId=$venueId&hallId=$hallId&date=$selectedDate&page=$page&size=$size";
     return hallAvailabilitiesURL;
   }
 
@@ -184,7 +189,26 @@ class AppConstant {
   }
 
   static String getAvailableVenueURI() {
-    availableVenueURI= "$apiVersion/venue/checkVenueAvailability?checkAvailableDate=$selectedDate&numberOfGuests=$numberOfGuests&venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
+    availableVenueURI =
+        "$apiVersion/venue/checkVenueAvailability?checkAvailableDate=$selectedDate&numberOfGuests=$numberOfGuests&venueName=$venueName&page=$page&size=$size&maxCapacity=$maxCapacity&minCapacity=$minCapacity&minPrice=$minPrice&maxPrice=$maxPrice&location=$address&rating=$rating";
     return availableVenueURI;
+  }
+
+  static String getAllTicketsByEventURI(int page, int size) {
+    allTicketsByEventURI =
+        "$apiVersion/event/order/findAllTicketOrderByEvent?eventId=$eventId&page=$page&size=$size&ticketOrderId=$ticketOrderId";
+    return allTicketsByEventURI;
+  }
+
+  static String checkIn(String ticketOrderId) {
+    checkInURI = "$apiVersion/event/order/checkIn?ticketOrderId=$ticketOrderId";
+    return checkInURI;
+  }
+
+  static String getCountOfCheckedInAndBookedTicketsByEventURI() {
+    countOfBookedAndCheckInTicketURI =
+        "$apiVersion/event/order/countOfBookedAndCheckedInTicket?eventId=$eventId";
+
+    return countOfBookedAndCheckInTicketURI;
   }
 }

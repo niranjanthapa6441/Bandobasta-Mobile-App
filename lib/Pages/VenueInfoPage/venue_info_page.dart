@@ -827,6 +827,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   AppConstant.isFeaturedVenueSelected = false;
                   AppConstant.venueId = venue.id!;
                   AppConstant.isSelectHallPackageSelected = true;
+                  Navigator.pop(context);
                   Get.toNamed(RouteHelper.getSelectHallPackagePage(
                       venue.name!, venue.venueImagePaths![0]));
                 } else {
@@ -871,7 +872,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(), // Prevent selecting past dates
-      lastDate: DateTime(2025),
+      lastDate: DateTime(9999),
       builder: (context, child) {
         return Theme(
           data: ThemeData(
