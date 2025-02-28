@@ -1,11 +1,13 @@
 import 'package:BandoBasta/Controller/booking_controller.dart';
 import 'package:BandoBasta/Controller/check_hall_availability_controller.dart';
+import 'package:BandoBasta/Controller/event_controller.dart';
 import 'package:BandoBasta/Controller/user_controller.dart';
 import 'package:BandoBasta/Controller/venue_controller.dart';
 import 'package:BandoBasta/Controller/venue_hall_controller.dart';
 import 'package:BandoBasta/Controller/venue_menu_controller.dart';
 import 'package:BandoBasta/Controller/venue_package_controller.dart';
 import 'package:BandoBasta/Repository/auth_repository.dart';
+import 'package:BandoBasta/Repository/event_repository.dart';
 import 'package:BandoBasta/Repository/hall_availability_repo.dart';
 import 'package:BandoBasta/Repository/booking_repository.dart';
 import 'package:BandoBasta/Repository/venue_hall_repo.dart';
@@ -35,6 +37,7 @@ Future<void> init() async {
   Get.lazyPut(() => HallAvailabilityRepo(apiClient: Get.find()));
   Get.lazyPut(() => AuthRepo(apiClient: Get.find()));
   Get.lazyPut(() => UserRepo(apiClient: Get.find()));
+  Get.lazyPut(() => EventRepository(apiClient: Get.find()));
 
   //controller
   Get.lazyPut(() => VenueController(venueRepo: Get.find()));
@@ -46,4 +49,6 @@ Future<void> init() async {
       () => HallAvailabilityController(hallAvailabilityRepo: Get.find()));
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => UserController(userRepo: Get.find()));
+  Get.lazyPut(() => EventController(eventRepository: Get.find()));
+
 }

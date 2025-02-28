@@ -69,11 +69,11 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                 ? controller.bookings.isEmpty
                     ? Container(
                         height: MediaQuery.of(context).size.height *
-                            0.5, // Adjust height to center vertically
+                            0.5, 
                         alignment: Alignment
-                            .center, // Center horizontally and vertically
+                            .center, 
                         child: Text(
-                          "You haven't booked yet",
+                          "No Available Bookings to show.",
                           style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       )
@@ -87,12 +87,10 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           itemCount: controller.bookings.length + 1,
                           itemBuilder: (context, index) {
                             if (index != controller.totalElements &&
-                                index ==
-                                    controller.bookings.length) {
+                                index == controller.bookings.length) {
                               return _buildSingleLoadingIndicator();
                             } else if (index == controller.totalElements &&
-                                index ==
-                                    controller.bookings.length) {
+                                index == controller.bookings.length) {
                               return Container();
                             }
                             return _buildCustomerBookingDetailItemPage(
@@ -259,12 +257,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                           SizedBox(
                             height: Dimensions.height20 * 0.92,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.toNamed(
-                                  RouteHelper.getBookingInfo(index));
-                            },
-                            child: Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 SmallText(
@@ -278,7 +271,6 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                                 ),
                               ],
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -289,7 +281,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
           ],
         ),
       ),
-      onTap: () => Get.toNamed(RouteHelper.getOrderDetail(index)),
+      onTap: () => Get.toNamed(RouteHelper.getBookingInfo(index)),
     );
   }
 

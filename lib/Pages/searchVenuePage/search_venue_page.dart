@@ -24,7 +24,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
   void initState() {
     super.initState();
     Get.find<VenueController>().onClose();
-    Get.find<VenueController>().get();
+    Get.find<VenueController>().getAvailableVenues();
     _scrollController.addListener(_onScroll);
   }
 
@@ -161,7 +161,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         return _buildLoadingIndicator();
       }
 
-      if (controller.venues.isEmpty) {
+      if (controller.availableVenuesForSelectedDate.isEmpty) {
         return Center(
           child: Text("Venue Not Found"),
         );
@@ -174,20 +174,23 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
           controller: _scrollController,
           padding: EdgeInsets.zero,
           physics: AlwaysScrollableScrollPhysics(),
-          itemCount: controller.venues.length +
-              (controller.venues.length < controller.totalElements ? 1 : 0),
+          itemCount: controller.availableVenuesForSelectedDate.length +
+              (controller.availableVenuesForSelectedDate.length <
+                      controller.totalElements
+                  ? 1
+                  : 0),
           itemBuilder: (context, index) {
-            if (index < controller.venues.length) {
-              return _buildVenueCard(controller.venues[index], index);
+            if (index < controller.availableVenuesForSelectedDate.length) {
+              return _buildVenueCard(
+                  controller.availableVenuesForSelectedDate[index], index);
             } else {
-              return _buildSingleLoadingIndicator(); // Show this at the end if there are more items to load
+              return _buildSingleLoadingIndicator();
             }
           },
         ),
       );
     });
   }
-
 
   void _showFilterDialog() {
     showModalBottomSheet(
@@ -328,7 +331,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
     AppConstant.minCapacity = minCapacity;
     AppConstant.minPrice = minPrice;
     AppConstant.maxPrice = maxPrice;
-    venueController.get();
+    venueController.getAvailableVenues();
   }
 
   String? getImagePath(List<String>? venueImagePaths) {
@@ -340,9 +343,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
 
   Widget _buildVenueCard(Venue venue, int index) {
     return VenueCard(
-        imageUrl: AppConstant.baseURL +
-            AppConstant.apiVersion +
-            getImagePath(venue.venueImagePaths)!,
+        imageUrl: getImagePath(venue.venueImagePaths)!,
         name: venue.name!,
         rating: "4.0",
         reviews: "Very good",

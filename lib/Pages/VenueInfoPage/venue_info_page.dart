@@ -1,16 +1,17 @@
 import 'package:BandoBasta/Controller/venue_controller.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/photo_slider.dart';
-import 'package:BandoBasta/Pages/bookingPage/check_availability_form_page.dart';
 import 'package:BandoBasta/Response/venue_response.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/auth_service/auth_service.dart';
+import 'package:BandoBasta/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
-import 'package:BandoBasta/widgets/small_text.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class VenueInfoPage extends StatefulWidget {
   final int pageId;
@@ -23,10 +24,27 @@ class VenueInfoPage extends StatefulWidget {
 
 class _VenueInfoPageState extends State<VenueInfoPage> {
   late int venueId;
+  late Venue venue;
+
   bool _isExpanded = false;
   final AuthService _authService = AuthService();
   bool isTokenExpired = false;
+  final _dateController = TextEditingController();
+  final _numberOfGuestsController = TextEditingController();
+  int? guests;
+  bool _isDateSelected = false;
+  DateTime _date = DateTime.now();
+  String? _selectedEventType; // Add variable for selected event type
 
+  final List<String> eventTypes = [
+    'Wedding',
+    'Birthday',
+    'Corporate Event',
+    'Party',
+    'Rice Feeding Ceremenoy',
+    'Bratabanda',
+    'Other'
+  ];
   @override
   void initState() {
     super.initState();
@@ -101,9 +119,16 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
   @override
   Widget build(BuildContext context) {
     int id = venueId;
-    Venue venue = Get.find<VenueController>().venues[id];
-    photoUrls = getVenueImageURLs(venue.venueImagePaths!);
-    List<String> amenities = venue.amenities!.take(10).toList();
+    List<String> amenities;
+    if (!AppConstant.isFeaturedVenueSelected) {
+      venue = Get.find<VenueController>().availableVenuesForSelectedDate[id];
+      photoUrls = venue.venueImagePaths!;
+      amenities = venue.amenities!.take(10).toList();
+    } else {
+      venue = Get.find<VenueController>().venues[id];
+      photoUrls = venue.venueImagePaths!;
+      amenities = venue.amenities!.take(10).toList();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -146,7 +171,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.network(
-                      getVenueImageURLs(venue.venueImagePaths!).first,
+                      venue.venueImagePaths!.first,
                       height: Dimensions.height10 * 20,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -261,8 +286,8 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                         ElevatedButton(
                           onPressed: () {
                             AppConstant.venueId = venue.id!;
-                            Get.toNamed(RouteHelper.getVenueHalls(venue.name!,
-                                getVenueImageURLs(venue.venueImagePaths!)[0]));
+                            Get.toNamed(RouteHelper.getVenueHalls(
+                                venue.name!, venue.venueImagePaths![0]));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
@@ -280,8 +305,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                           onPressed: () {
                             AppConstant.venueId = venue.id!;
                             Get.toNamed(RouteHelper.getVenuePackages(
-                                venue.name!,
-                                getVenueImageURLs(venue.venueImagePaths!)[0]));
+                                venue.name!, venue.venueImagePaths![0]));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
@@ -300,7 +324,6 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 ),
               ),
               SizedBox(height: Dimensions.height10 * 1.6),
-              // Star Ratings and Reviews
               Row(
                 children: [
                   Icon(Icons.star, color: Colors.amber),
@@ -317,7 +340,6 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 ],
               ),
               SizedBox(height: Dimensions.height10 * 1.6),
-              // Location and Capacity
               Row(
                 children: [
                   Icon(Icons.location_on, color: Colors.grey),
@@ -342,11 +364,34 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
               ElevatedButton(
                 onPressed: () {
                   if (!isTokenExpired) {
-                    AppConstant.venueId = venue.id!;
-                    AppConstant.isSelectHallPackageSelected = true;
-                    Get.toNamed(RouteHelper.getSelectHallPackagePage(
-                        venue.name!,
-                        getVenueImageURLs(venue.venueImagePaths!)[0]));
+                    if (AppConstant.isFeaturedVenueSelected) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Check Availability"),
+                            content: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: MediaQuery.of(context).size.height * 0.4,
+                              child: _buildCheckAvailability(),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      AppConstant.venueId = venue.id!;
+                      AppConstant.isSelectHallPackageSelected = true;
+                      Get.toNamed(RouteHelper.getSelectHallPackagePage(
+                          venue.name!, venue.venueImagePaths![0]));
+                    }
                   } else {
                     showDialog(
                       context: context,
@@ -390,7 +435,6 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                   ),
                 ),
               ),
-
               SizedBox(height: Dimensions.height10 * 1.6),
               Text(
                 'About this space',
@@ -672,17 +716,12 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     );
   }
 
-  List<String> getVenueImageURLs(List<String> imageUrls) {
-    return imageUrls.map((imageUrl) {
-      return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
-    }).toList();
-  }
-
   void clear() {
     AppConstant.venueName = '';
     AppConstant.venueImageURL = '';
     Get.find<VenueController>().onClose();
     Get.find<VenueController>().get();
+    Get.find<VenueController>().getAvailableVenues();
   }
 
   void checkTokenValidation() async {
@@ -690,5 +729,186 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     setState(() {
       isTokenExpired = expired;
     });
+  }
+
+  Widget _buildCheckAvailability() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(Dimensions.radius10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.all(Dimensions.height10 * 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: Dimensions.height10 * 6,
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                labelStyle: TextStyle(color: AppColors.mainBlackColor),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius10),
+                  borderSide: BorderSide(color: AppColors.mainBlackColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius10),
+                  borderSide:
+                      BorderSide(color: AppColors.mainBlackColor, width: 2.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius10),
+                  borderSide:
+                      BorderSide(color: AppColors.mainBlackColor, width: 1.5),
+                ),
+              ),
+              hint: Text('Select Event Type'),
+              items:
+                  eventTypes.map<DropdownMenuItem<String>>((String eventType) {
+                return DropdownMenuItem<String>(
+                  value: eventType,
+                  child: Text(eventType),
+                );
+              }).toList(),
+              value: _selectedEventType,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedEventType = newValue;
+                });
+              },
+            ),
+          ),
+          SizedBox(height: Dimensions.height15),
+          AppTextField(
+            textEditingController: _dateController,
+            hintText: _isDateSelected
+                ? DateFormat.yMMMMd().format(_date)
+                : "Select Check-In Date",
+            icon: Icons.calendar_today_outlined,
+            readOnly: true,
+            width: double.infinity,
+            widget: IconButton(
+              onPressed: () => _getDate(),
+              icon: Icon(
+                Icons.calendar_today_outlined,
+                color: AppColors.mainBlackColor,
+              ),
+            ),
+          ),
+          SizedBox(height: Dimensions.height15),
+          AppTextField(
+            textEditingController: _numberOfGuestsController,
+            hintText: "Number of Guests",
+            width: Dimensions.width10 * 14,
+            icon: Icons.people,
+            readOnly: false,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+          ),
+          SizedBox(height: Dimensions.height15),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                if (_isValidInput()) {
+                  AppConstant.eventType =
+                      _transformEventType(_selectedEventType!);
+                  AppConstant.selectedDate =
+                      DateFormat('yyyy-MM-dd').format(_date);
+                  AppConstant.numberOfGuests =
+                      int.parse(_numberOfGuestsController.text);
+                  AppConstant.isFeaturedVenueSelected = false;
+                  AppConstant.venueId = venue.id!;
+                  AppConstant.isSelectHallPackageSelected = true;
+                  Navigator.pop(context);
+                  Get.toNamed(RouteHelper.getSelectHallPackagePage(
+                      venue.name!, venue.venueImagePaths![0]));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                            "Please select an event type, valid date, and number of guests")),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.themeColor,
+                padding: EdgeInsets.symmetric(
+                  vertical: Dimensions.height10 * 1.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius15),
+                ),
+              ),
+              child: BigText(
+                text: 'Check Availability',
+                color: Colors.white,
+                size: Dimensions.font10 * 1.6,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool _isValidInput() {
+    return _selectedEventType != null &&
+        _isDateSelected &&
+        _numberOfGuestsController.text.isNotEmpty &&
+        int.tryParse(_numberOfGuestsController.text) != null &&
+        int.parse(_numberOfGuestsController.text) > 0;
+  }
+
+  _getDate() async {
+    DateTime? _pickerDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(), // Prevent selecting past dates
+      lastDate: DateTime(9999),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.themeColor, // Change the primary color here
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (_pickerDate != null) {
+      setState(() {
+        _isDateSelected = true;
+        _date = _pickerDate;
+        _dateController.text = DateFormat.yMMMMd().format(_pickerDate);
+      });
+    }
+  }
+
+  String _transformEventType(String? eventType) {
+    switch (eventType) {
+      case "Wedding":
+        return "WEDDING";
+      case "Conference Event":
+        return "CONFERENCE_EVENT";
+      case "Birthday Party":
+        return "BIRTHDAY_PARTY";
+      case "Corporate Meeting":
+        return "CORPORATE_MEETING";
+      case "Bratabanda":
+        return "BRATABANDA";
+      case "Rice Feeding Ceremony":
+        return "RICE_FEEDING_CEREMONY";
+      default:
+        return eventType!.toUpperCase().replaceAll(' ', '_');
+    }
   }
 }

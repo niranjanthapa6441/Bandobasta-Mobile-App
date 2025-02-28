@@ -245,7 +245,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
       } else {
         showCustomSnackBar(status.message, title: "Invalid Login Details");
       }
-    }).catchError((error) {
+    }).catchError((error) { 
       setState(() {
         _isLoading = false; // Stop loading
       });

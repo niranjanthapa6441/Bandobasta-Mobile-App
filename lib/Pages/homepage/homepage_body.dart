@@ -26,6 +26,8 @@ class _HomePageBodyState extends State<HomePageBody> {
     pageController.addListener(() {
       setState(() {});
     });
+    Get.find<VenueController>().onClose();
+    Get.find<VenueController>().get();
   }
 
   @override
@@ -80,6 +82,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   Widget _buildPopularVenue(int index, Venue venue) {
     return GestureDetector(
       onTap: () {
+        AppConstant.isFeaturedVenueSelected = true;
         Get.toNamed(RouteHelper.getVenueInfo(index));
       },
       child: Container(
@@ -90,7 +93,6 @@ class _HomePageBodyState extends State<HomePageBody> {
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.width10,
         ),
-        // Use Flexible or Adjusted Heights
         height: Dimensions.height10 * 25,
         width: Dimensions.width10 * 25,
         decoration: BoxDecoration(
@@ -128,7 +130,6 @@ class _HomePageBodyState extends State<HomePageBody> {
     String imageUrl = (imagePaths != null && imagePaths.isNotEmpty)
         ? imagePaths[0]
         : fallbackImageUrl;
-
     return Container(
       height: Dimensions.height10 * 15,
       width: double.infinity,
@@ -136,8 +137,7 @@ class _HomePageBodyState extends State<HomePageBody> {
         borderRadius: BorderRadius.circular(Dimensions.radius10),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: NetworkImage(
-              AppConstant.baseURL + AppConstant.apiVersion + imageUrl),
+          image: NetworkImage(imageUrl),
         ),
       ),
     );

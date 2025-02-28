@@ -1,13 +1,16 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart'; // For launching URLs
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:BandoBasta/widgets/app_text_field.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:BandoBasta/widgets/error_label.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class SignUpPageBody extends StatefulWidget {
   const SignUpPageBody({Key? key}) : super(key: key);
@@ -20,6 +23,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
   bool _isLoading = false;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool _isTermsAccepted = false; // For the checkbox
 
   var emailController = TextEditingController();
   var firstNameController = TextEditingController();
@@ -38,6 +42,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
   String confirmPasswordError = '';
   String emailError = '';
   String phoneNumberError = '';
+  String termsError = ''; // For displaying terms error
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +96,11 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                     icon: _isPasswordVisible
                         ? Icons.visibility
                         : Icons.visibility_off,
-                    isObscure: !_isPasswordVisible, // Toggle visibility
+                    isObscure: !_isPasswordVisible,
                     width: Dimensions.width10 * 37,
                     onIconPressed: () {
                       setState(() {
-                        _isPasswordVisible =
-                            !_isPasswordVisible; // Toggle state
+                        _isPasswordVisible = !_isPasswordVisible;
                       });
                     },
                   ),
@@ -110,12 +114,11 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                     icon: _isConfirmPasswordVisible
                         ? Icons.visibility
                         : Icons.visibility_off,
-                    isObscure: !_isConfirmPasswordVisible, // Toggle visibility
+                    isObscure: !_isConfirmPasswordVisible,
                     width: Dimensions.width10 * 37,
                     onIconPressed: () {
                       setState(() {
-                        _isConfirmPasswordVisible =
-                            !_isConfirmPasswordVisible; // Toggle state
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                       });
                     },
                   ),
@@ -136,8 +139,46 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                           ? null
                           : AppColors.themeColor,
                       icon: Icons.phone),
+                  ErrorLabel(error: phoneNumberError),
+                  SizedBox(height: Dimensions.height20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        value: _isTermsAccepted,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isTermsAccepted = value ?? false;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            text: "I agree to the ",
+                            style: TextStyle(
+                                color: Colors.grey[700], fontSize: 16),
+                            children: [
+                              TextSpan(
+                                text: "Privacy Policy",
+                                style: TextStyle(
+                                  color: AppColors.themeColor,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    _launchPrivacyPolicy();
+                                  },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (termsError.isNotEmpty) ErrorLabel(error: termsError),
                 ]),
-                ErrorLabel(error: phoneNumberError),
                 GestureDetector(
                   onTap: () {
                     _registrationValidation();
@@ -213,15 +254,20 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
       confirmPasswordError = '';
       emailError = '';
       phoneNumberError = '';
+      termsError = ''; // Reset terms error
 
       String firstName = firstNameController.text.trim();
       String lastName = lastNameController.text.trim();
-      String middleName = middleNameController.text.trim();
       String username = usernameController.text.trim();
       String password = passwordController.text.trim();
       String confirmPassword = confirmPasswordController.text.trim();
       String email = emailController.text.trim();
       String phoneNumber = phoneNumberController.text.trim();
+
+      if (!_isTermsAccepted) {
+        termsError = "You must accept the Privacy Policy to proceed";
+        return;
+      }
 
       if (firstName.isEmpty ||
           lastName.isEmpty ||
@@ -242,7 +288,6 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         if (username.isEmpty) {
           usernameError = "Username is required*";
         }
-
         if (password.isEmpty) {
           passwordError = "Password is required*";
         }
@@ -269,12 +314,12 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         }
       } else {
         setState(() {
-          _isLoading = true; // Start loading
+          _isLoading = true;
         });
         SignUpRequest newUser = SignUpRequest(
             firstName: firstName,
             lastName: lastName,
-            middleName: middleName,
+            middleName: '',
             email: email,
             phoneNumber: phoneNumber,
             username: username,
@@ -284,10 +329,11 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         var authController = Get.find<AuthController>();
         authController.registration(newUser).then((status) {
           setState(() {
-            _isLoading = false; // Start loading
+            _isLoading = false;
           });
           if (status.isSuccess) {
-            Get.toNamed(RouteHelper.getSignIn());
+            AppConstant.isAccountRegistered = true;
+            Get.toNamed(RouteHelper.getVerifyOTP());
             showCustomSnackBar(
                 message: "Verify Your account",
                 isError: false,
@@ -301,8 +347,26 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
     });
   }
 
+  void _launchPrivacyPolicy() async {
+    const url = 'https://bandobasta.com/privacy.html';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } else {
+      Get.snackbar(
+        "Error",
+        "Could not open the privacy policy",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
   void showCustomSnackBar(
-      {required String message, required bool isError, required String title, required Color color}) {
+      {required String message,
+      required bool isError,
+      required String title,
+      required Color color}) {
     Get.snackbar(title, message,
         titleText: BigText(
           text: title,

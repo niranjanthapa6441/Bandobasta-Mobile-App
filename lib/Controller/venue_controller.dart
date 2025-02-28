@@ -11,6 +11,10 @@ class VenueController extends GetxController {
 
   List<dynamic> _venues = [];
   List<dynamic> get venues => _venues;
+  List<dynamic> _availableVenuesForSelectedDate = [];
+  List<dynamic> get availableVenuesForSelectedDate =>
+      _availableVenuesForSelectedDate;
+
   int _currentPage = 0;
   int _totalPages = 0;
   int _totalElements = 0;
@@ -39,10 +43,25 @@ class VenueController extends GetxController {
     }
   }
 
+  Future<void> getAvailableVenues() async {
+    Response response = await venueRepo.getAvailableVenues();
+    if (response.statusCode == 200) {
+      _availableVenuesForSelectedDate
+          .addAll(VenueResponse.fromJson(response.body).data!.venues!);
+      _currentPage = VenueResponse.fromJson(response.body).data!.currentPage!;
+      _totalElements =
+          VenueResponse.fromJson(response.body).data!.totalElements!;
+      _totalPages = VenueResponse.fromJson(response.body).data!.totalPages!;
+      _isLoaded = true;
+      update();
+    }
+  }
+
   Future<void> loadMore() async {
     if (_currentPage < _totalPages) {
       AppConstant.page += 1;
       AppConstant.getVenueURI();
+      AppConstant.getAvailableVenueURI();
       get();
     }
   }
@@ -55,8 +74,10 @@ class VenueController extends GetxController {
 
   void clear() {
     _venues.clear();
+    _availableVenuesForSelectedDate.clear();
     _isLoaded = false;
     AppConstant.page = 1;
     AppConstant.getVenueURI();
+    AppConstant.getAvailableVenueURI();
   }
 }

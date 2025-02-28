@@ -1,6 +1,6 @@
 import 'package:BandoBasta/Pages/AccountAndSettings/account_settings_page.dart';
 import 'package:BandoBasta/Pages/bookingPage/view_bookings_page.dart';
-import 'package:BandoBasta/Pages/favouritePage/favourite_page.dart';
+import 'package:BandoBasta/Pages/favouritePage/favourites_page.dart';
 import 'package:BandoBasta/Pages/homepage/homepage.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
@@ -18,7 +18,7 @@ class _NavigationState extends State<Navigation> {
   List pages = [
     Homepage(),
     BookingsPage(),
-    FavouritePage(),
+    FavouritesPage(),
     AccountSettingsPage(),
   ];
 
@@ -55,10 +55,10 @@ class _NavigationState extends State<Navigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.favorite, // Using the standard heart icon
+              Icons.favorite,
               size: Dimensions.height30,
             ),
-            label: 'Favourites',
+            label: 'Visitors',
           ),
           BottomNavigationBarItem(
             icon: Icon(

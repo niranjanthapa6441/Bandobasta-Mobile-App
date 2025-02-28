@@ -12,4 +12,7 @@ class VenueRepo {
     return await apiClient.getData(
         AppConstant.getVenueURI());
   }
+  Future<Response> getAvailableVenues() async {
+    return await apiClient.getData(AppConstant.getAvailableVenueURI());
+  }
 }

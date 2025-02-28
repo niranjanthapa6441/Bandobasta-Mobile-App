@@ -6,6 +6,7 @@ import 'package:BandoBasta/Request/reset_password_request.dart';
 import 'package:BandoBasta/Request/sign_up_request.dart';
 import 'package:BandoBasta/Response/log_in_reponse.dart';
 import 'package:BandoBasta/utils/api/api_client.dart';
+import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/auth_service/auth_service.dart';
 import 'package:get/get.dart';
 
@@ -60,6 +61,18 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
+  Future<ResponseModel> verifyRegisteredAccount(String token) async {
+    Response response = await authRepo.verifyRegisteredAccount(token);
+    late ResponseModel responseModel;
+    if (response.statusCode == 200) {
+      responseModel = ResponseModel(true, response.body["message"]);
+    } else {
+      responseModel = ResponseModel(false, response.body["message"]);
+    }
+    update();
+    return responseModel;
+  }
+
   Future<ResponseModel> verifyOTP(String otp) async {
     Response response = await authRepo.verifyOTP(otp, {});
     late ResponseModel responseModel;
@@ -79,8 +92,6 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      print(response.body["message"]);
-      print(response.body["errorData"]);
       responseModel = ResponseModel(false, response.body["message"]);
     }
     update();
