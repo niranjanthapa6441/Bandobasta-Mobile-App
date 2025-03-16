@@ -20,7 +20,7 @@ class BookingsPageBody extends StatefulWidget {
 }
 
 class _OrdersPageBodyState extends State<BookingsPageBody> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool isTokenExpired = false;
   final AuthService _authService = AuthService();
 
@@ -68,10 +68,8 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
             return controller.isLoaded
                 ? controller.bookings.isEmpty
                     ? Container(
-                        height: MediaQuery.of(context).size.height *
-                            0.5, 
-                        alignment: Alignment
-                            .center, 
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        alignment: Alignment.center,
                         child: Text(
                           "No Available Bookings to show.",
                           style: TextStyle(fontSize: 18, color: Colors.grey),
@@ -258,19 +256,19 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
                             height: Dimensions.height20 * 0.92,
                           ),
                           Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                SmallText(
-                                  text: "View More",
-                                  color: AppColors.mainBlackColor,
-                                  size: 13.5,
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: AppColors.mainBlackColor,
-                                ),
-                              ],
-                            ),
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SmallText(
+                                text: "View More",
+                                color: AppColors.mainBlackColor,
+                                size: 13.5,
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: AppColors.mainBlackColor,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -302,7 +300,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 62,
         child: ListView.builder(
           padding: EdgeInsets.zero,
@@ -393,7 +391,7 @@ class _OrdersPageBodyState extends State<BookingsPageBody> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 13,
         child: Container(
           padding: EdgeInsets.only(

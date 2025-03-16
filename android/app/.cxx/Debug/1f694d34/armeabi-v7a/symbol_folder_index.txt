@@ -1,0 +1,1 @@
+/home/unreal/Bandobasta/bandobasta/build/app/intermediates/cxx/Debug/1f694d34/obj/armeabi-v7a

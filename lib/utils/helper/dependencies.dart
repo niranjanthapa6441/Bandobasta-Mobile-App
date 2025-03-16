@@ -14,12 +14,13 @@ import 'package:BandoBasta/Repository/venue_hall_repo.dart';
 import 'package:BandoBasta/Repository/venue_menu_repository.dart';
 import 'package:BandoBasta/Repository/venue_package_repo.dart';
 import 'package:BandoBasta/Repository/venue_repo.dart';
-import 'package:BandoBasta/controller/auth_controller.dart';
-import 'package:BandoBasta/repository/customer_repo.dart';
+
 import 'package:BandoBasta/utils/api/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
+import '../../Controller/auth_controller.dart';
+import '../../Repository/customer_repo.dart';
 import '../app_constants/app_constant.dart';
 
 Future<void> init() async {
@@ -50,5 +51,4 @@ Future<void> init() async {
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => UserController(userRepo: Get.find()));
   Get.lazyPut(() => EventController(eventRepository: Get.find()));
-
 }

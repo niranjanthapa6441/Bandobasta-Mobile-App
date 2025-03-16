@@ -18,7 +18,7 @@ class SignUpRequest {
       required this.role,
       required this.password});
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['middleName'] = middleName;

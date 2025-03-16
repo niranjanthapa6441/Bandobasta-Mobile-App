@@ -8,13 +8,13 @@ class HallAvailabilityResponse {
   HallAvailabilityResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -38,7 +38,7 @@ class Data {
     if (json['hallAvailabilityDetails'] != null) {
       hallAvailabilityDetails = <HallAvailabilityDetail>[];
       json['hallAvailabilityDetails'].forEach((v) {
-        hallAvailabilityDetails!.add(new HallAvailabilityDetail.fromJson(v));
+        hallAvailabilityDetails!.add(HallAvailabilityDetail.fromJson(v));
       });
     }
     currentPage = json['currentPage'];
@@ -47,14 +47,14 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.hallAvailabilityDetails != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (hallAvailabilityDetails != null) {
       data['hallAvailabilityDetails'] =
-          this.hallAvailabilityDetails!.map((v) => v.toJson()).toList();
+          hallAvailabilityDetails!.map((v) => v.toJson()).toList();
     }
-    data['currentPage'] = this.currentPage;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
+    data['currentPage'] = currentPage;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
     return data;
   }
 }
@@ -94,16 +94,16 @@ class HallAvailabilityDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['hallId'] = this.hallId;
-    data['hallName'] = this.hallName;
-    data['description'] = this.description;
-    data['date'] = this.date;
-    data['startTime'] = this.startTime;
-    data['endTime'] = this.endTime;
-    data['capacity'] = this.capacity;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['hallId'] = hallId;
+    data['hallName'] = hallName;
+    data['description'] = description;
+    data['date'] = date;
+    data['startTime'] = startTime;
+    data['endTime'] = endTime;
+    data['capacity'] = capacity;
+    data['status'] = status;
     return data;
   }
 }

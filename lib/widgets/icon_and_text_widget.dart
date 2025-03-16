@@ -7,14 +7,13 @@ class IconAndTextWidget extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color iconColor;
-  double size;
-  IconAndTextWidget(
-      {Key? key,
+  final double size;
+  const IconAndTextWidget(
+      {super.key,
       required this.icon,
       required this.text,
       required this.iconColor,
-      this.size = 0})
-      : super(key: key);
+      this.size = 0});
   @override
   Widget build(BuildContext context) {
     return Row(

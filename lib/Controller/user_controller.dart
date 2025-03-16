@@ -1,7 +1,7 @@
 import 'package:BandoBasta/Model/response_model.dart';
 import 'package:BandoBasta/Request/update_profile_request.dart';
 import 'package:BandoBasta/Response/user_profile_response.dart';
-import 'package:BandoBasta/repository/customer_repo.dart';
+import 'package:BandoBasta/Repository/customer_repo.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {

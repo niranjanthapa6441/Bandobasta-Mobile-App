@@ -1,11 +1,12 @@
 import 'package:BandoBasta/Request/reset_password_request.dart';
-import 'package:BandoBasta/controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../Controller/auth_controller.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -89,7 +90,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ? const Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: _submitForm,
-                          child: const Text('Submit'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.themeColor,
                             padding: EdgeInsets.symmetric(
@@ -97,6 +97,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             minimumSize:
                                 Size(double.infinity, Dimensions.height10 * 5),
                           ),
+                          child: const Text('Submit'),
                         ),
                 ],
               ),

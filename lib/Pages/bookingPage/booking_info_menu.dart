@@ -7,7 +7,7 @@ class BookingInfoMenu extends StatelessWidget {
   final String menuName;
   final String price;
 
-  BookingInfoMenu({
+  const BookingInfoMenu({
     super.key,
     required this.menuDetail,
     required this.menuName,

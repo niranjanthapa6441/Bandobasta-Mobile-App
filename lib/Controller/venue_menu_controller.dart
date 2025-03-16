@@ -8,11 +8,11 @@ class VenueMenuController extends GetxController {
   final VenueMenuRepo venueMenuRepo;
 
   VenueMenuController({required this.venueMenuRepo});
-  Map<String, List<Map<String, dynamic>>> _categorizedMenuMap = {};
+  final Map<String, List<Map<String, dynamic>>> _categorizedMenuMap = {};
   Map<String, List<Map<String, dynamic>>> get categorizedMenuMap =>
       _categorizedMenuMap;
 
-  Map<String, Map<String, Map<String, dynamic>>> _menuCategoryCounts = {};
+  final Map<String, Map<String, Map<String, dynamic>>> _menuCategoryCounts = {};
   Map<String, Map<String, Map<String, dynamic>>> get menuCategoryCount =>
       _menuCategoryCounts;
   List<MenuDetail> _venueMenus = [];

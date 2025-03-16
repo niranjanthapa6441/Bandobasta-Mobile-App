@@ -325,7 +325,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
                 size: Dimensions.font20 - 2,
               ),
               SizedBox(height: Dimensions.height10),
-              Container(
+              SizedBox(
                 height: Dimensions.height20 * 10,
                 child: GridView.count(
                   shrinkWrap: true,
@@ -371,7 +371,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
               SizedBox(height: Dimensions.height10),
               ...countsForCategory.entries.map((entry) {
                 return buildMenuRow(entry.key, entry.value);
-              }).toList(),
+              }),
               SizedBox(height: Dimensions.height10),
               SizedBox(
                 width: double.infinity,
@@ -419,7 +419,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           height: Dimensions.height20,
           child: Icon(
             icon,
@@ -448,7 +448,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width * 0.8,
             child: Column(
@@ -536,7 +536,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
 
   void _showPhotoDetailDialog(BuildContext context, int initialIndex) {
     ValueNotifier<int> currentIndexNotifier = ValueNotifier<int>(initialIndex);
-    PageController _pageController = PageController(initialPage: initialIndex);
+    PageController pageController = PageController(initialPage: initialIndex);
 
     showDialog(
       context: context,
@@ -554,7 +554,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
                 Expanded(
                   child: PageView.builder(
                     itemCount: photoUrls.length,
-                    controller: _pageController,
+                    controller: pageController,
                     itemBuilder: (context, index) {
                       return ClipRRect(
                         borderRadius:
@@ -635,7 +635,7 @@ class _PackageInfoPageState extends State<PackageInfoPage> {
       return AppConstant.baseURL + AppConstant.apiVersion + imageUrl;
     }).toList();
   }
-  
+
   void _showAddToCartDialog(BuildContext context, Package package) {
     showModalBottomSheet(
       context: context,

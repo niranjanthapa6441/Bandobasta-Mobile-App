@@ -1,0 +1,2 @@
+/home/unreal/Bandobasta/bandobasta/android/app/.cxx/RelWithDebInfo/1t6hr6a6/x86/CMakeFiles/edit_cache.dir
+/home/unreal/Bandobasta/bandobasta/android/app/.cxx/RelWithDebInfo/1t6hr6a6/x86/CMakeFiles/rebuild_cache.dir

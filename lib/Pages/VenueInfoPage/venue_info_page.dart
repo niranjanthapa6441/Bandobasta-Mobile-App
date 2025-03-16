@@ -474,7 +474,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 size: Dimensions.font20 - 2,
               ),
               SizedBox(height: Dimensions.height10),
-              Container(
+              SizedBox(
                 height: Dimensions.height20 * 10,
                 child: GridView.count(
                   shrinkWrap: true,
@@ -499,7 +499,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           height: Dimensions.height20,
           child: Icon(
             icon,
@@ -622,7 +622,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
 
   void _showPhotoDetailDialog(BuildContext context, int initialIndex) {
     ValueNotifier<int> currentIndexNotifier = ValueNotifier<int>(initialIndex);
-    PageController _pageController = PageController(initialPage: initialIndex);
+    PageController pageController = PageController(initialPage: initialIndex);
 
     showDialog(
       context: context,
@@ -640,7 +640,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
                 Expanded(
                   child: PageView.builder(
                     itemCount: photoUrls.length,
-                    controller: _pageController,
+                    controller: pageController,
                     itemBuilder: (context, index) {
                       return ClipRRect(
                         borderRadius:
@@ -868,7 +868,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
   }
 
   _getDate() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(), // Prevent selecting past dates
@@ -884,11 +884,11 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
         );
       },
     );
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
         _isDateSelected = true;
-        _date = _pickerDate;
-        _dateController.text = DateFormat.yMMMMd().format(_pickerDate);
+        _date = pickerDate;
+        _dateController.text = DateFormat.yMMMMd().format(pickerDate);
       });
     }
   }

@@ -8,13 +8,13 @@ class VenueResponse {
   VenueResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -34,7 +34,7 @@ class Data {
     if (json['venues'] != null) {
       venues = <Venue>[];
       json['venues'].forEach((v) {
-        venues!.add(new Venue.fromJson(v));
+        venues!.add(Venue.fromJson(v));
       });
     }
     currentPage = json['currentPage'];
@@ -43,13 +43,13 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.venues != null) {
-      data['venues'] = this.venues!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (venues != null) {
+      data['venues'] = venues!.map((v) => v.toJson()).toList();
     }
-    data['currentPage'] = this.currentPage;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
+    data['currentPage'] = currentPage;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
     return data;
   }
 }
@@ -89,16 +89,16 @@ class Venue {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['address'] = this.address;
-    data['description'] = this.description;
-    data['status'] = this.status;
-    data['startingPrice'] = this.startingPrice;
-    data['venueImagePaths'] = this.venueImagePaths;
-    data['maxCapacity'] = this.maxCapacity;
-    data['amenities'] = this.amenities;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['address'] = address;
+    data['description'] = description;
+    data['status'] = status;
+    data['startingPrice'] = startingPrice;
+    data['venueImagePaths'] = venueImagePaths;
+    data['maxCapacity'] = maxCapacity;
+    data['amenities'] = amenities;
     return data;
   }
 }

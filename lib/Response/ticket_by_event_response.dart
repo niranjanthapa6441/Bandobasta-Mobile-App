@@ -8,13 +8,13 @@ class TicketByEvent {
   TicketByEvent.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -35,7 +35,7 @@ class Data {
     if (json['ticketDTOS'] != null) {
       ticketDTOS = <TicketDTOS>[];
       json['ticketDTOS'].forEach((v) {
-        ticketDTOS!.add(new TicketDTOS.fromJson(v));
+        ticketDTOS!.add(TicketDTOS.fromJson(v));
       });
     }
     currentPage = json['currentPage'];
@@ -44,13 +44,13 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.ticketDTOS != null) {
-      data['ticketDTOS'] = this.ticketDTOS!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (ticketDTOS != null) {
+      data['ticketDTOS'] = ticketDTOS!.map((v) => v.toJson()).toList();
     }
-    data['currentPage'] = this.currentPage;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
+    data['currentPage'] = currentPage;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
     return data;
   }
 }
@@ -80,21 +80,20 @@ class TicketDTOS {
     if (json['ticketDetails'] != null) {
       ticketDetails = <TicketDetails>[];
       json['ticketDetails'].forEach((v) {
-        ticketDetails!.add(new TicketDetails.fromJson(v));
+        ticketDetails!.add(TicketDetails.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['orderId'] = this.orderId;
-    data['userId'] = this.userId;
-    data['orderDate'] = this.orderDate;
-    data['totalAmount'] = this.totalAmount;
-    data['numberOfTickets'] = this.numberOfTickets;
-    if (this.ticketDetails != null) {
-      data['ticketDetails'] =
-          this.ticketDetails!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['orderId'] = orderId;
+    data['userId'] = userId;
+    data['orderDate'] = orderDate;
+    data['totalAmount'] = totalAmount;
+    data['numberOfTickets'] = numberOfTickets;
+    if (ticketDetails != null) {
+      data['ticketDetails'] = ticketDetails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -117,11 +116,11 @@ class TicketDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ticketOrderId'] = this.ticketOrderId;
-    data['ticketType'] = this.ticketType;
-    data['eventDate'] = this.eventDate;
-    data['orderStatus'] = this.orderStatus;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ticketOrderId'] = ticketOrderId;
+    data['ticketType'] = ticketType;
+    data['eventDate'] = eventDate;
+    data['orderStatus'] = orderStatus;
     return data;
   }
 }

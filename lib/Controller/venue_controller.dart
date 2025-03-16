@@ -11,7 +11,7 @@ class VenueController extends GetxController {
 
   List<dynamic> _venues = [];
   List<dynamic> get venues => _venues;
-  List<dynamic> _availableVenuesForSelectedDate = [];
+  final List<dynamic> _availableVenuesForSelectedDate = [];
   List<dynamic> get availableVenuesForSelectedDate =>
       _availableVenuesForSelectedDate;
 

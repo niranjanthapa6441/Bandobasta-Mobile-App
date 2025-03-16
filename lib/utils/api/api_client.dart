@@ -6,7 +6,7 @@ class APIClient extends GetConnect implements GetxService {
   String? token;
   final String appBaseUrl;
   final AuthService _authService = AuthService();
-  Map<String, String> _mainHeaders = {
+  final Map<String, String> _mainHeaders = {
     "content-type": "application/json; charset=utf-8",
   };
 

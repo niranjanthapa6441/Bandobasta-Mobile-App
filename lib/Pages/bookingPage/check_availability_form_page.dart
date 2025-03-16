@@ -168,7 +168,7 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
   }
 
   _getDate() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(), // Prevent selecting past dates
@@ -184,11 +184,11 @@ class _CheckAvailabilityPageState extends State<CheckAvailabilityPage> {
         );
       },
     );
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
         _isDateSelected = true;
-        _date = _pickerDate;
-        dateController.text = DateFormat.yMMMMd().format(_pickerDate);
+        _date = pickerDate;
+        dateController.text = DateFormat.yMMMMd().format(pickerDate);
       });
     }
   }

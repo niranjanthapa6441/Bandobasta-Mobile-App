@@ -8,13 +8,13 @@ class HallBookingResponse {
   HallBookingResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -34,7 +34,7 @@ class Data {
     if (json['bookings'] != null) {
       bookings = <Booking>[];
       json['bookings'].forEach((v) {
-        bookings!.add(new Booking.fromJson(v));
+        bookings!.add(Booking.fromJson(v));
       });
     }
     currentPage = json['currentPage'];
@@ -43,13 +43,13 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.bookings != null) {
-      data['bookings'] = this.bookings!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (bookings != null) {
+      data['bookings'] = bookings!.map((v) => v.toJson()).toList();
     }
-    data['currentPage'] = this.currentPage;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
+    data['currentPage'] = currentPage;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
     return data;
   }
 }
@@ -96,10 +96,10 @@ class Booking {
     userId = json['userId'];
     bookedForDate = json['bookedForDate'];
     hallDetail = json['hallDetail'] != null
-        ? new HallDetail.fromJson(json['hallDetail'])
+        ? HallDetail.fromJson(json['hallDetail'])
         : null;
     menuDetail = json['menuDetail'] != null
-        ? new MenuDetail.fromJson(json['menuDetail'])
+        ? MenuDetail.fromJson(json['menuDetail'])
         : null;
     requestedDate = json['requestedDate'];
     confirmedDate = json['confirmedDate'];
@@ -114,26 +114,26 @@ class Booking {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['venueName'] = this.venueName;
-    data['userId'] = this.userId;
-    data['bookedForDate'] = this.bookedForDate;
-    if (this.hallDetail != null) {
-      data['hallDetail'] = this.hallDetail!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['venueName'] = venueName;
+    data['userId'] = userId;
+    data['bookedForDate'] = bookedForDate;
+    if (hallDetail != null) {
+      data['hallDetail'] = hallDetail!.toJson();
     }
-    if (this.menuDetail != null) {
-      data['menuDetail'] = this.menuDetail!.toJson();
+    if (menuDetail != null) {
+      data['menuDetail'] = menuDetail!.toJson();
     }
-    data['requestedDate'] = this.requestedDate;
-    data['confirmedDate'] = this.confirmedDate;
-    data['requestedTime'] = this.requestedTime;
-    data['confirmedTime'] = this.confirmedTime;
-    data['price'] = this.price;
-    data['status'] = this.status;
-    data['eventType'] = this.eventType;
-    data['startTime'] = this.startTime;
-    data['endTime'] = this.endTime;
+    data['requestedDate'] = requestedDate;
+    data['confirmedDate'] = confirmedDate;
+    data['requestedTime'] = requestedTime;
+    data['confirmedTime'] = confirmedTime;
+    data['price'] = price;
+    data['status'] = status;
+    data['eventType'] = eventType;
+    data['startTime'] = startTime;
+    data['endTime'] = endTime;
     return data;
   }
 }
@@ -170,15 +170,15 @@ class HallDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['venueId'] = this.venueId;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['floorNumber'] = this.floorNumber;
-    data['capacity'] = this.capacity;
-    data['status'] = this.status;
-    data['hallImagePaths'] = this.hallImagePaths;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['venueId'] = venueId;
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['floorNumber'] = floorNumber;
+    data['capacity'] = capacity;
+    data['status'] = status;
+    data['hallImagePaths'] = hallImagePaths;
     return data;
   }
 }
@@ -191,7 +191,7 @@ class MenuDetail {
   String? status;
   String? menuType;
   List<FoodDetails>? foodDetails;
-  Null? menuItemSelectionRangeDetails;
+  Null menuItemSelectionRangeDetails;
 
   MenuDetail(
       {this.id,
@@ -213,24 +213,24 @@ class MenuDetail {
     if (json['foodDetails'] != null) {
       foodDetails = <FoodDetails>[];
       json['foodDetails'].forEach((v) {
-        foodDetails!.add(new FoodDetails.fromJson(v));
+        foodDetails!.add(FoodDetails.fromJson(v));
       });
     }
     menuItemSelectionRangeDetails = json['menuItemSelectionRangeDetails'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['venueId'] = this.venueId;
-    data['description'] = this.description;
-    data['price'] = this.price;
-    data['status'] = this.status;
-    data['menuType'] = this.menuType;
-    if (this.foodDetails != null) {
-      data['foodDetails'] = this.foodDetails!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['venueId'] = venueId;
+    data['description'] = description;
+    data['price'] = price;
+    data['status'] = status;
+    data['menuType'] = menuType;
+    if (foodDetails != null) {
+      data['foodDetails'] = foodDetails!.map((v) => v.toJson()).toList();
     }
-    data['menuItemSelectionRangeDetails'] = this.menuItemSelectionRangeDetails;
+    data['menuItemSelectionRangeDetails'] = menuItemSelectionRangeDetails;
     return data;
   }
 }
@@ -267,15 +267,15 @@ class FoodDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['venueId'] = this.venueId;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['imageUrl'] = this.imageUrl;
-    data['status'] = this.status;
-    data['foodCategory'] = this.foodCategory;
-    data['foodSubCategory'] = this.foodSubCategory;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['venueId'] = venueId;
+    data['name'] = name;
+    data['description'] = description;
+    data['imageUrl'] = imageUrl;
+    data['status'] = status;
+    data['foodCategory'] = foodCategory;
+    data['foodSubCategory'] = foodSubCategory;
     return data;
   }
 }

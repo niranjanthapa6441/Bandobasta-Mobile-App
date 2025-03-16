@@ -6,8 +6,7 @@ class SquareRadioButton extends StatelessWidget {
   final VoidCallback onTap;
 
   const SquareRadioButton(
-      {required this.isSelected, required this.onTap, Key? key})
-      : super(key: key);
+      {required this.isSelected, required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {

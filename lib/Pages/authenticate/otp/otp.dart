@@ -1,4 +1,4 @@
-import 'package:BandoBasta/controller/auth_controller.dart';
+import 'package:BandoBasta/Controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OTPPage extends StatefulWidget {
+  const OTPPage({super.key});
+
   @override
   _OTPPageState createState() => _OTPPageState();
 }
@@ -136,7 +138,6 @@ class _OTPPageState extends State<OTPPage> {
                 ? CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _submitOTP,
-                    child: Text('Submit OTP'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.themeColor,
                       padding: EdgeInsets.symmetric(
@@ -144,6 +145,7 @@ class _OTPPageState extends State<OTPPage> {
                           vertical: Dimensions.height10 * 1.5),
                       textStyle: TextStyle(fontSize: Dimensions.font10 * 1.8),
                     ),
+                    child: Text('Submit OTP'),
                   ),
           ],
         ),

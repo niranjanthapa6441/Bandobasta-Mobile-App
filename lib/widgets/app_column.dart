@@ -8,7 +8,7 @@ import 'icon_and_text_widget.dart';
 
 class AppColumn extends StatelessWidget {
   final String text;
-  const AppColumn({Key? key, required this.text}) : super(key: key);
+  const AppColumn({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import '../../utils/dimensions/dimension.dart';
 import '../../widgets/big_text.dart';
 
 class HomePageBody extends StatefulWidget {
-  const HomePageBody({Key? key}) : super(key: key);
+  const HomePageBody({super.key});
 
   @override
   State<HomePageBody> createState() => _HomePageBodyState();
@@ -40,7 +40,7 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: Dimensions.height10 * 26,
       width: double.infinity,
       child: _buildVenueList(),
@@ -183,7 +183,7 @@ class _HomePageBodyState extends State<HomePageBody> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 62,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,

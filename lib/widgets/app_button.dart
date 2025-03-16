@@ -10,12 +10,12 @@ class AppButton extends StatelessWidget {
   final double? buttonWidth;
 
   const AppButton({
-    Key? key,
+    super.key,
     required this.btn_txt,
     this.color = AppColors.buttonBackgroundColor,
     this.buttonHeight,
     this.buttonWidth,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

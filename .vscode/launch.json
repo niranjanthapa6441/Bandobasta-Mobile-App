@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib/Pages/privacy_terms_condition/terms_condirion.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/Pages/privacy_terms_condition/terms_condirion.dart"
+        }
+    ]
+}

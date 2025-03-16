@@ -14,12 +14,14 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchVenuePage extends StatefulWidget {
+  const SearchVenuePage({super.key});
+
   @override
   _SearchVenuePageState createState() => _SearchVenuePageState();
 }
 
 class _SearchVenuePageState extends State<SearchVenuePage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -414,7 +416,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 13,
         child: Container(
           padding: EdgeInsets.only(
@@ -500,7 +502,7 @@ class _SearchVenuePageState extends State<SearchVenuePage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 62,
         child: ListView.builder(
           padding: EdgeInsets.zero,

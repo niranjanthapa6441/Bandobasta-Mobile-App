@@ -3,7 +3,7 @@ import 'package:BandoBasta/Pages/authenticate/sign_up_page/sign_up_page_body.dar
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpState();

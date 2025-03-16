@@ -16,19 +16,19 @@ class AppTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters; // Input formatters
 
   // Constructor to initialize parameters
-  AppTextField({
-    Key? key,
+  const AppTextField({
+    super.key,
     required this.textEditingController,
     required this.hintText,
     required this.icon,
     this.isObscure = false,
     this.readOnly = false,
-    this.widget = null,
+    this.widget,
     required this.width,
     this.color, // Optional color
     this.onIconPressed, // Initialize onIconPressed
     this.inputFormatters, // Initialize inputFormatters
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

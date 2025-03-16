@@ -13,7 +13,8 @@ class PackageCard extends StatelessWidget {
   final String description;
   final VoidCallback onViewPackageInfo;
 
-  PackageCard({
+  const PackageCard({
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.packageType,
@@ -77,14 +78,14 @@ class PackageCard extends StatelessWidget {
                 SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: onViewPackageInfo,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.themeColor,
+                    textStyle: TextStyle(color: Colors.white),
+                  ),
                   child: BigText(
                     text: 'View Info',
                     color: Colors.white,
                     size: Dimensions.font10 * 1.4,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.themeColor,
-                    textStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

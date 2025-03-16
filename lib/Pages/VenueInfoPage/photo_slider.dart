@@ -5,10 +5,10 @@ class SlideIndicator extends StatelessWidget {
   final int totalImages;
 
   const SlideIndicator({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.totalImages,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

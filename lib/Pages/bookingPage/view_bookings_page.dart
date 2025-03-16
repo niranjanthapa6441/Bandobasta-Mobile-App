@@ -38,8 +38,8 @@ class _OrdersState extends State<BookingsPage> {
   bool _endDateSelected = false;
   bool _isLoading = false;
 
-  TextEditingController _startDateController = TextEditingController();
-  TextEditingController _endDateController = TextEditingController();
+  final TextEditingController _startDateController = TextEditingController();
+  final TextEditingController _endDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _OrdersState extends State<BookingsPage> {
             SizedBox(
               height: Dimensions.height20,
             ),
-            Container(
+            SizedBox(
               height: Dimensions.height10 * 5,
               width: Dimensions.screenWidth,
               child: ListView.builder(
@@ -224,7 +224,7 @@ class _OrdersState extends State<BookingsPage> {
   }
 
   _getStartDate() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now().subtract(Duration(days: 365 * 2)),
@@ -238,16 +238,16 @@ class _OrdersState extends State<BookingsPage> {
         );
       },
     );
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
         _startDateSelected = true;
-        _startDate = _pickerDate;
+        _startDate = pickerDate;
       });
     }
   }
 
   _getEndDate() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now().subtract(Duration(days: 365 * 2)),
@@ -262,15 +262,15 @@ class _OrdersState extends State<BookingsPage> {
       },
     );
 
-    if (_pickerDate != null) {
-      if (_pickerDate.isBefore(_startDate)) {
+    if (pickerDate != null) {
+      if (pickerDate.isBefore(_startDate)) {
         Get.snackbar(
             "Invalid Date", "End date must be greater than start date.",
             snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red);
       } else {
         setState(() {
           _endDateSelected = true;
-          _endDate = _pickerDate;
+          _endDate = pickerDate;
           _filerOrders();
         });
       }

@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AvailabilityPage extends StatefulWidget {
-  const AvailabilityPage({Key? key}) : super(key: key);
+  const AvailabilityPage({super.key});
 
   @override
   _AvailabilityPageState createState() => _AvailabilityPageState();
@@ -21,7 +21,7 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
   List<DateTime> upcomingDates = [];
   late DateTime selectedDate;
   late DateTime currentMonth;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -90,8 +90,9 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
                             alignment: Alignment.center,
                             child: Text(
                               "No slots available. Select another date",
-                              style:
-                                  TextStyle(fontSize: Dimensions.font10 * 1.8, color: Colors.grey),
+                              style: TextStyle(
+                                  fontSize: Dimensions.font10 * 1.8,
+                                  color: Colors.grey),
                             ),
                           )
                         : Container(
@@ -100,10 +101,8 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
                                 EdgeInsets.only(bottom: Dimensions.height20),
                             child: ListView.builder(
                                 padding: EdgeInsets.zero,
-                                physics:
-                                    const NeverScrollableScrollPhysics(), 
-                                shrinkWrap:
-                                    true, 
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
                                 itemCount:
                                     availabilities.hallAvailabilities.length,
                                 itemBuilder: (context, index) {
@@ -170,7 +169,7 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
       child: Text(
         DateFormat.yMMMM().format(currentMonth),
         style: TextStyle(
-          fontSize: Dimensions.font10*2,
+          fontSize: Dimensions.font10 * 2,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -266,7 +265,7 @@ class _AvailabilityPageState extends State<AvailabilityPage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 30,
         child: ListView.builder(
           padding: EdgeInsets.zero,

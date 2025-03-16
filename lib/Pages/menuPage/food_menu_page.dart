@@ -13,7 +13,7 @@ class FoodMenuScreen extends StatefulWidget {
   final String menuName;
   final String price;
 
-  FoodMenuScreen({
+  const FoodMenuScreen({
     super.key,
     required this.menuDetail,
     required this.menuName,
@@ -216,7 +216,7 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
                 ),
                 if (AppConstant.isSelectHallPackageSelected)
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       width: Dimensions.width10 * 20,
                       height: Dimensions.height10 * 5,
                       child: ElevatedButton(

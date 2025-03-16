@@ -12,14 +12,15 @@ class VenuePackagePage extends StatefulWidget {
   final String venueName;
   final String imageURL;
 
-  const VenuePackagePage({super.key, required this.venueName, required this.imageURL});
+  const VenuePackagePage(
+      {super.key, required this.venueName, required this.imageURL});
 
   @override
   _VenuePackagePageState createState() => _VenuePackagePageState();
 }
 
 class _VenuePackagePageState extends State<VenuePackagePage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -113,7 +114,8 @@ class _VenuePackagePageState extends State<VenuePackagePage> {
         description: detail.description!,
         price: detail.price!,
         onViewPackageInfo: () {
-          Get.toNamed(RouteHelper.getPackageInfo(index,widget.venueName,widget.imageURL));
+          Get.toNamed(RouteHelper.getPackageInfo(
+              index, widget.venueName, widget.imageURL));
         });
   }
 
@@ -134,7 +136,7 @@ class _VenuePackagePageState extends State<VenuePackagePage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 13,
         child: Container(
           padding: EdgeInsets.only(
@@ -220,7 +222,7 @@ class _VenuePackagePageState extends State<VenuePackagePage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 62,
         child: ListView.builder(
           padding: EdgeInsets.zero,

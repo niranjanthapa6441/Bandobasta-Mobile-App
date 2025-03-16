@@ -9,15 +9,15 @@ class SmallText extends StatelessWidget {
   final TextOverflow textOverflow;
   final int maxLines;
 
-  SmallText({
-    Key? key,
+  const SmallText({
+    super.key,
     this.color = const Color(0xFFccc7c5),
     required this.text,
     this.size = 0,
     this.height = 0,
     this.maxLines = 1, // Set default to 1 line
     this.textOverflow = TextOverflow.ellipsis, // Set default to ellipsis
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

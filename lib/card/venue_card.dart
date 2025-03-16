@@ -11,7 +11,8 @@ class VenueCard extends StatelessWidget {
   final String price;
   final VoidCallback onViewInfo;
 
-  VenueCard({
+  const VenueCard({
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.rating,
@@ -87,11 +88,11 @@ class VenueCard extends StatelessWidget {
                 SizedBox(height: Dimensions.height10 * 0.8),
                 ElevatedButton(
                   onPressed: onViewInfo,
-                  child: Text('View Info'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.themeColor,
                     textStyle: TextStyle(color: Colors.white),
                   ),
+                  child: Text('View Info'),
                 ),
               ],
             ),

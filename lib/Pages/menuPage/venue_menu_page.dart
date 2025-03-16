@@ -21,7 +21,7 @@ class VenueMenuPage extends StatefulWidget {
 }
 
 class _VenueMenuPageState extends State<VenueMenuPage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -265,7 +265,7 @@ class _VenueMenuPageState extends State<VenueMenuPage> {
                       SizedBox(height: Dimensions.height10 * 0.5),
                     ],
                   );
-                }).toList(),
+                }),
               SizedBox(height: Dimensions.height10),
               SizedBox(
                 width: double.infinity,

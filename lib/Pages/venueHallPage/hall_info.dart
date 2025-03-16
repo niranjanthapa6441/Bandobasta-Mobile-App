@@ -336,7 +336,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           height: Dimensions.height20,
           child: Icon(
             icon,
@@ -365,7 +365,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width * 0.8,
             child: Column(
@@ -453,7 +453,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
 
   void _showPhotoDetailDialog(BuildContext context, int initialIndex) {
     ValueNotifier<int> currentIndexNotifier = ValueNotifier<int>(initialIndex);
-    PageController _pageController = PageController(initialPage: initialIndex);
+    PageController pageController = PageController(initialPage: initialIndex);
 
     showDialog(
       context: context,
@@ -471,7 +471,7 @@ class _HallInfoPageState extends State<HallInfoPage> {
                 Expanded(
                   child: PageView.builder(
                     itemCount: photoUrls.length,
-                    controller: _pageController,
+                    controller: pageController,
                     itemBuilder: (context, index) {
                       return ClipRRect(
                         borderRadius:

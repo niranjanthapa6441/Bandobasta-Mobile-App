@@ -12,12 +12,12 @@ class UpdateProfileRequest {
       required this.email,
       required this.phoneNumber});
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['middleName'] = this.middleName;
-    data['email'] = this.email;
-    data['phoneNumber'] = this.phoneNumber;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['middleName'] = middleName;
+    data['email'] = email;
+    data['phoneNumber'] = phoneNumber;
 
     return data;
   }

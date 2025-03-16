@@ -8,8 +8,7 @@ class ImageAndTextWidget extends StatelessWidget {
   final String imageURl;
   final String text;
   const ImageAndTextWidget(
-      {Key? key, required this.imageURl, required this.text})
-      : super(key: key);
+      {super.key, required this.imageURl, required this.text});
   @override
   Widget build(BuildContext context) {
     return Row(

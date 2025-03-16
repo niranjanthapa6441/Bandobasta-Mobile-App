@@ -11,7 +11,8 @@ class HallCard extends StatelessWidget {
   final String description;
   final VoidCallback onViewHallInfo;
 
-  HallCard({
+  const HallCard({
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.floorNumber,
@@ -73,14 +74,14 @@ class HallCard extends StatelessWidget {
                 SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: onViewHallInfo,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.themeColor,
+                    textStyle: TextStyle(color: Colors.white),
+                  ),
                   child: BigText(
                     text: 'View Info',
                     color: Colors.white,
                     size: Dimensions.font10 * 1.4,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.themeColor,
-                    textStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

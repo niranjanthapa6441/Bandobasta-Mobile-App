@@ -1,4 +1,5 @@
 import 'package:BandoBasta/Pages/homepage/homepage_body.dart';
+import 'package:BandoBasta/Pages/homepage/widgets/service_list.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
@@ -9,7 +10,10 @@ import 'package:BandoBasta/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+
+import 'widgets/search_screen.dart' show SearchScreen;
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -55,7 +59,7 @@ class _HomepageState extends State<Homepage> {
             child: Container(
               height: Dimensions.height10 * 9,
               width: Dimensions.height10 * 20, // Adjust the width if needed
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.contain, // Use contain to fit the whole image
                   image:
@@ -82,7 +86,55 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 SizedBox(
-                  height: Dimensions.height10,
+                  height: Dimensions.height20,
+                ),
+
+                /// Search bar
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => SearchScreen(),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                              opacity: animation, child: child);
+                        },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(Dimensions.radius15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                          blurStyle: BlurStyle.solid,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Iconsax.search_normal_1, color: Colors.black54),
+                        SizedBox(width: Dimensions.width20),
+                        Flexible(
+                          child: Text(
+                            "Start your search",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.height15,
                 ),
                 _buildCheckAvailability(),
                 SizedBox(
@@ -92,34 +144,47 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(
                   height: Dimensions.height10,
                 ),
-                Container(
+
+                /// Display the list of services
+                /// child: GridView.count(
+                //   scrollDirection: Axis.vertical,
+                //   shrinkWrap: true,
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   crossAxisCount: 4,
+                //   childAspectRatio: 1.0,
+                //   mainAxisSpacing: Dimensions.height10,
+                //   crossAxisSpacing: Dimensions.width20,
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         Get.toNamed(RouteHelper.getSearchVenue());
+                //       },
+                //       child: serviceItem(Icons.location_city, "Venue"),
+                //     ),
+                //     serviceItem(Icons.camera_alt, "Photographer"),
+                //     serviceItem(Icons.person, "Priest"),
+                //     serviceItem(Icons.face, "Bridal Makeup"),
+                //     serviceItem(Icons.music_note, "DJ Service"),
+                //     serviceItem(Icons.brush, "Henna Artist"),
+                //     serviceItem(Icons.card_giftcard, "Decoration"),
+                //     serviceItem(Icons.diamond, "Jewellery"),
+                //   ],
+                // )
+                SizedBox(
                   height: Dimensions.height20 * 4.4,
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    crossAxisCount: 4,
-                    childAspectRatio: 1.0,
-                    mainAxisSpacing: Dimensions.height10,
-                    crossAxisSpacing: Dimensions.width20,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(RouteHelper.getSearchVenue());
-                        },
-                        child: serviceItem(Icons.location_city, "Venue"),
-                      ),
-                      serviceItem(Icons.camera_alt, "Photographer"),
-                      serviceItem(Icons.person, "Priest"),
-                      serviceItem(Icons.face, "Bridal Makeup"),
-                      // serviceItem(Icons.music_note, "DJ Service"),
-                      // serviceItem(Icons.brush, "Henna Artist"),
-                      // serviceItem(Icons.card_giftcard, "Decoration"),
-                      // serviceItem(Icons.diamond, "Jewellery"),
-                    ],
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: ServiceList().service.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ServiceList().service[index];
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: Dimensions.width20);
+                    },
                   ),
                 ),
                 _buildSectionHeader('Featured Venues'),
-                HomePageBody(),
+                const HomePageBody(),
               ],
             ),
           ),
@@ -137,7 +202,7 @@ class _HomepageState extends State<Homepage> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -149,23 +214,23 @@ class _HomepageState extends State<Homepage> {
             height: Dimensions.height10 * 6,
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                labelStyle: TextStyle(color: AppColors.mainBlackColor),
+                labelStyle: const TextStyle(color: AppColors.mainBlackColor),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Dimensions.radius10),
-                  borderSide: BorderSide(color: AppColors.mainBlackColor),
+                  borderSide: const BorderSide(color: AppColors.mainBlackColor),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Dimensions.radius10),
-                  borderSide:
-                      BorderSide(color: AppColors.mainBlackColor, width: 2.0),
+                  borderSide: const BorderSide(
+                      color: AppColors.mainBlackColor, width: 2.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Dimensions.radius10),
-                  borderSide:
-                      BorderSide(color: AppColors.mainBlackColor, width: 1.5),
+                  borderSide: const BorderSide(
+                      color: AppColors.mainBlackColor, width: 1.5),
                 ),
               ),
-              hint: Text('Select Event Type'),
+              hint: const Text('Select Event Type'),
               items:
                   eventTypes.map<DropdownMenuItem<String>>((String eventType) {
                 return DropdownMenuItem<String>(
@@ -195,7 +260,7 @@ class _HomepageState extends State<Homepage> {
                   width: double.infinity,
                   widget: IconButton(
                     onPressed: () => _getDate(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.calendar_today_outlined,
                       color: AppColors.mainBlackColor,
                     ),
@@ -234,7 +299,7 @@ class _HomepageState extends State<Homepage> {
                   Get.toNamed(RouteHelper.getSearchVenue());
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                         content: Text(
                             "Please select an event type, valid date, and number of guests")),
                   );
@@ -270,7 +335,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget _buildSectionHeader(String title) {
-    return Container(
+    return SizedBox(
       height: Dimensions.height40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,34 +355,34 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget serviceItem(IconData icon, String title) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          backgroundColor: AppColors.themeColor,
-          radius: Dimensions.radius15 + 13,
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: Dimensions.height20 + 4,
-          ),
-        ),
-        SizedBox(height: Dimensions.height5),
-        BigText(
-          text: title,
-          color: AppColors.mainBlackColor,
-          size: Dimensions.font10,
-          fontWeight: FontWeight.bold,
-          maxLines: 2,
-          textOverflow: TextOverflow.ellipsis, // Adjusted title size
-        ),
-      ],
-    );
-  }
+  // Widget serviceItem(IconData icon, String title) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       CircleAvatar(
+  //         backgroundColor: AppColors.themeColor,
+  //         radius: Dimensions.radius15 + 13,
+  //         child: Icon(
+  //           icon,
+  //           color: Colors.white,
+  //           size: Dimensions.height20 + 4,
+  //         ),
+  //       ),
+  //       SizedBox(height: Dimensions.height5),
+  //       BigText(
+  //         text: title,
+  //         color: AppColors.mainBlackColor,
+  //         size: Dimensions.font10,
+  //         fontWeight: FontWeight.bold,
+  //         maxLines: 2,
+  //         textOverflow: TextOverflow.ellipsis, // Adjusted title size
+  //       ),
+  //     ],
+  //   );
+  // }
 
   _getDate() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
@@ -325,7 +390,7 @@ class _HomepageState extends State<Homepage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: AppColors.themeColor, // Change the primary color here
             ),
           ),
@@ -333,11 +398,11 @@ class _HomepageState extends State<Homepage> {
         );
       },
     );
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
         _isDateSelected = true;
-        _date = _pickerDate;
-        _dateController.text = DateFormat.yMMMMd().format(_pickerDate);
+        _date = pickerDate;
+        _dateController.text = DateFormat.yMMMMd().format(pickerDate);
       });
     }
   }

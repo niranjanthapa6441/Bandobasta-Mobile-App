@@ -1,5 +1,5 @@
 import 'package:BandoBasta/Request/log_in_request.dart';
-import 'package:BandoBasta/controller/auth_controller.dart';
+import 'package:BandoBasta/Controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
 import 'package:BandoBasta/utils/dimensions/dimension.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignInPageBody extends StatefulWidget {
-  const SignInPageBody({Key? key}) : super(key: key);
+  const SignInPageBody({super.key});
 
   @override
   State<SignInPageBody> createState() => _SignInPageBodyState();
@@ -44,7 +44,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               Column(
                 children: [
                   SizedBox(height: Dimensions.height20 * 6),
-                  Container(
+                  SizedBox(
                     height: Dimensions.height10 * 10,
                     child: Center(
                       child: Container(
@@ -138,7 +138,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               SizedBox(height: Dimensions.height10),
               GestureDetector(
                 onTap: () => Get.toNamed(RouteHelper.getSignUp()),
-                child: Container(
+                child: SizedBox(
                   height: Dimensions.height10 * 3,
                   child: Center(
                     child: RichText(
@@ -166,7 +166,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
               SizedBox(height: Dimensions.height10),
               GestureDetector(
                 onTap: () => Get.toNamed(RouteHelper.getEmailOTP()),
-                child: Container(
+                child: SizedBox(
                   height: Dimensions.height10 * 3,
                   child: Center(
                     child: RichText(
@@ -245,7 +245,7 @@ class _SignInPageBodyState extends State<SignInPageBody> {
       } else {
         showCustomSnackBar(status.message, title: "Invalid Login Details");
       }
-    }).catchError((error) { 
+    }).catchError((error) {
       setState(() {
         _isLoading = false; // Stop loading
       });

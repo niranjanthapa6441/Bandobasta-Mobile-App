@@ -7,19 +7,19 @@ import 'package:BandoBasta/utils/dimensions/dimension.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({Key? key}) : super(key: key);
+  const Navigation({super.key});
 
   @override
-  _NavigationState createState() => _NavigationState();
+  State<Navigation> createState() => _NavigationState();
 }
 
 class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
   List pages = [
-    Homepage(),
-    BookingsPage(),
-    FavouritesPage(),
-    AccountSettingsPage(),
+    const Homepage(),
+    const BookingsPage(),
+    const FavouritesPage(),
+    const AccountSettingsPage(),
   ];
 
   @override
@@ -72,7 +72,7 @@ class _NavigationState extends State<Navigation> {
         currentIndex: _selectedIndex,
         unselectedLabelStyle: TextStyle(
             fontSize: Dimensions.font15,
-            color: Color.fromARGB(218, 39, 41, 39)),
+            color: const Color.fromARGB(218, 39, 41, 39)),
         unselectedItemColor: const Color.fromARGB(218, 39, 41, 39),
         showUnselectedLabels: false,
         selectedLabelStyle: TextStyle(

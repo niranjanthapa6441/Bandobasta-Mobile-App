@@ -25,7 +25,7 @@ class SelectHallPackagePage extends StatefulWidget {
 }
 
 class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -199,12 +199,12 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
   }
 
   Widget _buildHallCard(VH.HallDetail detail, int index) {
-    final imageUrl = getImagePath(detail.hallImagePaths) ??
-        'assets/default_image.png'; 
+    final imageUrl =
+        getImagePath(detail.hallImagePaths) ?? 'assets/default_image.png';
 
     return HallCard(
       imageUrl: imageUrl,
-      name: detail.name ?? 'No Name', 
+      name: detail.name ?? 'No Name',
       floorNumber: detail.floorNumber!,
       capacity: detail.capacity?.toString() ?? 'N/A',
       description: detail.description ?? 'No Description Available',
@@ -216,7 +216,6 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
       },
     );
   }
-
 
   String? getImagePath(List<String>? venueImagePaths) {
     if (venueImagePaths != null && venueImagePaths.isNotEmpty) {
@@ -298,7 +297,7 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 13,
         child: Container(
           padding: EdgeInsets.only(
@@ -373,7 +372,7 @@ class _SelectHallPackagePageState extends State<SelectHallPackagePage> {
         shrinkWrap: true,
         itemCount: 8,
         itemBuilder: (context, index) {
-          return Container(
+          return SizedBox(
             height: Dimensions.height10 * 13,
             child: Container(
               padding: EdgeInsets.only(

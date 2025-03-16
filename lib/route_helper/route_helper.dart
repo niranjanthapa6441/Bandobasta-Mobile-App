@@ -1,5 +1,6 @@
 import 'package:BandoBasta/Pages/AccountAndSettings/main_profile_page.dart';
 import 'package:BandoBasta/Pages/VenueInfoPage/venue_info_page.dart';
+import 'package:BandoBasta/Pages/privacy_terms_condition/terms_conditon.dart';
 import 'package:BandoBasta/Response/hall_booking_response.dart' as hallBooking;
 
 import 'package:BandoBasta/Pages/authenticate/otp/otp.dart';
@@ -25,6 +26,8 @@ import 'package:BandoBasta/Pages/venuePackage/package_info.dart';
 import 'package:BandoBasta/Pages/venuePackage/venue_packages.dart';
 import 'package:BandoBasta/Response/venue_menu_response.dart';
 import 'package:get/get.dart';
+
+import '../Pages/privacy_terms_condition/privacy_policy.dart';
 
 class RouteHelper {
   static const String initial = '/';
@@ -57,6 +60,9 @@ class RouteHelper {
   static const String resetPassword = '/resetPassword';
   static const String viewBookingInfo = '/viewBookingInfo';
   static const String viewBookingMenu = '/viewBookingMenu';
+//
+  static const String privacyCondition = '/privacyCondition';
+  static const String termsCondition = '/termsCondition';
 
   static String getInitial() => initial;
   static String getNavigation() => navigation;
@@ -99,6 +105,11 @@ class RouteHelper {
   static String getSelectHallPackagePage(String venueName, String imageURL) =>
       '$selectHallVenuePackage?venueName=$venueName&imageURL=$imageURL';
   static String getBookingInfo(int index) => '$viewBookingInfo?pageId=$index';
+
+//
+  static String getPrivacyCondition() => privacyCondition;
+  static String getTermsCondition() => termsCondition;
+
   static List<GetPage> routes = [
     GetPage(name: homepage, page: () => const Homepage()),
     GetPage(name: signUp, page: () => const SignUpPage()),
@@ -112,7 +123,7 @@ class RouteHelper {
       transition: Transition.noTransition,
     ),
     GetPage(name: searchVenue, page: () => SearchVenuePage()),
-    GetPage(name: viewProfile, page: () => ProfilePage()),
+    GetPage(name: viewProfile, page: () => const ProfilePage()),
     GetPage(name: updateProfile, page: () => const UpdateProfilePage()),
     GetPage(name: bookingConfirmationPage, page: () => const CheckoutPage()),
     GetPage(name: availableDateTime, page: () => const AvailabilityPage()),
@@ -202,14 +213,26 @@ class RouteHelper {
           return FoodMenuScreen(
               menuDetail: menuDetail, menuName: menuName!, price: price!);
         }),
-        GetPage(
+    GetPage(
         name: viewBookingMenu,
         page: () {
           var menuName = Get.parameters['menuName'];
           var price = Get.parameters['price'];
-         hallBooking.MenuDetail menuDetail = Get.arguments as hallBooking.MenuDetail;
+          hallBooking.MenuDetail menuDetail =
+              Get.arguments as hallBooking.MenuDetail;
           return BookingInfoMenu(
               menuDetail: menuDetail, menuName: menuName!, price: price!);
         }),
+    //
+    GetPage(
+        name: privacyCondition,
+        page: () {
+          return const PrivacyPolicy();
+        }),
+    GetPage(
+        name: termsCondition,
+        page: () {
+          return const TermsCondition();
+        })
   ];
 }

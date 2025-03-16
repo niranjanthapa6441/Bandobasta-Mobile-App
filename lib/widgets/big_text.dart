@@ -9,15 +9,15 @@ class BigText extends StatelessWidget {
   final int? maxLines;
   final FontWeight fontWeight; // New fontWeight parameter
 
-  BigText({
-    Key? key,
+  const BigText({
+    super.key,
     this.color = const Color(0xFF332d2b),
     required this.text,
     this.size = 0,
     this.textOverflow = TextOverflow.fade,
     this.maxLines, // Initialize maxLines
     this.fontWeight = FontWeight.w700, // Default font weight to normal
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

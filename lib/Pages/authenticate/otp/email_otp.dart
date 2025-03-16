@@ -1,5 +1,5 @@
 import 'package:BandoBasta/Request/forgot_password_request.dart';
-import 'package:BandoBasta/controller/auth_controller.dart';
+import 'package:BandoBasta/Controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
@@ -65,7 +65,6 @@ class _GetEmailOTPState extends State<GetEmailOTP> {
                       ? const Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: _submitForm,
-                          child: const Text('Submit'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.themeColor,
                             padding: EdgeInsets.symmetric(
@@ -73,6 +72,7 @@ class _GetEmailOTPState extends State<GetEmailOTP> {
                             minimumSize:
                                 Size(double.infinity, Dimensions.height10 * 5),
                           ),
+                          child: const Text('Submit'),
                         ),
                 ],
               ),

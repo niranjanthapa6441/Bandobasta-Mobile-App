@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart'; // For launching URLs
+//import 'package:url_launcher/url_launcher.dart'; // For launching URLs
 import 'package:BandoBasta/Request/sign_up_request.dart';
-import 'package:BandoBasta/controller/auth_controller.dart';
 import 'package:BandoBasta/route_helper/route_helper.dart';
 import 'package:BandoBasta/utils/app_constants/app_constant.dart';
 import 'package:BandoBasta/utils/color/colors.dart';
@@ -12,8 +11,11 @@ import 'package:BandoBasta/widgets/app_text_field.dart';
 import 'package:BandoBasta/widgets/big_text.dart';
 import 'package:BandoBasta/widgets/error_label.dart';
 
+import '../../../Controller/auth_controller.dart';
+import '../../privacy_terms_condition/privacy_policy.dart';
+
 class SignUpPageBody extends StatefulWidget {
-  const SignUpPageBody({Key? key}) : super(key: key);
+  const SignUpPageBody({super.key});
 
   @override
   State<SignUpPageBody> createState() => _SignUpPageBodyState();
@@ -162,13 +164,36 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                             children: [
                               TextSpan(
                                 text: "Privacy Policy",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: AppColors.themeColor,
                                   decoration: TextDecoration.underline,
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    _launchPrivacyPolicy();
+                                    // _launchPrivacyPolicy();
+                                    /// New Privacy policy Page Added
+                                    Get.to(() => const PrivacyPolicy());
+                                  },
+                              ),
+                              TextSpan(
+                                text: " & ",
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 16,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Terms and Conditions.",
+                                style: const TextStyle(
+                                  color: AppColors.themeColor,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    // _launchPrivacyPolicy();
+                                    /// New Privacy policy Page Added
+                                    //Get.to(() => const TermsCondition());
+                                    Get.toNamed(RouteHelper.termsCondition);
                                   },
                               ),
                             ],
@@ -236,7 +261,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         ),
       ),
       if (_isLoading)
-        Center(
+        const Center(
           child: CircularProgressIndicator(
             color: AppColors.themeColor,
           ),
@@ -347,20 +372,20 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
     });
   }
 
-  void _launchPrivacyPolicy() async {
-    const url = 'https://bandobasta.com/privacy.html';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-    } else {
-      Get.snackbar(
-        "Error",
-        "Could not open the privacy policy",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-  }
+  // void _launchPrivacyPolicy() async {
+  //   const url = 'https://bandobasta.com/privacy.html';
+  //   if (await canLaunchUrl(Uri.parse(url))) {
+  //     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  //   } else {
+  //     Get.snackbar(
+  //       "Error",
+  //       "Could not open the privacy policy",
+  //       snackPosition: SnackPosition.BOTTOM,
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //     );
+  //   }
+  // }
 
   void showCustomSnackBar(
       {required String message,

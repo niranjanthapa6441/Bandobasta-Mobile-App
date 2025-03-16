@@ -8,13 +8,13 @@ class VenueHallResponse {
   VenueHallResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -38,7 +38,7 @@ class Data {
     if (json['hallDetails'] != null) {
       hallDetails = <HallDetail>[];
       json['hallDetails'].forEach((v) {
-        hallDetails!.add(new HallDetail.fromJson(v));
+        hallDetails!.add(HallDetail.fromJson(v));
       });
     }
     currentPage = json['currentPage'];
@@ -47,13 +47,13 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.hallDetails != null) {
-      data['hallDetails'] = this.hallDetails!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (hallDetails != null) {
+      data['hallDetails'] = hallDetails!.map((v) => v.toJson()).toList();
     }
-    data['currentPage'] = this.currentPage;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
+    data['currentPage'] = currentPage;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
     return data;
   }
 }
@@ -90,15 +90,15 @@ class HallDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['venueId'] = this.venueId;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['floorNumber'] = this.floorNumber;
-    data['capacity'] = this.capacity;
-    data['status'] = this.status;
-    data['hallImagePaths'] = this.hallImagePaths;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['venueId'] = venueId;
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['floorNumber'] = floorNumber;
+    data['capacity'] = capacity;
+    data['status'] = status;
+    data['hallImagePaths'] = hallImagePaths;
     return data;
   }
 }

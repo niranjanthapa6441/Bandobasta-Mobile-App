@@ -19,7 +19,7 @@ class VenueHallPage extends StatefulWidget {
 }
 
 class _VenueHallPageState extends State<VenueHallPage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -145,7 +145,7 @@ class _VenueHallPageState extends State<VenueHallPage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 13,
         child: Container(
           padding: EdgeInsets.only(
@@ -231,7 +231,7 @@ class _VenueHallPageState extends State<VenueHallPage> {
         end: Alignment(1.0, 0.3),
         tileMode: TileMode.clamp,
       ),
-      child: Container(
+      child: SizedBox(
         height: Dimensions.height10 * 62,
         child: ListView.builder(
           padding: EdgeInsets.zero,

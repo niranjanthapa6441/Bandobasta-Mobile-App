@@ -31,15 +31,15 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<ResponseModel> login(LogInRequest loginBody) async {
-    AuthService _authService = AuthService();
+    AuthService authService = AuthService();
     Response response = await authRepo.login(loginBody);
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
       details = LogInResponse.fromJson(response.body);
       responseModel = ResponseModel(true, response.body["message"]);
-      _authService.storeToken(details.data!.accessToken.toString());
-      _authService.storeUserId(details.data!.id.toString());
-      String? token = await _authService.getToken();
+      authService.storeToken(details.data!.accessToken.toString());
+      authService.storeUserId(details.data!.id.toString());
+      String? token = await authService.getToken();
       APIClient apiClient = Get.find<APIClient>();
       await apiClient.initializeTokenAndHeaders();
     } else {

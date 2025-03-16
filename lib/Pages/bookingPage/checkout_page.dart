@@ -75,7 +75,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                       vertical: Dimensions.height10 * 1.6,
                     ),
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: Dimensions.width10 * 20,
                     child: Center(
                       child: BigText(
@@ -390,7 +390,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width * 0.8,
             child: Column(
@@ -478,7 +478,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
 
   void _showPhotoDetailDialog(BuildContext context, int initialIndex) {
     ValueNotifier<int> currentIndexNotifier = ValueNotifier<int>(initialIndex);
-    PageController _pageController = PageController(initialPage: initialIndex);
+    PageController pageController = PageController(initialPage: initialIndex);
 
     showDialog(
       context: context,
@@ -496,7 +496,7 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
                 Expanded(
                   child: PageView.builder(
                     itemCount: photoUrls.length,
-                    controller: _pageController,
+                    controller: pageController,
                     itemBuilder: (context, index) {
                       return ClipRRect(
                         borderRadius:
@@ -604,8 +604,8 @@ class _CheckoutPagePageState extends State<CheckoutPage> {
     setState(() {
       _isLoading = true;
     });
-    final AuthService _authservice = AuthService();
-    String? userId = await _authservice.getUserId();
+    final AuthService authservice = AuthService();
+    String? userId = await authservice.getUserId();
     String menuId = AppConstant.menuDetail.id!;
     List<String> foodIds = AppConstant.menuDetail.foodDetails
             ?.map((food) => food.id ?? '')
